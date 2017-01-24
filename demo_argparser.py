@@ -1,6 +1,7 @@
 #! /usr/bin/env python2
 
-import api
+#import api
+import dynapi
 
 import argparse
 
@@ -21,7 +22,9 @@ args = parser.parse_args()
 
 if args.command == "environment":
     if args.subcommand == "set_deployment_mode":
-        result = api.sources_api.set_environment_deployment_mode(args.account_id, args.environment_id, args.mode)
+        #result = api.sources_api.set_environment_deployment_mode(args.account_id, args.environment_id, args.mode)
+        dynapi.APIS.load()
+        result = dynapi.DeploymentMode.set(args.account_id, args.environment_id, args.mode)
         if result:
             print("ok")
         else:
