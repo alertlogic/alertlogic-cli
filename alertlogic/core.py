@@ -13,10 +13,7 @@ class AuthenticationException(AlertlogicException):
         super(AuthenticationException, self).__init__("authentication error: {}".format(message))
 
 class Constants():
-    CONTACT_MESSAGE = (
-        "Oops something went wrong.\n",
-        "Please contact support@alertlogic.com and provide the following information:\n"
-    )
+    CONTACT_MESSAGE = "Oops something went wrong.\nPlease contact support@alertlogic.com and provide the following information:\n"
     CONFIG_FILE = os.path.expanduser("~/.alertlogic/config")
     API_DATA_DIR = os.path.abspath(os.path.dirname(__file__)+"/../api_data")
     DCS = {

@@ -5,7 +5,7 @@ import requests
 
 class InvalidParameterException(core.AlertlogicException):
     def __init__(self, name, value, problem):
-        super(InvalidParameterException, self).__init__("{}[ {} ] {}".format(name, value, problem))
+        super(InvalidParameterException, self).__init__("{} \"{}\" {}".format(name, value, problem))
 
 class InvalidAPIHTTPResponse(core.AlertlogicException):
     def __init__(self, trying_to, message):
@@ -37,5 +37,30 @@ class DeploymentMode():
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise InvalidAPIHTTPResponse("update deployment mode", e.message)
+        
+        return True
+    
+    @classmethod
+    def get(cls, environment_id):
+        try:
+            response = dynapi.sources.get_source(id=environment_id)
+            if response.status_code == 404:
+                raise InvalidParameterException("environment", environment_id, "not found")
+            if response.json()["source"]["type"] != "environment":
+                raise InvalidParameterException("environment", environment_id, "is not an environment")
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            raise InvalidAPIHTTPResponse("get environment", e.message)
+        except KeyError:
+            raise InvalidAPIResponse("get environment", "source.type not found", response)
+        
+        try:
+            mode = response.json()["source"]["config"]["deployment_mode"]
+            if mode == "readonly":
+                print(mode)
+            else:
+                print("automatic")
+        except KeyError:
+            print("automatic")
         
         return True

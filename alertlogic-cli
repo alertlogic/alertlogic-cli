@@ -33,6 +33,10 @@ def parse_args():
     parser_set_deployment_mode.add_argument("-e", "--environment_id", required=True, help="environment id (uuid)")
     parser_set_deployment_mode.add_argument("-m", "--deployment_mode", required=True, choices=["readonly", "automatic"])
     
+    parser_get_deployment_mode = subparsers_environment.add_parser("get_deployment_mode",
+                                                                    help="gets environment deployment mode")
+    parser_get_deployment_mode.add_argument("-e", "--environment_id", required=True, help="environment id (uuid)")
+    
     return parser.parse_args()
 
 def run_command(args):
@@ -45,6 +49,9 @@ def run_command(args):
     
     if (args.command, args.subcommand) == ("environment", "set_deployment_mode"):
         alertlogic.commands.DeploymentMode.set(args.environment_id, args.deployment_mode)
+    
+    if (args.command, args.subcommand) == ("environment", "get_deployment_mode"):
+        alertlogic.commands.DeploymentMode.get(args.environment_id)
 
 def main():
     import_dependencies()
