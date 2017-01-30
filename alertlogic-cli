@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # DEBUG mode
     if os.environ.get("DEBUG"):
         print("Running on DEBUG mode")
-        sys.path.insert(0, os.path.dirname(__file__)+"/..")
+        sys.path.insert(0, os.path.dirname(__file__))
         
         import traceback
         try: main()
