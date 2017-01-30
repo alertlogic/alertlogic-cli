@@ -1,21 +1,24 @@
+# DISCLAIMER:
+EARLY RELEASE, SUBJECT TO CHANGE IN THE FUTURE.
+
 ## About:
 
-ALCLI is a Command Line Client for Alertlogic services.
+alertlogic-cli is a Command Line Client for Alertlogic services.
 
 ## Requirements:
 
-1. Python 2.6+
-1. Requests library
+1. python 2.6+
+1. requests library
 
 ## Installation:
 
-The easiest way to install alcli is using pip:
+The easiest way to install alertlogic-cli is using pip:
 
-```pip install alcli```
+```pip install alertlogic-cli```
 
 ## Configuration:
 
-alcli uses only a single config file: `.config/alertlogic/auth`.
+alertlogic-cli uses only a single config file: `~/.alertlogic/config`.
 It must be an an ini style file where each section represents a profile.
 Each profile has 3 fields:
 
@@ -34,14 +37,20 @@ datacenter = us
 
 ## Usage
 
-alcli currently supports the following commands and subcommands:
+alertlogic-cli currently supports the following commands and subcommands:
 
 ### `environment`:
     * `set_deployment_mode`: for a given environment changes deployment mode between readonly or manual, usage:
     ``` set_deployment_mode <environment_id> <readonly|manual>```, example:
     ``` bash
-    $ alcli environment set_deployment_mode 0D2CD709-F70B-4584-A544-B209CEC8F99A readonly
+    $ alertlogic-cli environment set_deployment_mode --environment_id 0D2CD709-F70B-4584-A544-B209CEC8F99A --deployment_mode readonly
     ok
     ```
+    * `get_deployment_mode`: for a given environment gets current deployment mode, usage:
+    ``` get_deployment_mode <environment_id>```, example:
+    ``` bash
+    $ alertlogic-cli environment get_deployment_mode --environment_id 0D2CD709-F70B-4584-A544-B209CEC8F99A
+    readonly
+    ```
 
-For further information run `alcli --help`.
+For further information run `alertlogic-cli --help`.
