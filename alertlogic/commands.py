@@ -16,20 +16,27 @@ class InvalidAPIResponse(core.AlertlogicException):
         msg = "{} while trying to {} code[ {} ] content[ {} ]".format(cause, trying_to, response.status_code, response.content)
         super(InvalidAPIResponse, self).__init__(msg)
 
-class DeploymentMode():
+class Validate():
     @classmethod
-    def set(cls, environment_id, mode):
+    def environment(cls, environment_id):
         try:
             response = dynapi.sources.get_source(id=environment_id)
             if response.status_code == 404:
                 raise InvalidParameterException("environment", environment_id, "not found")
+            response.raise_for_status()
             if response.json()["source"]["type"] != "environment":
                 raise InvalidParameterException("environment", environment_id, "is not an environment")
-            response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise InvalidAPIHTTPResponse("validate environment", e.message)
-        except KeyError:
+        except (KeyError, ValueError):
             raise InvalidAPIResponse("validate environment", "source.type not found", response)
+        
+        return response
+
+class DeploymentMode():
+    @classmethod
+    def set(cls, environment_id, mode):
+        response = Validate.environment(environment_id)
         
         try:
             new_config = { "source": { "config": { "deployment_mode": mode } } }
@@ -42,25 +49,13 @@ class DeploymentMode():
     
     @classmethod
     def get(cls, environment_id):
-        try:
-            response = dynapi.sources.get_source(id=environment_id)
-            if response.status_code == 404:
-                raise InvalidParameterException("environment", environment_id, "not found")
-            if response.json()["source"]["type"] != "environment":
-                raise InvalidParameterException("environment", environment_id, "is not an environment")
-            response.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            raise InvalidAPIHTTPResponse("get environment", e.message)
-        except KeyError:
-            raise InvalidAPIResponse("get environment", "source.type not found", response)
+        response = Validate.environment(environment_id)
         
         try:
             mode = response.json()["source"]["config"]["deployment_mode"]
             if mode == "readonly":
-                print(mode)
+                return "readonly"
             else:
-                print("automatic")
-        except KeyError:
-            print("automatic")
-        
-        return True
+                return "automatic"
+        except KeyError: # json parsed but can't find specific field
+            return "automatic"
