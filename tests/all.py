@@ -1,28 +1,87 @@
 #!/usr/bin/env python2
 
 import mock
+import httpretty
 import unittest
+import sys
+import os.path
 
-import IPython
+sys.path.insert(0, os.path.dirname(__file__)+"/..")
 
-import dynapi
+import alertlogic.dynapi, alertlogic.commands
 
-class DeploymentModeTestCase(unittest.TestCase):
+class DynAPITestCase(unittest.TestCase):
+    def setUp(self):
+        self.account_id = "ACCOUNT_ID"
+        self.environment_id = "ENVIRONMENT_ID"
+        mocked_session = mock.MagicMock()
+        mocked_session.api_url = "http://mock"
+        mocked_session.account = self.account_id
+        alertlogic.dynapi.load(mocked_session)
+
+class Validate(DynAPITestCase):
+    @httpretty.activate
+    def test_environment_not_found(self):
+        httpretty.register_uri(httpretty.GET,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               status=404)
+        self.assertRaises(alertlogic.commands.InvalidParameterException,
+                          alertlogic.commands.Validate.environment, self.environment_id)
     
-    def test_set(self):
-        mocked_sources = mock.MagicMock()
-        get_source_fun = mocked_sources.get_source.return_value
-        get_source_fun.json.return_value = {"source": {"type": "environment"}}
-        merge_source_fun = mocked_sources.merge_source.return_value
-        merge_source_fun.ok = True
-        
-        with mock.patch("dynapi.APIS.sources", mocked_sources):
-            account_id = "2"
-            environment_id = "0D2CD709-F70B-4584-A544-B209CEC8F99A"
-            result = dynapi.DeploymentMode.set(account_id, environment_id, "readonly")
-            assert(result)
-            mocked_sources.get_source.assert_called_once()
-            mocked_sources.merge_source.assert_called_once()
+    @httpretty.activate
+    def test_environment_server_error(self):
+        httpretty.register_uri(httpretty.GET,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               status=500)
+        self.assertRaises(alertlogic.commands.InvalidAPIHTTPResponse,
+                          alertlogic.commands.Validate.environment, self.environment_id)
+    
+    @httpretty.activate
+    def test_environment_invalid_response(self):
+        httpretty.register_uri(httpretty.GET,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               body='INVALID_BODY',
+                               status=200,
+                               content_type="text/json")
+        self.assertRaises(alertlogic.commands.InvalidAPIResponse,
+                          alertlogic.commands.Validate.environment, self.environment_id)
+
+class DeploymentModeTestCase(DynAPITestCase):
+    @httpretty.activate
+    def test_set_ok(self):
+        httpretty.register_uri(httpretty.GET,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               body='{"source": {"type": "environment"}}',
+                               status=200,
+                               content_type="text/json")
+        httpretty.register_uri(httpretty.POST,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               status=200)
+        result = alertlogic.commands.DeploymentMode.set(self.environment_id, "readonly")
+        assert(result)
+    
+    @httpretty.activate
+    def test_set_server_fail(self):
+        httpretty.register_uri(httpretty.GET,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               body='{"source": {"type": "environment"}}',
+                               status=200,
+                               content_type="text/json")
+        httpretty.register_uri(httpretty.POST,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               status=500)
+        self.assertRaises(alertlogic.commands.InvalidAPIHTTPResponse,
+                          alertlogic.commands.DeploymentMode.set, self.environment_id, "readonly")
+    
+    @httpretty.activate
+    def test_get_ok(self):
+        httpretty.register_uri(httpretty.GET,
+                               "http://mock/sources/v1/{}/sources/{}".format(self.account_id, self.environment_id),
+                               body='{"source": {"type": "environment", "config": {"deployment_mode": "readonly"}}}',
+                               status=200,
+                               content_type="text/json")
+        result = alertlogic.commands.DeploymentMode.get(self.environment_id)
+        assert(result == "readonly")
 
 if __name__ == '__main__':
     unittest.main()
