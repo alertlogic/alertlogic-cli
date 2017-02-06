@@ -13,7 +13,8 @@ class InvalidAPIHTTPResponse(core.AlertlogicException):
 
 class InvalidAPIResponse(core.AlertlogicException):
     def __init__(self, trying_to, cause, response):
-        msg = "{} while trying to {} code[ {} ] content[ {} ]".format(cause, trying_to, response.status_code, response.content)
+        raw = "{} while trying to {} code[ {} ] content[ {} ]"
+        msg = raw.format(cause, trying_to, response.status_code, response.content)
         super(InvalidAPIResponse, self).__init__(msg)
 
 class Validate():
