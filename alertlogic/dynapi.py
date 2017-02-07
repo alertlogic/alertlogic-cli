@@ -1,6 +1,9 @@
 import requests
 import core
 import json
+import logging
+
+log = logging.getLogger(__name__)
 
 class DynAPIException(core.AlertlogicException):
     def __init__(self, message):
@@ -17,7 +20,7 @@ class DynAPI():
                 method = DynMethod.new_from_hash(api_data_method)
                 self.methods[method.name] = method
             except InvalidDynMethodDefinition as e:
-                #print(">> fail ({})".format(e))
+                log.debug(">> fail ({})".format(e))
                 pass
     
     def set_session(self, session):
@@ -38,7 +41,7 @@ class DynMethod():
     
     def __init__(self, name, operation, url, parameters_data):
         self.name = name.lower()
-        #print ":: defining dynmethod: {}".format(self.name)
+        log.debug(":: defining dynmethod: {}".format(self.name))
         
         self.operation = operation.upper()
         if self.operation not in ["GET", "POST", "DELETE", "PUT", "HEAD"]:
@@ -67,7 +70,7 @@ class DynMethod():
             input["account_id"] = session.account
         
         parsed_url = session.api_url + self.url.parse(input)
-        #print("calling: {} {}".format(self.operation, parsed_url))
+        log.debug("calling: {} {}".format(self.operation, parsed_url))
         return requests.request(self.operation, parsed_url, json=json, auth=session)
         
 class DynBody():

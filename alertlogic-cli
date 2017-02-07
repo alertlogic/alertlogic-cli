@@ -3,6 +3,7 @@
 import argparse
 import sys
 import os
+import logging
 
 def import_dependencies():
     try:
@@ -70,6 +71,8 @@ if __name__ == "__main__":
     # DEBUG mode
     if os.environ.get("DEBUG"):
         print("Running on DEBUG mode")
+        logging.basicConfig(level=logging.DEBUG)
+        
         sys.path.insert(0, os.path.dirname(__file__))
         
         import traceback
@@ -77,5 +80,6 @@ if __name__ == "__main__":
         except: traceback.print_exc()
     # NORMAL mode
     else:
+        logging.basicConfig(level=logging.INFO)
         main()
         sys.exit(0)
