@@ -13,6 +13,8 @@ class InvalidDynMethodDefinition(DynAPIException): pass
 class InvalidDynMethodCall(DynAPIException): pass
 
 class DynAPI():
+    """objects of this class represent individual cloud insight services apis
+    We process apidoc json metadata to dynamically generate each api method (DynMethod)"""
     def __init__(self, api_data):
         self.methods = {}
         for api_data_method in api_data:
@@ -26,6 +28,10 @@ class DynAPI():
     def set_session(self, session):
         self._session = session
     
+    """This is where the magic happens, in python this function it's called every time
+    a property of an object is not found, we use this functionality to return a handler
+    that will in turn call the specific dynmethod, see Dynmethod.call() for more info
+    """
     def __getattr__(self, name):
         def handler(*args, **kwargs):
             if name in self.methods:
@@ -34,7 +40,16 @@ class DynAPI():
                 raise InvalidDynMethodCall("dynmethod not found: {}".format(name))
         return handler
 
+#
+# DynMethod, 
+#
 class DynMethod():
+    """A Dynmethod is made of a name, operation (http), url and a
+    list of parameters, the url (DynUrl) is parsed such that fields that
+    starts with ":" are treated as DynParameters
+    
+    The body Parameters as defined by apidocs are ignored, this processing
+    will be done in the service itself"""
     @classmethod
     def new_from_hash(cls, hash):
         return cls(hash["name"].lower(), hash["type"], hash["url"], hash["parameter"]["fields"]["Parameter"])
@@ -60,6 +75,9 @@ class DynMethod():
         self.url = DynUrl(url_parts, url_parameters)
         self.body = DynBody(body_parameters)
     
+    """ Makes the http call by replacing the url parameters (the ones that start with ":") with
+    the ones found in *input*, if *input* has a "json" field it'll be passed down to the requests lib
+    """
     def call(self, session, input):
         json = None
         if "json" in input:
@@ -72,12 +90,21 @@ class DynMethod():
         parsed_url = session.api_url + self.url.parse(input)
         log.debug("calling: {} {}".format(self.operation, parsed_url))
         return requests.request(self.operation, parsed_url, json=json, auth=session)
-        
+
 class DynBody():
     def __init__(self, parameters):
         self.parameters = parameters
 
 class DynUrl():
+    """ Splits a url in parts of 2 types:
+    * string: simple strings, nothing special here
+    * dynparameters:
+    e.g:
+        /sources/:account_id/source/:source_id
+        "sources" and "source" are both strings
+        ":account_id" and "source_id" are dynparameters, if you want to parse this url
+        you must include these two in *input*
+    """
     def __init__(self, parts, parameters):
         self.parameters = parameters
         self.parts = []
@@ -94,6 +121,7 @@ class DynUrl():
     def parse(self, input):
         result = ""
         for part in self.parts:
+            # replace with input[] if dynparameter, otherwise use the raw string
             if isinstance(part, DynParameter):
                 if part.field in input:
                     result += "/"+input[part.field]
@@ -113,7 +141,18 @@ class DynParameter():
         self.type = type
         self.optional = optional
 
+
+#
+# Globals:
+#
 def load(session=None):
+    """parse apidoc jsons files found in API_DATA_DIR
+    each file will be mapped out into a DynAPI global object capable
+    of querying each service
+    e.g:
+      dynapi.load(session)
+      dynapi.sources.merge_source(id=environment_id, json=new_config)
+    """
     global sources
     
     with open(core.Constants.API_DATA_DIR+"/sources.json") as api_data_json:

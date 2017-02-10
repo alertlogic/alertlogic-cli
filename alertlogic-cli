@@ -11,14 +11,16 @@ def import_dependencies():
         import requests
     except ImportError:
         print("requests library required, install it first: pip install requests")
-        sys.exit(1)
+        return False
     
     try:
         global alertlogic
         import alertlogic.core, alertlogic.commands, alertlogic.dynapi
     except ImportError:
         print("unable to find alertlogic library, check your installation")
-        sys.exit(1)
+        return False
+    
+    return True
 
 def parse_args():
     parser = argparse.ArgumentParser(description="alertlogic cloud insight client")
@@ -49,23 +51,26 @@ def run_command(args):
         session.account = args.account_id
     
     if (args.command, args.subcommand) == ("environment", "set_deployment_mode"):
-        alertlogic.commands.DeploymentMode.set(args.environment_id, args.deployment_mode)
+        return alertlogic.commands.DeploymentMode.set(args.environment_id, args.deployment_mode)
     
     if (args.command, args.subcommand) == ("environment", "get_deployment_mode"):
-        alertlogic.commands.DeploymentMode.get(args.environment_id)
+        return alertlogic.commands.DeploymentMode.get(args.environment_id)
 
 def main():
-    import_dependencies()
+    if not import_dependencies():
+        sys.exit(1)
+    
     args = parse_args()
     try:
-        if run_command(args):
-            print("ok")
-        else:
-            print("error")
+        result = run_command(args)
+        print(result)
+        sys.exit(0)
     except alertlogic.core.AlertlogicException as e:
         print(e.message)
+        sys.exit(2)
     except Exception as e:
         alertlogic.core.Constants.CONTACT_MESSAGE+"uncaught exception[ {} ] message[ {} ]".format(e, e.message)
+        sys.exit(3)
 
 if __name__ == "__main__":
     # DEBUG mode
@@ -82,4 +87,3 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level=logging.INFO)
         main()
-        sys.exit(0)

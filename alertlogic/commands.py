@@ -46,7 +46,7 @@ class DeploymentMode():
         except requests.exceptions.HTTPError as e:
             raise InvalidAPIHTTPResponse("update deployment mode", e.message)
         
-        return True
+        return "ok"
     
     @classmethod
     def get(cls, environment_id):

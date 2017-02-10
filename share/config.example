@@ -1,4 +1,4 @@
 [default]
 username = user@example.org
 password = ultrasecure
-datacenter = us
+datacenter = us #options: uk or us
