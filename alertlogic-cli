@@ -4,6 +4,7 @@ import argparse
 import sys
 import os
 import logging
+import traceback
 
 def import_dependencies():
     try:
@@ -15,7 +16,7 @@ def import_dependencies():
     
     try:
         global alertlogic
-        import alertlogic.core, alertlogic.commands, alertlogic.dynapi
+        import alertlogic.core, alertlogic.commands
     except ImportError:
         print("unable to find alertlogic library, check your installation")
         return False
@@ -43,18 +44,20 @@ def parse_args():
     return parser.parse_args()
 
 def run_command(args):
+    services = alertlogic.dynapi.Services()
     config = alertlogic.core.Config(profile=args.profile)
     session = alertlogic.core.Session(config)
-    alertlogic.dynapi.load(session=session)
+    services.set_session(session)
+    commands = alertlogic.commands.Commands(services)
     
     if args.account_id:
         session.account = args.account_id
     
     if (args.command, args.subcommand) == ("environment", "set_deployment_mode"):
-        return alertlogic.commands.DeploymentMode.set(args.environment_id, args.deployment_mode)
+        return commands.environment_set_deployment_mode(args.environment_id, args.deployment_mode)
     
     if (args.command, args.subcommand) == ("environment", "get_deployment_mode"):
-        return alertlogic.commands.DeploymentMode.get(args.environment_id)
+        return commands.environment_get_deployment_mode(args.environment_id)
 
 def main():
     if not import_dependencies():
@@ -69,7 +72,8 @@ def main():
         print(e.message)
         sys.exit(2)
     except Exception as e:
-        alertlogic.core.Constants.CONTACT_MESSAGE+"uncaught exception[ {} ] message[ {} ]".format(e, e.message)
+        print(alertlogic.core.Constants.CONTACT_MESSAGE)
+        traceback.print_exc()
         sys.exit(3)
 
 if __name__ == "__main__":
@@ -77,12 +81,8 @@ if __name__ == "__main__":
     if os.environ.get("DEBUG"):
         print("Running on DEBUG mode")
         logging.basicConfig(level=logging.DEBUG)
-        
         sys.path.insert(0, os.path.dirname(__file__))
-        
-        import traceback
-        try: main()
-        except: traceback.print_exc()
+        main()
     # NORMAL mode
     else:
         logging.basicConfig(level=logging.INFO)

@@ -1,5 +1,5 @@
-import dynapi
 import core
+import dynapi
 
 import requests
 
@@ -17,11 +17,13 @@ class InvalidAPIResponse(core.AlertlogicException):
         msg = raw.format(cause, trying_to, response.status_code, response.content)
         super(InvalidAPIResponse, self).__init__(msg)
 
-class Validate():
-    @classmethod
-    def environment(cls, environment_id):
+class Commands():
+    def __init__(self, services):
+        self.services = services
+    
+    def validate_environment(self, environment_id):
         try:
-            response = dynapi.sources.get_source(id=environment_id)
+            response = self.services.sources.get_source(id=environment_id)
             if response.status_code == 404:
                 raise InvalidParameterException("environment", environment_id, "not found")
             response.raise_for_status()
@@ -34,24 +36,19 @@ class Validate():
         
         return response
 
-class DeploymentMode():
-    @classmethod
-    def set(cls, environment_id, mode):
-        response = Validate.environment(environment_id)
-        
+    def environment_set_deployment_mode(self, environment_id, mode):
+        response = self.validate_environment(environment_id)
         try:
             new_config = { "source": { "config": { "deployment_mode": mode } } }
-            response = dynapi.sources.merge_source(id=environment_id, json=new_config)
+            response = self.services.sources.merge_source(id=environment_id, json=new_config)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise InvalidAPIHTTPResponse("update deployment mode", e.message)
         
         return "ok"
     
-    @classmethod
-    def get(cls, environment_id):
-        response = Validate.environment(environment_id)
-        
+    def environment_get_deployment_mode(self, environment_id):
+        response = self.validate_environment(environment_id)
         try:
             mode = response.json()["source"]["config"]["deployment_mode"]
             if mode == "readonly":
