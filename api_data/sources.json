@@ -1,0 +1,1224 @@
+[
+  {
+    "type": "POST",
+    "url": "/sources/v1/:account_id/credentials",
+    "title": "Create credential",
+    "name": "Create_Credential",
+    "group": "Credentials",
+    "version": "1.0.0",
+    "description": "<p>Creates a credential using the POST data.  See the credential JSON format for the data.  All fields in the credentials format except <code>id</code>, <code>created</code>, and <code>modified</code> should be given in the POST data.  This returns an HTTP 201 (Created) with the same POST data, but with <code>id</code>, <code>created</code>, and <code>modified</code> added.  This returns an HTTP 400 (Bad Request) if the posted data is invalid.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Credentials",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DELETE",
+    "url": "/sources/v1/:account_id/credentials?:filters",
+    "title": "Delete credential",
+    "name": "Delete_Credential",
+    "group": "Credentials",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the credential</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Deletes the specified credential.  This always returns an HTTP 204 (No Content)</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Credentials",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/sources/v1/:account_id/credentials/:id",
+    "title": "Get credential",
+    "name": "Get_credential",
+    "group": "Credentials",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the credential</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Gets the credential specified by the given id.  This returns an HTTP 200 and the credential if found.  This returns an HTTP 404 if the credential is not found.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Credentials",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/sources/v1/:account_id/credentials?:filters",
+    "title": "Get credentials",
+    "name": "Get_credentials",
+    "group": "Credentials",
+    "version": "1.0.0",
+    "description": "<p>Gets all the credentials in the given account, matching the given filters.  If no filters are specified, all credentials are returned.  This endpoint returns an HTTP 200 even if no credentials are found.  If no credentials are found, an empty list is returned.  This does not return deleted credentials.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Credentials",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "QueryString",
+            "optional": false,
+            "field": "filters",
+            "description": "<p>See filters</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "POST",
+    "url": "/sources/v1/:account_id/credentials/:id",
+    "title": "Merge credential",
+    "name": "Merge_Credential",
+    "group": "Credentials",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the credential</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Merges the credential specified by <code>id</code> using the POST data.  The POST data should be a subset of the credentials format.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Credentials",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "PUT",
+    "url": "/sources/v1/:account_id/credentials/:credential_id",
+    "title": "Replace credential",
+    "name": "Replace_Credential",
+    "group": "Credentials",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the credential</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Replace the specified credential using the PUT data.  See the credential JSON format for the data.  All fields in the credentials format except <code>created</code>, and <code>modified</code> should be given in the PUT data.  This returns an HTTP 201 (Created) with the same PUT data. This returns an HTTP 400 (Bad Request) if the posted data is invalid.  This returns an HTTP 404 (Not Found) if there is no credential with the given <code>id</code>.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Credentials",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get/post/put",
+    "url": "/sources/v1/:account_id/sources/[:source_id]",
+    "title": "AWS Environment Source",
+    "name": "AWSEnvironmentSourceJSONFormat",
+    "group": "JSON_Formats",
+    "description": "<p>AWS Environment Source data in a GET, PUT, or POST request is formatted as follows.</p> ",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source",
+            "description": "<p>The source object.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config",
+            "description": "<p>The configuration of a source.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.collection_method",
+            "description": "<p>Must be &quot;api&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.collection_type",
+            "description": "<p>Must be &quot;aws&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.deployment_mode",
+            "description": "<p>Must be &quot;readonly&quot; or &quot;automatic&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config.aws",
+            "description": "<p>The AWS configuration.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.aws.account_id",
+            "description": "<p>The AWS account ID, mandatory. Must correspond to the <code>credential.iam_role.arn</code> field of the assigned credential object if present.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config.aws.credential",
+            "description": "<p>A reference to main credential object.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.aws.credential.id",
+            "description": "<p>The id of the credential object (in UUID form).</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.config.aws.discover",
+            "description": "<p>Whether to discover the environment.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.config.aws.scan",
+            "description": "<p>Whether to scan the environment in scope.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.config.aws.defender_support",
+            "description": "<p>Whether this source is used for Cloud Defender auto-configuration for AWS account under source.config.aws.account_id.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.aws.defender_location_id",
+            "description": "<p>Cloud Defender location constraint. Mandatory for defender support environments.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "[dict]",
+            "optional": false,
+            "field": "source.config.aws.aux_credentials",
+            "description": "<p>A references to auxillary credential objects.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config.aws.scope",
+            "description": "<p>The scope to scan.  This can also be absent to indicate there is no scope defined.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "[dict]",
+            "optional": false,
+            "field": "source.config.aws.scope.include",
+            "description": "<p>A list of dicts (with <code>type</code> and <code>key</code> keys) describing what to include in scanning.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "[dict]",
+            "optional": false,
+            "field": "source.config.aws.scope.exclude",
+            "description": "<p>A list of dicts (with <code>type</code> and <code>key</code> keys) describing what to exclude from scanning from above include.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.created",
+            "description": "<p>Information about the source&#39;s creation.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.created.at",
+            "description": "<p>When the source was created as a UNIX timestamp. Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.created.by",
+            "description": "<p>The user id that created the source. Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.modified",
+            "description": "<p>Information about the source&#39;s last modification.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.modified.at",
+            "description": "<p>When the source was modified as a UNIX timestamp. Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.modified.by",
+            "description": "<p>The user id that last modified the source. Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.enabled",
+            "description": "<p>Whether this source is enabled. When disabled, this source is completely ignored by the product.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.id",
+            "description": "<p>The UUID of this source. Not specified when creating a new source.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.name",
+            "description": "<p>The user-defined name of this source.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.product_type",
+            "description": "<p>Must be &quot;outcomes&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "[string]",
+            "optional": false,
+            "field": "source.tags",
+            "description": "<p>String tags.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.type",
+            "description": "<p>Must be &quot;environment&quot;.</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "AWS Environment",
+          "content": "{\n    \"source\": {\n        \"config\": {\n            \"collection_method\": \"api\",\n            \"collection_type\": \"aws\",\n            \"deployment_mode\": \"readonly\" | \"automatic\",\n            \"aws\": {\n                \"account_id\": \"123456789012\",     /* AWS Account Identifier */\n                \"credential\": {\n                    \"id\": \"4F112A6E-F678-1004-9B87-7831C1BE64D2\"\n                },\n                /* Note that the following attributes could become a policy in a future */\n                \"discover\": true,\n                \"scan\": true,\n                \"defender_support\": true,\n                \"scope\": {\n                    \"include\": [\n                        {\n                            \"type\": \"vpc\",\n                            \"key\": \"/aws/us-east-1/vpc/vpc-1234\"\n                        }\n                    ],\n                    \"exclude\": [\n                        {\n                            \"type\": \"subnet\",\n                            \"key\": \"/aws/us-east-1/subnet/subnet-35f42c6c\"\n                        }\n                    ]\n                }\n            }\n        },\n        \"enabled\": true,\n        \"name\": \"route105-east-1\",\n        \"product_type\": \"outcomes\",\n        \"tags\": [],\n        \"type\": \"environment\"\n        \"id\": \"AA8C466D-7D0C-4715-9F12-7E71D5F595A1\", /* Only specified in read operations */\n        \"modified\": {                                 /* Only specified in read operations */\n            \"at\": 1423027588,\n            \"by\": 0\n        },\n        \"created\": {                                  /* Only specified in read operations */\n            \"at\": 1423027588,\n            \"by\": 0\n        },\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "JSON_Formats"
+  },
+  {
+    "type": "get/post/put",
+    "url": "/sources/v1/:account_id/credentials/[:credential_id]",
+    "title": "AWS IAM Role Credential",
+    "name": "AWSIAMRoleCredentialJSONFormat",
+    "group": "JSON_Formats",
+    "description": "<p>AWS IAM Role Credential data in a GET, PUT, or POST request is formatted as follows.</p> ",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential",
+            "description": "<p>The credential object</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.name",
+            "description": "<p>The user-defined named of this credential</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.type",
+            "description": "<p>Must be &quot;iam_role&quot;</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential.iam_role",
+            "description": "<p>The AWS key data if credential.type == &quot;iam_role&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.iam_role.arn",
+            "description": "<p>The customer&#39;s IAM Role arn.  Only defined if credential.type == &quot;iam_role&quot;</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.iam_role.external_id",
+            "description": "<p>The customer&#39;s external ID for the specified IAM Role.  Only defined if credential.type == &quot;iam_role&quot;</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential.created",
+            "description": "<p>Information about the credential&#39;s creation.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.created.at",
+            "description": "<p>When the credential was created as a UNIX timestamp.  Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.created.by",
+            "description": "<p>The user id that created the credential.  Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential.modified",
+            "description": "<p>Information about the credential&#39;s last modification.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.modified.at",
+            "description": "<p>When the credential was modified as a UNIX timestamp.  Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.modified.by",
+            "description": "<p>The user id that last modified the credential.  Not specified in write requests.</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "IAM Role",
+          "content": "{\n    \"credential\": {\n        \"id\": \"D6AC337E-BFE4-4448-A269-D074E3BAF46D\",     /* Only specified in read requests */\n        \"name\": \"route105\",\n        \"type\": \"iam_role\",\n        \"iam_role\": {\n            \"arn\": \"arn:aws:iam::112233445566:role/CloudDefenderRole\",\n            \"external_id\": \"1112-3344\"\n        },\n        \"created\": {                                      /* Only specified in read requests */\n            \"at\": 1423027588,\n            \"by\": 0\n        },\n        \"modified\": {                                     /* Only specified in read requests */\n            \"at\": 1423027588,\n            \"by\": 0\n        }\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "JSON_Formats"
+  },
+  {
+    "type": "get/post/put",
+    "url": "/sources/v1/:account_id/credentials/[:credential_id]",
+    "title": "Azure AAD User Credential",
+    "name": "AzureAADUserCredentialJSONFormatal",
+    "group": "JSON_Formats",
+    "description": "<p>Azure AAD User Credential data in a GET, PUT, or POST request is formatted as follows.</p> ",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential",
+            "description": "<p>Credential object</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.name",
+            "description": "<p>User-defined name of this credential</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.type",
+            "description": "<p>Type of the credential, must be &quot;azure_ad_user&quot;</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential.azure_ad_user",
+            "description": "<p>Azure Active Directory credential fields</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.azure_ad_user.active_directory_id",
+            "description": "<p>Id of a customer&#39;s Active Directory Tenant</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.azure_ad_user.username",
+            "description": "<p>Username of a user that represents Alert Logic in a customer&#39;s Active Directory Tenant</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "credential.azure_ad_user.password",
+            "description": "<p>Password of a user that represents Alert Logic in a customer&#39;s Active Directory Tenant. Not specified in read requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential.created",
+            "description": "<p>Information about the credential&#39;s creation.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.created.at",
+            "description": "<p>When the credential was created as a UNIX timestamp.  Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.created.by",
+            "description": "<p>The user id that created the credential.  Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "credential.modified",
+            "description": "<p>Information about the credential&#39;s last modification.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.modified.at",
+            "description": "<p>When the credential was modified as a UNIX timestamp.  Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "credential.modified.by",
+            "description": "<p>The user id that last modified the credential.  Not specified in write requests.</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Azure AAD User",
+          "content": "{\n    \"credential\": {\n        \"id\": \"D6AC337E-BFE4-4448-A269-D074E3BAF46D\",     /* Only specified in read requests */\n        \"name\": \"route105\",\n        \"type\": \"azure_ad_user\",\n        \"azure_ad_user\": {\n            \"active_directory_id\": \"3d0c4e56-4542-1005-819b-0e0f1d6e2138\",\n            \"username\": \"john_doe\",\n            \"password\": \"XXXXXXXXX\"                       /* Only specified in write requests */\n        },\n        \"created\": {                                      /* Only specified in read requests */\n            \"at\": 1423027588,\n            \"by\": 0\n        },\n        \"modified\": {                                     /* Only specified in read requests */\n            \"at\": 1423027588,\n            \"by\": 0\n        }\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "JSON_Formats"
+  },
+  {
+    "type": "get/post/put",
+    "url": "/sources/v1/:account_id/sources/[:source_id]",
+    "title": "Azure Environment Source",
+    "name": "AzureEnvironmentSourceJSONFormat",
+    "group": "JSON_Formats",
+    "description": "<p>Azure Environment Source data in a GET, PUT, or POST request is formatted as follows.</p> ",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source",
+            "description": "<p>The source object.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config",
+            "description": "<p>The configuration of a source.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.collection_method",
+            "description": "<p>Must be &quot;api&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.collection_type",
+            "description": "<p>Must be &quot;azure&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.deployment_mode",
+            "description": "<p>Must be &quot;readonly&quot; or &quot;automatic&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config.azure",
+            "description": "<p>The Azure configuration.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.azure.subscription_id",
+            "description": "<p>The id of a target Azure subscription to discover.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config.azure.credential",
+            "description": "<p>A reference to Azure credential object.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.config.azure.credential.id",
+            "description": "<p>The id of the Azure credential object (in UUID form).</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.config.azure.discover",
+            "description": "<p>Whether to discover the environment.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.config.azure.scan",
+            "description": "<p>Whether to scan the environment in scope.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.config.azure.defender_support",
+            "description": "<p>Whether this source is used for Cloud Defender auto-configuration for Azure subscription under source.config.azure.subscription_id.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.config.azure.scope",
+            "description": "<p>The scope to scan.  This can also be absent to indicate there is no scope defined.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "[dict]",
+            "optional": false,
+            "field": "source.config.azure.scope.include",
+            "description": "<p>A list of dicts (with <code>type</code> and <code>key</code> keys) describing what to include in scanning.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "[dict]",
+            "optional": false,
+            "field": "source.config.azure.scope.exclude",
+            "description": "<p>A list of dicts (with <code>type</code> and <code>key</code> keys) describing what to exclude from scanning from above include.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.created",
+            "description": "<p>Information about the source&#39;s creation.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.created.at",
+            "description": "<p>When the source was created as a UNIX timestamp. Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.created.by",
+            "description": "<p>The user id that created the source. Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "dict",
+            "optional": false,
+            "field": "source.modified",
+            "description": "<p>Information about the source&#39;s last modification.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.modified.at",
+            "description": "<p>When the source was modified as a UNIX timestamp. Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "integer",
+            "optional": false,
+            "field": "source.modified.by",
+            "description": "<p>The user id that last modified the source.  Not specified in write requests.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "bool",
+            "optional": false,
+            "field": "source.enabled",
+            "description": "<p>Whether this source is enabled.  When disabled, this source is completely ignored by the product.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.id",
+            "description": "<p>The UUID of this source.  Not specified when creating a new source.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.name",
+            "description": "<p>The user-defined name of this source.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.product_type",
+            "description": "<p>Must be &quot;outcomes&quot;.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "[string]",
+            "optional": false,
+            "field": "source.tags",
+            "description": "<p>String tags.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "source.type",
+            "description": "<p>Must be &quot;environment&quot;.</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Azure Environment",
+          "content": "{\n    \"source\": {\n        \"config\": {\n            \"collection_method\": \"api\",\n            \"collection_type\": \"azure\",\n            \"deployment_mode\": \"readonly\" | \"automatic\",\n            \"azure\": {\n                \"subscription_id\": \"9c7961c8-454a-1005-819b-0e0f1d6e2138\",     /* Azure subscription Identifier */\n                \"credential\": {\n                    \"id\": \"4F112A6E-F678-1004-9B87-7831C1BE64D2\"\n                },\n                /* Note that the following attributes could become a policy in a future */\n                \"discover\": true,\n                \"scan\": true,\n                \"defender_support\": true,\n                \"scope\": {\n                    \"include\": [\n                        {\n                            \"type\": \"vnet\",\n                            \"key\": \"/subscriptions/9c7961c8-454a-1005-819b-0e0f1d6e2138/resourceGroups/test_rg/providers/Microsoft.Network/virtualNetworks/test_vnet\"\n                        }\n                    ],\n                    \"exclude\": [\n                        {\n                            \"type\": \"subnet\",\n                            \"key\": \"/subscriptions/9c7961c8-454a-1005-819b-0e0f1d6e2138/resourceGroups/test_rg/providers/Microsoft.Network/virtualNetworks/test_vnet/subnets/default\"\n                        }\n                    ]\n                }\n            }\n        },\n        \"enabled\": true,\n        \"name\": \"route105-azure\",\n        \"product_type\": \"outcomes\",\n        \"tags\": [],\n        \"type\": \"environment\"\n        \"id\": \"AA8C466D-7D0C-4715-9F12-7E71D5F595A1\", /* Only specified in read operations */\n        \"modified\": {                                 /* Only specified in read operations */\n            \"at\": 1423027588,\n            \"by\": 0\n        },\n        \"created\": {                                  /* Only specified in read operations */\n            \"at\": 1423027588,\n            \"by\": 0\n        },\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "JSON_Formats"
+  },
+  {
+    "type": "POST",
+    "url": "/sources/v1/:account_id/sources",
+    "title": "Create source",
+    "name": "Create_Source",
+    "group": "Sources",
+    "version": "1.0.0",
+    "description": "<p>Creates a source using the POST data.  See the source JSON format for the data.  All fields in the sources format except <code>id</code>, <code>created</code>, and <code>modified</code> should be given in the POST data.  This returns an HTTP 201 (Created) with the same POST data, but with <code>id</code>, <code>created</code>, and <code>modified</code> added.  This returns an HTTP 400 (Bad Request) if the posted data is invalid.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Sources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DELETE",
+    "url": "/sources/v1/:account_id/sources?:filters",
+    "title": "Delete all sources",
+    "name": "Delete_All_Sources",
+    "group": "Sources",
+    "version": "1.0.0",
+    "description": "<p>Deletes all sources in the given account.  This always returns an HTTP 204 (No Content).</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Sources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DELETE",
+    "url": "/sources/v1/:account_id/sources/:id",
+    "title": "Delete source",
+    "name": "Delete_Source",
+    "group": "Sources",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the source</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Deletes the specified source.  This always returns an HTTP 204 (No Content)</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Sources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/sources/v1/:account_id/sources/:id",
+    "title": "Get source",
+    "name": "Get_source",
+    "group": "Sources",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the source</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Gets the source specified by the given id.  This returns an HTTP 200 and the credential if found.  This returns an HTTP 404 if the credential is not found.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Sources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/sources/v1/:account_id/sources?:filters",
+    "title": "Get sources",
+    "name": "Get_sources",
+    "group": "Sources",
+    "version": "1.0.0",
+    "description": "<p>Gets all the sources in the given account, matching the given filters.  If no filters are specified, all sources are returned.  This endpoint returns an HTTP 200 even if no sources are found.  If no sources are found, an empty list is returned.  This does not return deleted sources.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Sources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "QueryString",
+            "optional": false,
+            "field": "filters",
+            "description": "<p>See filters</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "POST",
+    "url": "/sources/v1/:account_id/sources/:id",
+    "title": "Merge source",
+    "name": "Merge_Source",
+    "group": "Sources",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the source</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Merges the source specified by <code>id</code> using the POST data.  The POST data should be a subset of the sources format.  The following fields can be merged:   <code>source.appliance.id</code>, <code>source.appliance.policy</code>, <code>source.config.fusionvm</code>, <code>source.config.network</code>, <code>source.config.policy</code>, <code>source.config.scanner</code>,   <code>source.config.syslog</code>, <code>source.config.tmappliance</code>, <code>source.config.tmappliance.scan_enabled</code>, <code>source.enabled</code>, <code>source.keypairs</code>, <code>source.keypairs.ids</code>,   <code>source.monitoring.policy</code>, <code>source.name</code>, <code>source.network_id</code>, <code>source.physical_appliance_id</code>, <code>source.tags</code>, <code>source.userdata.bucket_name</code>,   <code>source.userdata.elb_name</code>, <code>source.userdata.local_ipv4</code>, <code>source.whitelist</code>, and <code>source.whitelist.policy</code>.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Sources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "PUT",
+    "url": "/sources/v1/:account_id/sources/:id",
+    "title": "Replace source",
+    "name": "Replace_Source",
+    "group": "Sources",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The ID of the source</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>The account whose sources or credentials are being accessed.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>Replace the specified source using the PUT data.  See the source JSON format for the data.  All fields in the sources format except <code>created</code>, and <code>modified</code> should be given in the PUT data.  This returns an HTTP 201 (Created) with the same PUT data. This returns an HTTP 400 (Bad Request) if the posted data is invalid.  This returns an HTTP 404 (Not Found) if there is no source with the given <code>id</code>.</p> ",
+    "filename": "deps/sources/doc/apidoc.erl",
+    "groupTitle": "Sources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by the AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  }
+]

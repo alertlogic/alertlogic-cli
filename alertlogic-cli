@@ -1,0 +1,89 @@
+#! /usr/bin/env python2
+
+import argparse
+import sys
+import os
+import logging
+import traceback
+
+def import_dependencies():
+    try:
+        global requests
+        import requests
+    except ImportError:
+        print("requests library required, install it first: pip install requests")
+        return False
+    
+    try:
+        global alertlogic
+        import alertlogic.core, alertlogic.commands
+    except ImportError:
+        print("unable to find alertlogic library, check your installation")
+        return False
+    
+    return True
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="alertlogic cloud insight client")
+    parser.add_argument("-p", "--profile", default="default", help="use a specific profile from your config")
+    parser.add_argument("-a", "--account_id", default=None, help="use a specific account (managed accounts only)")
+    subparsers = parser.add_subparsers(title="commands", description="valid commands", dest="command")
+    
+    parser_environment = subparsers.add_parser("environment", help="environment specific actions")
+    subparsers_environment = parser_environment.add_subparsers(dest="subcommand")
+    
+    parser_set_deployment_mode = subparsers_environment.add_parser("set_deployment_mode",
+                                                                    help="sets environment deployment mode")
+    parser_set_deployment_mode.add_argument("-e", "--environment_id", required=True, help="environment id (uuid)")
+    parser_set_deployment_mode.add_argument("-m", "--deployment_mode", required=True, choices=["readonly", "automatic"])
+    
+    parser_get_deployment_mode = subparsers_environment.add_parser("get_deployment_mode",
+                                                                    help="gets environment deployment mode")
+    parser_get_deployment_mode.add_argument("-e", "--environment_id", required=True, help="environment id (uuid)")
+    
+    return parser.parse_args()
+
+def run_command(args):
+    services = alertlogic.dynapi.Services()
+    config = alertlogic.core.Config(profile=args.profile)
+    session = alertlogic.core.Session(config)
+    services.set_session(session)
+    commands = alertlogic.commands.Commands(services)
+    
+    if args.account_id:
+        session.account = args.account_id
+    
+    if (args.command, args.subcommand) == ("environment", "set_deployment_mode"):
+        return commands.environment_set_deployment_mode(args.environment_id, args.deployment_mode)
+    
+    if (args.command, args.subcommand) == ("environment", "get_deployment_mode"):
+        return commands.environment_get_deployment_mode(args.environment_id)
+
+def main():
+    if not import_dependencies():
+        sys.exit(1)
+    
+    args = parse_args()
+    try:
+        result = run_command(args)
+        print(result)
+        sys.exit(0)
+    except alertlogic.core.AlertlogicException as e:
+        print(e.message)
+        sys.exit(2)
+    except Exception as e:
+        print(alertlogic.core.Constants.CONTACT_MESSAGE)
+        traceback.print_exc()
+        sys.exit(3)
+
+if __name__ == "__main__":
+    # DEBUG mode
+    if os.environ.get("DEBUG"):
+        print("Running on DEBUG mode")
+        logging.basicConfig(level=logging.DEBUG)
+        sys.path.insert(0, os.path.dirname(__file__))
+        main()
+    # NORMAL mode
+    else:
+        logging.basicConfig(level=logging.INFO)
+        main()
