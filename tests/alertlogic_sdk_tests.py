@@ -37,7 +37,8 @@ class DynAPITestCase(unittest.TestCase):
     def test_endpoint(self):
         endpoint = alertlogic.dynapi.Endpoint("test_endpoint", "get", "/part1/:parameter/part2")
         assert(endpoint.parse_url({"parameter": "value1"}) == "/part1/value1/part2")
-        self.assertRaises(alertlogic.dynapi.InvalidEndpointCall, endpoint.parse_url, {"invalid": "invalid"})
+        self.assertRaises(alertlogic.dynapi.InvalidEndpointCall,
+                          endpoint.parse_url, {"invalid": "invalid"})
         self.assertRaises(alertlogic.dynapi.InvalidEndpointDefinition,
                           alertlogic.dynapi.Endpoint, "test_endpoint", "invalid", "/part1/:parameter/part2")
 
@@ -45,19 +46,18 @@ class AuthTestCase(unittest.TestCase):
     def setUp(self):
         self.username = "USERNAME"
         self.password = "PASSWORD"
-        self.dc = "dev"
-        self.api_url = alertlogic.auth.DCS[self.dc]
+        self.api_endpoint = "http://mock"
     
     @httpretty.activate
     def test_authenticate_ok(self):
         account_id = "ACCOUNT_ID"
         response_body = {"authentication": {"token": "TOKEN", "account": {"id": account_id}}}
         httpretty.register_uri(httpretty.POST,
-                               "{}/aims/v1/authenticate".format(self.api_url),
+                               "http://mock/aims/v1/authenticate",
                                status=200,
                                content_type="text/json",
                                body=json.dumps(response_body))
-        session = alertlogic.auth.Session(self.dc, self.username, self.password)
+        session = alertlogic.auth.Session(self.api_endpoint, self.username, self.password)
         assert(session.account == account_id)
     
     @httpretty.activate
@@ -65,19 +65,21 @@ class AuthTestCase(unittest.TestCase):
         account_id = "ACCOUNT_ID"
         response_body = {"authentication": {"token": "TOKEN", "account": {"id": account_id}}}
         httpretty.register_uri(httpretty.POST,
-                               "{}/aims/v1/authenticate".format(self.api_url),
+                               "http://mock/aims/v1/authenticate",
                                status=400,
                                body=json.dumps(response_body))
-        self.assertRaises(alertlogic.auth.AuthenticationException, alertlogic.auth.Session, self.dc, self.username, self.password)
+        self.assertRaises(alertlogic.auth.AuthenticationException,
+                          alertlogic.auth.Session, self.api_endpoint, self.username, self.password)
     
     @httpretty.activate
     def test_authenticate_fail_empty_body(self):
         httpretty.register_uri(httpretty.POST,
-                               "{}/aims/v1/authenticate".format(self.api_url),
+                               "http://mock/aims/v1/authenticate",
                                status=200,
                                content_type="text/json",
                                body="")
-        self.assertRaises(alertlogic.auth.AuthenticationException, alertlogic.auth.Session, self.dc, self.username, self.password)
+        self.assertRaises(alertlogic.auth.AuthenticationException,
+                          alertlogic.auth.Session, self.api_endpoint, self.username, self.password)
     
 if __name__ == '__main__':
     unittest.main()

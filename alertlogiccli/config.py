@@ -1,6 +1,10 @@
 import os.path
 import ConfigParser
+import logging
+
 import alertlogic.auth
+
+log = logging.getLogger(__name__)
 
 DEFAULT_CONFIG_FILE = os.path.expanduser("~/.alertlogic/config")
 
@@ -14,7 +18,7 @@ class Config():
         self.set_profile(profile)
     
     def make_session(self):
-        session = alertlogic.auth.Session(self.datacenter, self.username, self.password)
+        session = alertlogic.auth.Session(self.api_endpoint, self.username, self.password)
         return session
     
     def read(self):
@@ -30,13 +34,11 @@ class Config():
         try:
             self.username = self._parser.get(profile, "username")
             self.password = self._parser.get(profile, "password")
-            self.datacenter = self._parser.get(profile, "datacenter")
-            
-            if not self.datacenter in alertlogic.auth.DCS:
-                raise ConfigException("invalid datacenter {} in profile {}".format(self.datacenter, profile))
+            self.api_endpoint = self._parser.get(profile, "api_endpoint")
             
             if self._parser.has_option(profile, "account"):
                 self.account = self._parser.get(profile, "account")
+                log.debug("found account_id {} override in config file".format(self.account))
             else:
                 self.account = None
         except ConfigParser.NoSectionError as e:

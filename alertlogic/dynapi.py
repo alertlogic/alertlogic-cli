@@ -151,6 +151,6 @@ class Endpoint():
         :param url_args: dict with values to replace url parameters, see parse_args() for more info
         :param json: this will be passed adhoc to requests
         """
-        parsed_url = session.api_url + self.parse_url(url_args)
-        log.debug("calling: {} {}".format(self.operation, parsed_url))
+        parsed_url = session.api_endpoint + self.parse_url(url_args)
+        log.debug("calling requests: operation={} url={} json={}".format(self.operation, parsed_url, json))
         return requests.request(self.operation, parsed_url, json=json, auth=session)        

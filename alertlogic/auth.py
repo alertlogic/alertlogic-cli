@@ -7,8 +7,7 @@
 
 import requests
 
-DCS = {
-    "dev": "https://api.product.dev.alertlogic.com",
+API_ENDPOINTS = {
     "us": "https://api.cloudinsight.alertlogic.com",
     "uk": "https://api.cloudinsight.alertlogic.co.uk"
 }
@@ -22,15 +21,16 @@ class Session():
     additionally objects of this class can be used as auth modules for requests, more info:
     http://docs.python-requests.org/en/master/user/authentication/#new-forms-of-authentication
     """
-    def __init__(self, datacenter, username, password):
+    def __init__(self, api_endpoint, username, password):
         """
-        :param datacenter: either "uk" or "us"
+        :param api_endpoint: either "uk" or "us" or any api endpoint url
         :param username: your alertlogic cloudinsight username
         :param password: your alertlogic cloudinsight password
         """
-        if not datacenter in DCS:
-            raise AuthenticationException("invalid datacenter {}".format(datacenter))
-        self.api_url = DCS[datacenter]
+        if api_endpoint in API_ENDPOINTS:
+            self.api_endpoint = API_ENDPOINTS[api_endpoint]
+        else:
+            self.api_endpoint = api_endpoint
         self._authenticate(username, password)
     
     def _authenticate(self, username, password):
@@ -39,7 +39,7 @@ class Session():
         """
         try:
             auth = requests.auth.HTTPBasicAuth(username, password)
-            response = requests.post(self.api_url+"/aims/v1/authenticate", auth=auth)
+            response = requests.post(self.api_endpoint+"/aims/v1/authenticate", auth=auth)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise AuthenticationException("invalid http response {}".format(e.message))

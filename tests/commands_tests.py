@@ -16,7 +16,7 @@ class CommandTestCase(unittest.TestCase):
         self.account_id = "ACCOUNT_ID"
         self.environment_id = "ENVIRONMENT_ID"
         mocked_session = mock.MagicMock()
-        mocked_session.api_url = "http://mock"
+        mocked_session.api_endpoint = "http://mock"
         mocked_session.account = self.account_id
         services = alertlogic.dynapi.Services()
         services.set_session(mocked_session)
