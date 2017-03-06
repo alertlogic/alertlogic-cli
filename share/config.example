@@ -1,4 +1,5 @@
 [default]
 username = user@example.org
 password = ultrasecure
-datacenter = us #options: uk or us
+; api endpoint url, alternatively use any of these alias: uk, us
+api_endpoint = us 

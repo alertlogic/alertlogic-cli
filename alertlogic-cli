@@ -1,10 +1,14 @@
 #! /usr/bin/env python2
+# -*- coding: utf-8 -*-
 
 import argparse
 import sys
 import os
 import logging
 import traceback
+
+import alertlogic.auth, alertlogic.dynapi
+import alertlogiccli.config, alertlogiccli.commands
 
 def import_dependencies():
     try:
@@ -16,12 +20,26 @@ def import_dependencies():
     
     try:
         global alertlogic
-        import alertlogic.core, alertlogic.commands
+        import alertlogic.auth, alertlogic.dynapi
     except ImportError:
         print("unable to find alertlogic library, check your installation")
         return False
     
+    try:
+        global alertlogiccli
+        import alertlogiccli.config, alertlogiccli.commands
+    except ImportError:
+        print("unable to find alertlogiccli library, check your installation")
+        return False
+    
     return True
+
+def bug_report_traceback():
+    msg = ("Oops something went wrong.\n"
+           "Please contact support@alertlogic.com and provide the following information:\n"
+           "****************************************************************************\n"
+           "{}")
+    return msg.format(traceback.format_exc())
 
 def parse_args():
     parser = argparse.ArgumentParser(description="alertlogic cloud insight client")
@@ -45,10 +63,9 @@ def parse_args():
 
 def run_command(args):
     services = alertlogic.dynapi.Services()
-    config = alertlogic.core.Config(profile=args.profile)
-    session = alertlogic.core.Session(config)
+    session = alertlogiccli.config.Config(profile=args.profile).make_session()
     services.set_session(session)
-    commands = alertlogic.commands.Commands(services)
+    commands = alertlogiccli.commands.Commands(services)
     
     if args.account_id:
         session.account = args.account_id
@@ -61,20 +78,21 @@ def run_command(args):
 
 def main():
     if not import_dependencies():
-        sys.exit(1)
+        sys.exit(2)
     
     args = parse_args()
     try:
         result = run_command(args)
         print(result)
         sys.exit(0)
-    except alertlogic.core.AlertlogicException as e:
+    except (alertlogic.auth.AuthenticationException,
+            alertlogiccli.config.ConfigException,
+            alertlogiccli.commands.CommandException) as e:
         print(e.message)
-        sys.exit(2)
+        sys.exit(1)
     except Exception as e:
-        print(alertlogic.core.Constants.CONTACT_MESSAGE)
-        traceback.print_exc()
-        sys.exit(3)
+        print(bug_report_traceback())
+        sys.exit(2)
 
 if __name__ == "__main__":
     # DEBUG mode

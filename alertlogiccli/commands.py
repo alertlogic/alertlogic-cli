@@ -1,21 +1,22 @@
-import core
-import dynapi
+import alertlogic.dynapi
 
 import requests
 
-class InvalidParameterException(core.AlertlogicException):
+class CommandException(Exception): pass
+
+class InvalidParameter(CommandException):
     def __init__(self, name, value, problem):
-        super(InvalidParameterException, self).__init__("{} \"{}\" {}".format(name, value, problem))
+        super(InvalidParameter, self).__init__("{} \"{}\" {}".format(name, value, problem))
 
-class InvalidAPIHTTPResponse(core.AlertlogicException):
+class InvalidHTTPResponse(CommandException):
     def __init__(self, trying_to, message):
-        super(InvalidAPIHTTPResponse, self).__init__("{} while trying to {}".format(message, trying_to))
+        super(InvalidHTTPResponse, self).__init__("{} while trying to {}".format(message, trying_to))
 
-class InvalidAPIResponse(core.AlertlogicException):
+class InvalidServiceResponse(CommandException):
     def __init__(self, trying_to, cause, response):
         raw = "{} while trying to {} code[ {} ] content[ {} ]"
         msg = raw.format(cause, trying_to, response.status_code, response.content)
-        super(InvalidAPIResponse, self).__init__(msg)
+        super(InvalidServiceResponse, self).__init__(msg)
 
 class Commands():
     def __init__(self, services):
@@ -25,14 +26,14 @@ class Commands():
         try:
             response = self.services.sources.get_source(id=environment_id)
             if response.status_code == 404:
-                raise InvalidParameterException("environment", environment_id, "not found")
+                raise InvalidParameter("environment", environment_id, "not found")
             response.raise_for_status()
             if response.json()["source"]["type"] != "environment":
-                raise InvalidParameterException("environment", environment_id, "is not an environment")
+                raise InvalidParameter("environment", environment_id, "is not an environment")
         except requests.exceptions.HTTPError as e:
-            raise InvalidAPIHTTPResponse("validate environment", e.message)
+            raise InvalidHTTPResponse("validate environment", e.message)
         except (KeyError, ValueError):
-            raise InvalidAPIResponse("validate environment", "source.type not found", response)
+            raise InvalidServiceResponse("validate environment", "source.type not found", response)
         
         return response
 
@@ -43,7 +44,7 @@ class Commands():
             response = self.services.sources.merge_source(id=environment_id, json=new_config)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise InvalidAPIHTTPResponse("update deployment mode", e.message)
+            raise InvalidHTTPResponse("update deployment mode", e.message)
         
         return "ok"
     

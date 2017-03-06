@@ -5,20 +5,18 @@
     Implements dynamic apis based on metaprogramming, apidoc json data and the requests library
 """
 
-import core
-
 import requests
 import json
 import logging
+import os.path
+
+API_DATA_DIR = os.path.abspath(os.path.dirname(__file__)+"/../api_data")
+API_SERVICES = ["sources"]
 
 log = logging.getLogger(__name__)
 
-class DynAPIException(core.AlertlogicException):
-    def __init__(self, message):
-        super(DynAPIException, self).__init__(core.Constants.CONTACT_MESSAGE+"dynapi error: "+message)
-
-class InvalidEndpointDefinition(DynAPIException): pass
-class InvalidEndpointCall(DynAPIException): pass
+class InvalidEndpointDefinition(Exception): pass
+class InvalidEndpointCall(Exception): pass
 
 class Services():
     """Creates and register one Service for each apidoc json file found in API_SERVICES
@@ -26,26 +24,28 @@ class Services():
     more info: http://apidocjs.com
     """
     def __init__(self):
-        for service_name in core.Constants.API_SERVICES:
-            filename = core.Constants.API_DATA_DIR+"/"+service_name+".json"
+        for service_name in API_SERVICES:
+            filename = API_DATA_DIR+"/"+service_name+".json"
             service = self.parse_apidoc_file(filename)
             self.__dict__[service_name] = service
     
     def parse_apidoc_file(self, filename):
         """generates a Service() object by parsing an apidoc json file
+        :param filename: path to apidoc json file
         """
         with open(filename) as file:
             api_data = json.load(file)
             return self.parse_apidoc(api_data)
     
     def parse_apidoc(self, api_data):
-        """Parses apidoc data into a Service() object
+        """Parses apidoc data (dict) into a Service() object
+        :param filename: python dict representing an apidoc json file
         """
         service = Service()
         for api_data_endpoint in api_data:
             try:
-                name = api_data_endpoint["name"].lower()
-                operation = api_data_endpoint["type"].upper()
+                name = api_data_endpoint["name"]
+                operation = api_data_endpoint["type"]
                 url = api_data_endpoint["url"]
                 service.add_endpoint(name, operation, url)
             except (KeyError, InvalidEndpointDefinition) as e:
@@ -55,8 +55,9 @@ class Services():
     
     def set_session(self, session):
         """this function makes it easier to call set_session on all the underlying services
+        :param session: an alertlogic.auth.Session object
         """
-        for service_name in core.Constants.API_SERVICES:
+        for service_name in API_SERVICES:
             service = self.__dict__[service_name]
             service.set_session(session)
 
@@ -69,12 +70,16 @@ class Service():
         self._session = None
     
     def add_endpoint(self, name, operation, url):
-        """Creates and store a Endpoint()
+        """Creates and stores an Endpoint() see Endpoint class for more info
         """
         endpoint = Endpoint(name, operation, url)
         self._endpoints[endpoint.name] = endpoint
     
     def set_session(self, session):
+        """ changes current session, sessions are used to authenticate api calls
+        and to override account id when a call doesn't provide it
+        :param session: an authenticated alertlogic.auth.Session object
+        """
         self._session = session
     
     def __getattr__(self, name):
@@ -82,18 +87,18 @@ class Service():
         in python this function is called everytime an object's property is not found
         this is what allows us to dynamically add functions to an existing object
         """
-        def handler(*args, **kwargs):
-            if name in self._endpoints:
+        if name in self._endpoints:
+            def handler(*args, **kwargs):
                 # json argument are passed separately
                 json = kwargs.pop("json", None)
                 # if account_id is not an argument then use the one provided by session
                 if "account_id" not in kwargs:
                     kwargs["account_id"] = self._session.account
                 return self._endpoints[name].call(self._session, kwargs, json=json)
-            else:
-                # you've tried to call an undefined endpoint
-                raise InvalidEndpointCall("endpoint not found: {}".format(name))
-        return handler
+            return handler
+        else:
+            # you've tried to call an undefined endpoint
+            raise InvalidEndpointCall("endpoint not found: {}".format(name))
 
 class Endpoint():
     """Represents 1 service endpoint, requirements:
@@ -105,9 +110,14 @@ class Endpoint():
     to call the above endpoint you'll need to provide account_id, environment_id and asset_key
     """
     def __init__(self, name, operation, url):
-        self.name = name
+        """
+        :param name: endpoint's name
+        :param operation: either "get", "post", "delete", "put" or "head"
+        :param url: url using apidoc format (parts that start with ":" are parameters)
+        """
+        self.name = name.lower()
         self.url = url
-        self.operation = operation
+        self.operation = operation.upper()
         # verifies that the given operation is correct
         if self.operation not in ["GET", "POST", "DELETE", "PUT", "HEAD"]:
             raise InvalidEndpointDefinition("invalid operation: {}".format(self.operation))
@@ -120,6 +130,7 @@ class Endpoint():
                                 "environment_id": "BA395435-551B-4250-B52E-71FCCFF73124"
                                 "asset_key": "/aws/us-east-1/host/i-023c7629"})
             "/scheduler/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124/scan?asset=/aws/us-east-1/host/i-023c7629"
+        :param url_args: dict with values to replace url parameters
         """
         parts = [part for part in self.url.lower().split("/") if len(part) > 0]
         parsed_url = ""
@@ -135,8 +146,11 @@ class Endpoint():
         return parsed_url
     
     def call(self, session, url_args, json=None):
-        """makes the http call by generating the url (see parse_url()), uses session as auth plugin
+        """parses the url (see parse_url()), and makes an http call, uses session as requests auth plugin
+        :param session: a session object for authentication
+        :param url_args: dict with values to replace url parameters, see parse_args() for more info
+        :param json: this will be passed adhoc to requests
         """
-        parsed_url = session.api_url + self.parse_url(url_args)
-        log.debug("calling: {} {}".format(self.operation, parsed_url))
+        parsed_url = session.api_endpoint + self.parse_url(url_args)
+        log.debug("calling requests: operation={} url={} json={}".format(self.operation, parsed_url, json))
         return requests.request(self.operation, parsed_url, json=json, auth=session)        
