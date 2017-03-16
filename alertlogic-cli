@@ -1,14 +1,18 @@
-#! /usr/bin/env python2
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
 import argparse
 import sys
 import os
-import logging
+import logging, logging.config
 import traceback
+
+sys.path.insert(0, os.path.dirname(__file__))
 
 import alertlogic.auth, alertlogic.dynapi
 import alertlogiccli.config, alertlogiccli.commands
+
+from alertlogiccli.config import DEFAULT_CONFIG_FILE as DEFAULT_CONFIG_FILE
 
 def import_dependencies():
     try:
@@ -17,21 +21,21 @@ def import_dependencies():
     except ImportError:
         print("requests library required, install it first: pip install requests")
         return False
-    
+
     try:
         global alertlogic
         import alertlogic.auth, alertlogic.dynapi
     except ImportError:
         print("unable to find alertlogic library, check your installation")
         return False
-    
+
     try:
         global alertlogiccli
         import alertlogiccli.config, alertlogiccli.commands
     except ImportError:
         print("unable to find alertlogiccli library, check your installation")
         return False
-    
+
     return True
 
 def bug_report_traceback():
@@ -43,45 +47,73 @@ def bug_report_traceback():
 
 def parse_args():
     parser = argparse.ArgumentParser(description="alertlogic cloud insight client")
+
+    parser.add_argument("--logging_config_file", help="use a specific configuration file for logging")
+    parser.add_argument("--username", help="a specific username to override the configuration option")
+    parser.add_argument("--password", help="a specific password to override the configuration option")
+    parser.add_argument("--api_endpoint", help="a specific endpoint to override the configuration option")
+
+    parser.add_argument("-c", "--config_file", default=DEFAULT_CONFIG_FILE, help="use a specific configuration file")
     parser.add_argument("-p", "--profile", default="default", help="use a specific profile from your config")
-    parser.add_argument("-a", "--account_id", default=None, help="use a specific account (managed accounts only)")
+    parser.add_argument("-a", "--account_id", help="use a specific account (managed accounts only)")
     subparsers = parser.add_subparsers(title="commands", description="valid commands", dest="command")
-    
+
     parser_environment = subparsers.add_parser("environment", help="environment specific actions")
     subparsers_environment = parser_environment.add_subparsers(dest="subcommand")
-    
-    parser_set_deployment_mode = subparsers_environment.add_parser("set_deployment_mode",
-                                                                    help="sets environment deployment mode")
-    parser_set_deployment_mode.add_argument("-e", "--environment_id", required=True, help="environment id (uuid)")
+
+    parser_set_deployment_mode = subparsers_environment.add_parser("set_deployment_mode", help="sets environment deployment mode")
+    parser_set_deployment_mode.add_argument("-e", "--environment_id", help="environment id (uuid)")
     parser_set_deployment_mode.add_argument("-m", "--deployment_mode", required=True, choices=["readonly", "automatic"])
-    
-    parser_get_deployment_mode = subparsers_environment.add_parser("get_deployment_mode",
-                                                                    help="gets environment deployment mode")
-    parser_get_deployment_mode.add_argument("-e", "--environment_id", required=True, help="environment id (uuid)")
-    
+
+    parser_get_deployment_mode = subparsers_environment.add_parser("get_deployment_mode", help="gets environment deployment mode")
+    parser_get_deployment_mode.add_argument("-e", "--environment_id", help="environment id (uuid)")
+
     return parser.parse_args()
 
+def init_logging(args):
+    if args.logging_config_file:
+        logging.config.fileConfig(args.logging_config_file)
+    elif os.environ.get("DEBUG"):
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
+def make_config(args):
+    config = alertlogiccli.config.Config(config_file=args.config_file, profile=args.profile)
+    if args.username:
+        config.username = args.username
+    if args.password:
+        config.password = args.password
+    if args.api_endpoint:
+        config.api_endpoint = args.api_endpoint
+    return config
+
 def run_command(args):
+    config = make_config(args)
+    session = config.make_session()
     services = alertlogic.dynapi.Services()
-    session = alertlogiccli.config.Config(profile=args.profile).make_session()
     services.set_session(session)
     commands = alertlogiccli.commands.Commands(services)
-    
-    if args.account_id:
-        session.account = args.account_id
-    
+
+    if args.environment_id is None:
+        args.environment_id = config.environment_id
+
     if (args.command, args.subcommand) == ("environment", "set_deployment_mode"):
         return commands.environment_set_deployment_mode(args.environment_id, args.deployment_mode)
-    
+
     if (args.command, args.subcommand) == ("environment", "get_deployment_mode"):
         return commands.environment_get_deployment_mode(args.environment_id)
 
 def main():
+    if os.environ.get("DEBUG"):
+         print("Running in DEBUG mode")
+
     if not import_dependencies():
         sys.exit(2)
-    
+
     args = parse_args()
     try:
+        init_logging(args)
         result = run_command(args)
         print(result)
         sys.exit(0)
@@ -95,13 +127,4 @@ def main():
         sys.exit(2)
 
 if __name__ == "__main__":
-    # DEBUG mode
-    if os.environ.get("DEBUG"):
-        print("Running on DEBUG mode")
-        logging.basicConfig(level=logging.DEBUG)
-        sys.path.insert(0, os.path.dirname(__file__))
-        main()
-    # NORMAL mode
-    else:
-        logging.basicConfig(level=logging.INFO)
-        main()
+    main()

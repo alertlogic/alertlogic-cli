@@ -18,7 +18,7 @@ The easiest way to install alertlogic-cli is using pip:
 
 ## Configuration:
 
-alertlogic-cli uses only a single config file: `~/.alertlogic/config`.
+alertlogic-cli uses only a single config file: `~/.alertlogic/config.ini`.
 It must be an ini style file where each section represents a profile.
 Each profile has 3 fields:
 

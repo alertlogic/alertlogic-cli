@@ -13,7 +13,7 @@ import os.path
 API_DATA_DIR = os.path.abspath(os.path.dirname(__file__)+"/../api_data")
 API_SERVICES = ["sources"]
 
-log = logging.getLogger(__name__)
+log = logging.getLogger()
 
 class InvalidEndpointDefinition(Exception): pass
 class InvalidEndpointCall(Exception): pass
@@ -28,7 +28,7 @@ class Services():
             filename = API_DATA_DIR+"/"+service_name+".json"
             service = self.parse_apidoc_file(filename)
             self.__dict__[service_name] = service
-    
+
     def parse_apidoc_file(self, filename):
         """generates a Service() object by parsing an apidoc json file
         :param filename: path to apidoc json file
@@ -36,7 +36,7 @@ class Services():
         with open(filename) as file:
             api_data = json.load(file)
             return self.parse_apidoc(api_data)
-    
+
     def parse_apidoc(self, api_data):
         """Parses apidoc data (dict) into a Service() object
         :param filename: python dict representing an apidoc json file
@@ -52,7 +52,7 @@ class Services():
                 log.debug("unable to parse apidoc endpoint: {}".format(e))
                 pass
         return service
-    
+
     def set_session(self, session):
         """this function makes it easier to call set_session on all the underlying services
         :param session: an alertlogic.auth.Session object
@@ -68,20 +68,20 @@ class Service():
     def __init__(self):
         self._endpoints = {}
         self._session = None
-    
+
     def add_endpoint(self, name, operation, url):
         """Creates and stores an Endpoint() see Endpoint class for more info
         """
         endpoint = Endpoint(name, operation, url)
         self._endpoints[endpoint.name] = endpoint
-    
+
     def set_session(self, session):
         """ changes current session, sessions are used to authenticate api calls
         and to override account id when a call doesn't provide it
         :param session: an authenticated alertlogic.auth.Session object
         """
         self._session = session
-    
+
     def __getattr__(self, name):
         """returns an unbound function *handler* capable of calling a Endpoint()
         in python this function is called everytime an object's property is not found
@@ -93,7 +93,7 @@ class Service():
                 json = kwargs.pop("json", None)
                 # if account_id is not an argument then use the one provided by session
                 if "account_id" not in kwargs:
-                    kwargs["account_id"] = self._session.account
+                    kwargs["account_id"] = self._session.account_id
                 return self._endpoints[name].call(self._session, kwargs, json=json)
             return handler
         else:
@@ -121,7 +121,7 @@ class Endpoint():
         # verifies that the given operation is correct
         if self.operation not in ["GET", "POST", "DELETE", "PUT", "HEAD"]:
             raise InvalidEndpointDefinition("invalid operation: {}".format(self.operation))
-    
+
     def parse_url(self, url_args):
         """Parses an endpoint's url by replacing the parts that start with ":" with the values of *url_args*
         e.g:
@@ -144,7 +144,7 @@ class Endpoint():
             else:
                 parsed_url += "/"+part
         return parsed_url
-    
+
     def call(self, session, url_args, json=None):
         """parses the url (see parse_url()), and makes an http call, uses session as requests auth plugin
         :param session: a session object for authentication
@@ -153,4 +153,4 @@ class Endpoint():
         """
         parsed_url = session.api_endpoint + self.parse_url(url_args)
         log.debug("calling requests: operation={} url={} json={}".format(self.operation, parsed_url, json))
-        return requests.request(self.operation, parsed_url, json=json, auth=session)        
+        return requests.request(self.operation, parsed_url, json=json, auth=session)

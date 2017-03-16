@@ -1,0 +1,9 @@
+[default]
+username = user@example.org
+password = ultrasecure
+# api endpoint url, alternatively use any of these alias: uk, us
+api_endpoint = us
+
+# This is an optional default environment id for usage in API calls
+# if not provided explicitly via command line arguments
+#environment_id = 00000000-0000-0000-0000-000000000000

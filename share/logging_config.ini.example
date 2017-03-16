@@ -1,0 +1,32 @@
+# Logging configuration file
+# see https://docs.python.org/2/library/logging.config.html#logging-config-fileformat
+
+[loggers]
+keys=root
+
+[handlers]
+keys=stream,syslog
+
+[formatters]
+keys=default
+
+[logger_root]
+level=NOTSET
+handlers=stream,syslog
+
+[handler_stream]
+class=StreamHandler
+level=NOTSET
+formatter=default
+args=()
+
+[handler_syslog]
+class=handlers.SysLogHandler
+level=NOTSET
+formatter=default
+args=()
+
+[formatter_default]
+format=alerlogic-cli %(levelname)s %(message)s
+datefmt=
+class=logging.Formatter

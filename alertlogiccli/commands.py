@@ -21,7 +21,7 @@ class InvalidServiceResponse(CommandException):
 class Commands():
     def __init__(self, services):
         self.services = services
-    
+
     def validate_environment(self, environment_id):
         try:
             response = self.services.sources.get_source(id=environment_id)
@@ -34,7 +34,7 @@ class Commands():
             raise InvalidHTTPResponse("validate environment", e.message)
         except (KeyError, ValueError):
             raise InvalidServiceResponse("validate environment", "source.type not found", response)
-        
+
         return response
 
     def environment_set_deployment_mode(self, environment_id, mode):
@@ -45,9 +45,9 @@ class Commands():
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise InvalidHTTPResponse("update deployment mode", e.message)
-        
+
         return "ok"
-    
+
     def environment_get_deployment_mode(self, environment_id):
         response = self.validate_environment(environment_id)
         try:
