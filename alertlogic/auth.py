@@ -21,7 +21,7 @@ class Session():
     additionally objects of this class can be used as auth modules for requests, more info:
     http://docs.python-requests.org/en/master/user/authentication/#new-forms-of-authentication
     """
-    def __init__(self, api_endpoint, username, password):
+    def __init__(self, api_endpoint, username, password, account_id):
         """
         :param api_endpoint: either "uk" or "us" or any api endpoint url
         :param username: your alertlogic cloudinsight username
@@ -31,6 +31,7 @@ class Session():
             self.api_endpoint = API_ENDPOINTS[api_endpoint]
         else:
             self.api_endpoint = api_endpoint
+        self.account_id = account_id
         self._authenticate(username, password)
 
     def _authenticate(self, username, password):
@@ -50,7 +51,8 @@ class Session():
             raise AuthenticationException("token not found in response")
 
         try:
-            self.account_id = response.json()["authentication"]["account"]["id"]
+            if not self.account_id:
+                self.account_id = response.json()["authentication"]["account"]["id"]
         except (KeyError, TypeError, ValueError):
             raise AuthenticationException("account id not found in response")
 

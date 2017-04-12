@@ -18,7 +18,7 @@ class Config():
         self.set_profile(profile)
 
     def make_session(self):
-        session = alertlogic.auth.Session(self.api_endpoint, self.username, self.password)
+        session = alertlogic.auth.Session(self.api_endpoint, self.username, self.password, self.account_id)
         return session
 
     def read(self, config_file):
@@ -36,7 +36,9 @@ class Config():
             self.password = self._parser.get(profile, "password")
             self.api_endpoint = self._parser.get(profile, "api_endpoint")
 
+            self.account_id = None
             self.environment_id = None
+
             if self._parser.has_option(profile, "environment_id"):
                 self.environment_id = self._parser.get(profile, "environment_id")
                 log.debug("found environment_id: {} option in config file".format(self.environment_id))

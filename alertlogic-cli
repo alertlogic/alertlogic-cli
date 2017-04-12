@@ -86,6 +86,8 @@ def make_config(args):
         config.password = args.password
     if args.api_endpoint:
         config.api_endpoint = args.api_endpoint
+    if args.account_id:
+        config.account_id = args.account_id
     return config
 
 def run_command(args):
