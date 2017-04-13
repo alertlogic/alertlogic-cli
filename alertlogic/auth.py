@@ -9,7 +9,8 @@ import requests
 
 API_ENDPOINTS = {
     "us": "https://api.cloudinsight.alertlogic.com",
-    "uk": "https://api.cloudinsight.alertlogic.co.uk"
+    "uk": "https://api.cloudinsight.alertlogic.co.uk",
+    "integration": "https://api.product.dev.alertlogic.com"
 }
 
 class AuthenticationException(Exception):

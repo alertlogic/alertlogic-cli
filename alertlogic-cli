@@ -6,6 +6,8 @@ import sys
 import os
 import logging, logging.config
 import traceback
+from alertlogiccli.commands import import_command_modules
+
 
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -58,17 +60,9 @@ def parse_args():
     parser.add_argument("-a", "--account_id", help="use a specific account (managed accounts only)")
     subparsers = parser.add_subparsers(title="commands", description="valid commands", dest="command")
 
-    parser_environment = subparsers.add_parser("environment", help="environment specific actions")
-    subparsers_environment = parser_environment.add_subparsers(dest="subcommand")
-
-    parser_set_deployment_mode = subparsers_environment.add_parser("set_deployment_mode", help="sets environment deployment mode")
-    parser_set_deployment_mode.add_argument("-e", "--environment_id", help="environment id (uuid)")
-    parser_set_deployment_mode.add_argument("-m", "--deployment_mode", required=True, choices=["readonly", "automatic"])
-
-    parser_get_deployment_mode = subparsers_environment.add_parser("get_deployment_mode", help="gets environment deployment mode")
-    parser_get_deployment_mode.add_argument("-e", "--environment_id", help="environment id (uuid)")
-
-    return parser.parse_args()
+    commands = import_command_modules(subparsers)
+    args = parser.parse_args()
+    return {'commands': commands, 'args': args}
 
 def init_logging(args):
     if args.logging_config_file:
@@ -90,21 +84,20 @@ def make_config(args):
         config.account_id = args.account_id
     return config
 
-def run_command(args):
+def run_command(args, commands):
     config = make_config(args)
     session = config.make_session()
     services = alertlogic.dynapi.Services()
     services.set_session(session)
-    commands = alertlogiccli.commands.Commands(services)
 
     if args.environment_id is None:
         args.environment_id = config.environment_id
 
-    if (args.command, args.subcommand) == ("environment", "set_deployment_mode"):
-        return commands.environment_set_deployment_mode(args.environment_id, args.deployment_mode)
+    KeyCommand = (args.command, args.subcommand)
 
-    if (args.command, args.subcommand) == ("environment", "get_deployment_mode"):
-        return commands.environment_get_deployment_mode(args.environment_id)
+    return commands[KeyCommand](services).execute(**vars(args))
+
+
 
 def main():
     if os.environ.get("DEBUG"):
@@ -113,10 +106,11 @@ def main():
     if not import_dependencies():
         sys.exit(2)
 
-    args = parse_args()
+    context = parse_args()
+    args = context['args']
     try:
         init_logging(args)
-        result = run_command(args)
+        result = run_command(args, context['commands'])
         print(result)
         sys.exit(0)
     except (alertlogic.auth.AuthenticationException,
