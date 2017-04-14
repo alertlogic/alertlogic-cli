@@ -10,7 +10,8 @@ import json
 import logging
 import os.path
 
-API_DATA_DIR = os.path.abspath(os.path.dirname(__file__)+"/../api_data")
+API_DATA_DIR = os.path.abspath(os.path.dirname(__file__)+"/api_data")
+
 API_SERVICES = ["sources"]
 
 log = logging.getLogger()
