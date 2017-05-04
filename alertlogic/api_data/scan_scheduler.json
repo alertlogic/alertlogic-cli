@@ -1,0 +1,760 @@
+[
+  {
+    "type": "put",
+    "url": "/scheduler/v1/:account_id/add/:environment_id",
+    "title": "Add an account to the scheduler",
+    "name": "AddScanAccount",
+    "group": "DEPRECATED",
+    "version": "1.0.0",
+    "description": "<p>DEPRECATED: has no effect.</p> <p>A new process for the account will be spawned, and a cache of all assets will be populated from the asset service.</p> ",
+    "examples": [
+      {
+        "title": "Add an account to the scheduler:",
+        "content": "curl -X PUT https://api.cloudinsight.alertlogic.com/scheduler/v1/12345678/add/BA395435-551B-4250-B52E-71FCCFF73124",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Ok:",
+          "content": "ok",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "put",
+    "url": "/scheduler/v1/:account_id/:environment_id/add?asset=:asset_key",
+    "title": "Add an asset to the scheduler",
+    "name": "AddScanAsset",
+    "group": "DEPRECATED",
+    "version": "1.0.0",
+    "description": "<p>DEPRECATED: has no effect.</p> <p>Assets are typically added to the cache via RabbitMQ notifications, however assets can also be added manually via the HTTP API.</p> ",
+    "examples": [
+      {
+        "title": "Add an asset to the scheduler:",
+        "content": "curl -X PUT https://api.cloudinsight.alertlogic.com/scheduler/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124/add?asset=/aws/us-east-1/host/i-023c7629",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Ok:",
+          "content": "ok",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "asset_key",
+            "description": "<p>Asset Key</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "put",
+    "url": "/scheduler/v1/:account_id/:environment_id/:appliance_id/dequeue_tasks/:count",
+    "title": "Dequeue scan tasks for an appliance",
+    "name": "GetScanApplianceTasks",
+    "group": "DEPRECATED",
+    "version": "1.0.0",
+    "description": "<p>DEPRECATED: For internal use only.</p> <p>The scheduler uses the <em>dequeue_tasks</em> API to dequeue the next <em>count</em> items from the top of the scan queue.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "appliance_id",
+            "description": "<p>The appliance uuid</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "count",
+            "description": "<p>The number of tasks to include</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Retrieving scan tasks for an appliance:",
+        "content": "curl -X PUT https://api.cloudinsight.alertlogic.com/scheduler/v1/01000002/BA395435-551B-4250-B52E-71FCCFF73124/DD9B1328-0100-1005-8562-7831C1BAC182/dequeue_tasks/1",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Ok:",
+          "content": "{\n  \"requests\": [\n    {\n      \"metadata\": {\n        \"request_id\": \"D895CF3B-03F9-1005-96FA-7831C1BAEAE6\",\n        \"status\": \"queued\",\n        \"last_scan\": 0,\n        \"priority\": 3\n      },\n      \"policy\": {\n        \"credentials\": [],\n        \"ports\": [\n          [\n            1,\n            65535\n          ]\n        ]\n      },\n      \"address\": \"10.0.4.20\",\n      \"name\": \"ip-10-0-4-20.ec2.internal\",\n      \"subnet\": \"subnet-339b6244\",\n      \"vpc\": \"vpc-f134ed94\",\n      \"id\": \"/aws/us-east-1/host/i-023c7629\"\n    }\n  ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "put",
+    "url": "/scheduler/v1/:account_id/:environment_id/update/:asset_id/:key/:value",
+    "title": "Update asset metadata",
+    "name": "UpdateAssetMetadata",
+    "group": "DEPRECATED",
+    "version": "1.0.0",
+    "description": "<p>DEPRECATED: has no effect.</p> <p>Some metadata fields can be modified via the HTTP API</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "key",
+            "description": "<p>Metadata key to update, one of:</p> <ul> <li><em>last_scan</em></li> <li><em>status</em></li> </ul> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "value",
+            "description": "<p>Value to set</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "asset_key",
+            "description": "<p>Asset Key</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Update asset metadata:",
+        "content": "curl -X PUT https://api.cloudinsight.alertlogic.com/scheduler/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124/update/aws/us-east-1/host/i-023c7629/last_scan/1411748046",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Ok:",
+          "content": "ok",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/scheduler/v1/:account_id/:environment_id/summary?vpc_key=<vpc_key>",
+    "title": "Retrieve a summarized scan status",
+    "name": "GetScanSummary",
+    "group": "Scheduler_Resources",
+    "version": "1.0.0",
+    "description": "<p>The scheduler provides the <em>summary</em> API to retrieve a summary of scan progress for an environment.</p> ",
+    "examples": [
+      {
+        "title": "Retrieving scan summary for an environment:",
+        "content": "curl -X GET https://api.cloudinsight.alertlogic.com/scheduler/v1/01000002/BA395435-551B-4250-B52E-71FCCFF73124/summary",
+        "type": "curl"
+      },
+      {
+        "title": "Retrieving scan summary for an environment for a given VPC key:",
+        "content": "curl -X GET https://api.cloudinsight.alertlogic.com/scheduler/v1/01000002/BA395435-551B-4250-B52E-71FCCFF73124/summary?vpc_key=/aws/us-east-1/vpc/vpc-123",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "HTTP/1.1 200\n{\n  \"summary\": {\n      \"total\": 20,\n      \"in_scope\": 17,\n      \"running\": 5,\n      \"scanned\": 10,\n      \"scannable\": 16\n   }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Scheduler_Resources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/scheduler/v1/:account_id/:environment_id/list",
+    "title": "Retrieve a list of assets",
+    "name": "ListScanAssets",
+    "group": "Scheduler_Resources",
+    "version": "1.0.0",
+    "description": "<p>Lists of assets is returned, in the order they will be scanned. The first list, <em>immediate</em>, is composed of assets to be scanned immediately, out of the regular order. The second, <em>assets</em>, lists assets in their regular scan order.</p> <p>Each entry in the queue contains:</p> <ul> <li><em>id</em> - Asset key from asset service</li> <li><em>vpc</em> - VPC key</li> <li><em>subnet</em> - Subnet ID</li> <li><em>name</em> - Hostname</li> <li><em>address</em> - IP address</li> <li><em>metadata</em> - Internal scheduler metadata for the asset</li> <li><em>policy</em> - policy details affecting how the scan is performed.</li> </ul> <p>The metadata object includes:</p> <ul> <li><em>priority</em> - Scan priority (deprecated; always -1)</li> <li><em>last_change</em> - Timestamp of last change notification</li> <li><em>last_scan</em> - Timestamp of last scan completion</li> <li><em>status</em> - Current scan status (idle, pending, queued)</li> <li><em>request_id</em> - ID of scan execution, if scan is in progress</li> </ul> <p>The policy object includes:</p> <ul> <li><em>ports</em> - list of port ranges to be scanned</li> <li><em>credentials</em> - metadata describing the credentials to be used to perform the scan</li> </ul> ",
+    "examples": [
+      {
+        "title": "Retrieving a list of assets:",
+        "content": "curl -X GET https://api.cloudinsight.alertlogic.com/scheduler/v1/01000001/BA395435-551B-4250-B52E-71FCCFF73124/list",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Ok:",
+          "content": "{\n  \"assets\": [\n    {\n      \"metadata\": {\n        \"request_id\": \"undefined\",\n        \"status\": \"idle\",\n        \"last_scan\": 0,\n        \"priority\": -1\n      },\n      \"policy\": {\n        \"credentials\": [],\n        \"ports\": [\n          [\n            1,\n            65535\n          ]\n        ]\n      },\n      \"address\": \"10.0.0.230\",\n      \"name\": \"ip-10-0-0-230.us-west-2.compute.internal\",\n      \"subnet\": \"subnet-ebd43d9c\",\n      \"vpc\": \"/aws/us-west-2/vpc-34827c51\",\n      \"id\": \"/aws/us-west-2/host/i-4f751942\"\n    },\n    {\n      \"metadata\": {\n        \"request_id\": \"undefined\",\n        \"status\": \"idle\",\n        \"last_scan\": 0,\n        \"last_change\": 1408638419,\n        \"priority\": -1\n      },\n      \"policy\": {\n        \"credentials\": [],\n        \"ports\": [\n          [\n            1,\n            65535\n          ]\n        ]\n      },\n      \"address\": \"10.0.0.153\",\n      \"name\": \"ip-10-0-0-153.ec2.internal\",\n      \"subnet\": \"subnet-cfdec089\",\n      \"vpc\": \"vpc-1de73878\",\n      \"id\": \"/aws/us-east-1/host/i-d4490efe\"\n    }\n  ],\n  \"immediate\": [\n    {\n      \"metadata\": {\n        \"request_id\": \"undefined\",\n        \"status\": \"idle\",\n        \"last_scan\": 0,\n        \"priority\": 3\n      },\n      \"policy\": {\n        \"credentials\": [],\n        \"ports\": [\n          [\n            1,\n            65535\n          ]\n        ]\n      },\n      \"address\": \"10.0.0.113\",\n      \"name\": \"ip-10-0-0-113.ec2.internal\",\n      \"subnet\": \"subnet-cfdec089\",\n      \"vpc\": \"vpc-1de73878\",\n      \"id\": \"/aws/us-east-1/host/i-ee490efa\"\n    }\n  ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Scheduler_Resources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "put",
+    "url": "/scheduler/v1/:account_id/:environment_id/scan?asset=:asset_key",
+    "title": "Immediately scan an asset",
+    "name": "ScanAsset",
+    "group": "Scheduler_Resources",
+    "version": "1.0.0",
+    "description": "<p>Move an asset to the top of the scan queue.</p> ",
+    "examples": [
+      {
+        "title": "Immediately scanning an asset:",
+        "content": "curl -X PUT https://api.cloudinsight.alertlogic.com/scheduler/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124/scan?asset=/aws/us-east-1/host/i-023c7629",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Ok:",
+          "content": "ok",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Scheduler_Resources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "asset_key",
+            "description": "<p>Asset Key</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "post",
+    "url": "/whitelist/v1/:account_id/:environment_id",
+    "title": "Designate a tag as white-listed",
+    "name": "DesignateTag",
+    "group": "Whitelist",
+    "version": "1.0.0",
+    "description": "<p>The client can use this method to designate a tag as white-listed for an environment.</p> ",
+    "examples": [
+      {
+        "title": "Designating a tag as white-listed:",
+        "content": "curl -H \"x-aims-auth-token: ${TOKEN}\" -X POST -d '{\"type\":\"tag\", \"tag_key\":\"Host Role\", \"tag_value\":\"Fragile Web Server\"}' https://api.cloudinsight.alertlogic.com/whitelist/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "204 OK",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response",
+          "content": "404 Object Not Found",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Whitelist",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/whitelist/v1/:account_id/:environment_id/assets?type=:type&tag_key=:tag_key&tag_value=:tag_value",
+    "title": "Retrieve all white-listed hosts",
+    "name": "ListHosts",
+    "group": "Whitelist",
+    "version": "1.0.0",
+    "description": "<p>The client can use this method to retrieve a list of hosts white-listed by tags.</p> ",
+    "examples": [
+      {
+        "title": "Listing all white-listed hosts:",
+        "content": "curl -H \"x-aims-auth-token: ${TOKEN}\" -X GET https://api.cloudinsight.alertlogic.com/whitelist/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124/assets?type=tag&tag_key=\"Host Role\"&tag_value=\"Fragile Web Server\"",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n[\n  \"/aws/us-west-1/host/i-12345678\",\n  \"/aws/us-west-2/host/i-45678901\"\n]",
+          "type": "json"
+        },
+        {
+          "title": "Success-Response(tag, environment or account does not exist)",
+          "content": "HTTP/1.1 200 OK\n[]",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Type parameter is missing in URL",
+          "content": "404 Object not found",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Whitelist",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of entity targeted by the operation</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "tag_key",
+            "description": "<p>Tag key</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "tag_value",
+            "description": "<p>Tag value</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/whitelist/v1/:account_id/:environment_id",
+    "title": "Retrieve all white-listed tags",
+    "name": "ListTags",
+    "group": "Whitelist",
+    "version": "1.0.0",
+    "description": "<p>The client can use this method to retrieve a list of tags designated as white-listed.</p> ",
+    "examples": [
+      {
+        "title": "Listing all tags designated as white-listed:",
+        "content": "curl -H \"x-aims-auth-token: ${TOKEN}\" -X GET https://api.cloudinsight.alertlogic.com/whitelist/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n[\n  {\n    \"type\": \"tag\",\n    \"tag_key\": \"Host Role\",\n    \"tag_value\": \"Fragile Web Server\"\n  }\n]",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Whitelist",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "delete",
+    "url": "/whitelist/v1/:account_id/:environment_id",
+    "title": "Undesignate a tag as white-listed",
+    "name": "UndesignateTag",
+    "group": "Whitelist",
+    "version": "1.0.0",
+    "description": "<p>The client can use this method to undesignate a tag as white-listed for an environment.</p> ",
+    "examples": [
+      {
+        "title": "Undesignating a tag as white-listed:",
+        "content": "curl -H \"x-aims-auth-token: ${TOKEN}\" -X DELETE -d '{\"type\":\"tag\", \"tag_key\":\"Host Role\", \"tag_value\":\"Fragile Web Server\"}' https://api.cloudinsight.alertlogic.com/whitelist/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "204 OK",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Whitelist",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    }
+  }
+]

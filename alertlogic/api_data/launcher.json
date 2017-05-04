@@ -1,0 +1,422 @@
+[
+  {
+    "type": "get",
+    "url": "/launcher/v1/:account_id/resources",
+    "title": "Get the list of assets deployed by CloudInsight in an account.",
+    "version": "1.0.0",
+    "name": "GetAwsResourcesByAccount",
+    "group": "Launcher_Operations",
+    "description": "<p>This API path is to retrieve the list of assets deployed by CloudInsight in my active environments.</p> ",
+    "examples": [
+      {
+        "title": "Get list of assets deployed in an account:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1/00000000/resources",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n    \"environments\": [\n        {\n            \"environment_id\": \"1086B0A8-A0D6-4CCC-B8C3-78AA82826606\",\n            \"account_id\": \"00000000\",\n            \"vpcs\": [\n                {\n                    \"vpc_key\": \"/aws/us-east-1/vpc/vpc-103f4e74\" ,\n                    \"region\": \"us-east-1\",\n                    \"route_table\": {\n                        \"resource_id\":\"rtb-12e8d276\",\n                        \"resource_key\":\"/aws/us-east-1/route/rtb-12e8d276\"\n                    },\n                    \"launch_configuration\": {\n                        \"resource_key\":\"/aws/us-east-1/launch-config/Alert Logic Security Launch Configuration_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\",\n                        \"resource_id\":\"Alert Logic Security Launch Configuration_67002091_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\"\n                    },\n                    \"security_group\": {\n                        \"resource_key\":\"/aws/us-east-1/sg/sg-a73c75de\",\n                        \"resource_id\":\"sg-a73c75de\"\n                    },\n                    \"subnet\": {\n                        \"resource_key\":\"/aws/us-east-1/subnet/subnet-1d9b6437\",\n                        \"resource_id\":\"subnet-1d9b6437\"\n                    },\n                    \"auto_scaling_group\": {\n                        \"resource_key\":\"/aws/us-east-1/auto-scaling-group/Alert Logic Security Auto Scaling Group_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\",\n                        \"resource_id\":\"Alert Logic Security Auto Scaling Group_67002091_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\"\n                    }\n                },\n                {\n                    \"vpc_key\": \"/aws/us-east-1/vpc/vpc-11074375\",\n                    \"region\": \"us-west-1\",\n                    \"route_table\": {\n                        \"resource_id\":\"rtb-282e2f4c\",\n                        \"resource_key\":\"/aws/us-east-1/route/rtb-282e2f4c\"\n                    },\n                    \"launch_configuration\": {\n                        \"resource_key\":\"/aws/us-east-1/launch-config/Alert Logic Security Launch Configuration_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\",\n                        \"resource_id\":\"Alert Logic Security Launch Configuration_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\"\n                    },\n                    \"security_group\": {\n                        \"resource_key\":\"/aws/us-east-1/sg/sg-094d6870\",\n                        \"resource_id\":\"sg-094d6870\"\n                    },\n                    \"subnet\": {\n                        \"resource_key\":\"/aws/us-east-1/subnet/subnet-de3ff386\",\n                        \"resource_id\":\"subnet-de3ff386\"\n                    },\n                    \"auto_scaling_group\": {\n                        \"resource_key\":\"/aws/us-east-1/auto-scaling-group/Alert Logic Security Auto Scaling Group_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\",\n                        \"resource_id\":\"Alert Logic Security Auto Scaling Group_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\"\n                    }\n                }\n            ]\n        },\n        {\n            \"environment_id\": \"6135DF79-AE64-4616-9151-6E80DEC93086\",\n            \"account_id\": \"00000000\",\n            \"vpcs\": [\n                {\n                    \"vpc_key\": \"/aws/ap-northeast-1/vpc/vpc-2f9d1f4a\",\n                    \"region\": \"ap-northeast-1\",\n                    \"route_table\": {\n                        \"resource_id\":\"rtb-618bd604\",\n                        \"resource_key\":\"/aws/ap-northeast-1/route/rtb-618bd604\"\n                    }\n                }\n            ]\n        }\n    ]\n}",
+          "type": "String"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "groupTitle": "Launcher_Operations",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1/:account_id/:environment_id/resources",
+    "title": "Get the list of assets deployed by CloudInsight in an environment.",
+    "version": "1.0.0",
+    "name": "GetAwsResourcesByEnvironment",
+    "group": "Launcher_Operations",
+    "description": "<p>This API path is to retrieve the list of assets deployed by CloudInsight in an environment.</p> ",
+    "examples": [
+      {
+        "title": "Get list of assets deployed in an environment.",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1/00000000/1086B0A8-A0D6-4CCC-B8C3-78AA82826606/resources",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n    \"environment_id\": \"1086B0A8-A0D6-4CCC-B8C3-78AA82826606\",\n    \"account_id\": \"00000000\",\n    \"vpcs\": [\n        {\n            \"vpc_key\": \"/aws/us-east-1/vpc/vpc-103f4e74\" ,\n            \"region\": \"us-east-1\",\n            \"route_table\": {\n                \"resource_id\":\"rtb-12e8d276\",\n                \"resource_key\":\"/aws/us-east-1/route/rtb-12e8d276\"\n            },\n            \"launch_configuration\": {\n                \"resource_key\":\"/aws/us-east-1/launch-config/Alert Logic Security Launch Configuration_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\",\n                \"resource_id\":\"Alert Logic Security Launch Configuration_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\"\n            },\n            \"security_group\": {\n                \"resource_key\":\"/aws/us-east-1/sg/sg-a73c75de\",\n                \"resource_id\":\"sg-a73c75de\"\n            },\n            \"subnet\": {\n                \"resource_key\":\"/aws/us-east-1/subnet/subnet-1d9b6437\",\n                \"resource_id\":\"subnet-1d9b6437\"\n            },\n            \"auto_scaling_group\": {\n                \"resource_key\":\"/aws/us-east-1/auto-scaling-group/Alert Logic Security Auto Scaling Group_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\",\n                \"resource_id\":\"Alert Logic Security Auto Scaling Group_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-103f4e74\"\n            }\n        },\n        {\n            \"vpc_key\": \"/aws/us-east-1/vpc/vpc-11074375\",\n            \"region\": \"us-west-1\",\n            \"route_table\": {\n                \"resource_id\":\"rtb-282e2f4c\",\n                \"resource_key\":\"/aws/us-east-1/route/rtb-282e2f4c\"\n            },\n            \"launch_configuration\": {\n                \"resource_key\":\"/aws/us-east-1/launch-config/Alert Logic Security Launch Configuration_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\",\n                \"resource_id\":\"Alert Logic Security Launch Configuration_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\"\n            },\n            \"security_group\": {\n                \"resource_key\":\"/aws/us-east-1/sg/sg-094d6870\",\n                \"resource_id\":\"sg-094d6870\"\n            },\n            \"subnet\": {\n                \"resource_key\":\"/aws/us-east-1/subnet/subnet-de3ff386\",\n                \"resource_id\":\"subnet-de3ff386\"\n            },\n            \"auto_scaling_group\": {\n                \"resource_key\":\"/aws/us-east-1/auto-scaling-group/Alert Logic Security Auto Scaling Group_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\",\n                \"resource_id\":\"Alert Logic Security Auto Scaling Group_00000000_1086B0A8-A0D6-4CCC-B8C3-78AA82826606_vpc-11074375\"\n            }\n        }\n    ]\n}",
+          "type": "String"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "groupTitle": "Launcher_Operations",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1/:account_id/environments/:environment_id",
+    "title": "Get environment deployment status",
+    "version": "1.0.0",
+    "name": "GetDeploymentStatus",
+    "group": "Launcher_Operations",
+    "examples": [
+      {
+        "title": "Get environment deployment status:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1/00000000/environments/7573E365-0B2A-1005-B049-7831C1BE64D2",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer&#39;s account id.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer&#39;s environment id to request deployment status for.</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "List",
+            "optional": false,
+            "field": "messages",
+            "description": "<p>List of protected environments.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n\"type\": \"aws\",\n\"scope\": [\n{\n\"type\": \"vpc\",\n\"protection_state\": \"completed\",\n\"key\": \"/aws/us-west-1/vpc/vpc-31a74354\",\n\"deployment_set\": {\n\"share_image\": {\n\"status\": \"completed\",\n\"description\": \"Share Alert Logic's security appliance ami\"\n},\n\"security_subnet_setup\": {\n\"status\": \"completed\",\n\"description\": \"Create Alert Logic's security subnet\"\n},\n\"security_group_setup\": {\n\"status\": \"completed\",\n\"description\": \"Create AlertLogic security group\"\n},\n\"security_appliance_deployment\": {\n\"status\": \"completed\",\n\"description\": \"Deploy Alert Logic's security appliance\"\n},\n\"route_table_setup\": {\n\"status\": \"completed\",\n\"description\": \"Create routing table for Alert Logic's security subnet\"\n},\n\"network_visibility_setup\": {\n\"status\": \"completed\",\n\"description\": \"Ensure network visibility for Alert Logic's security subnet\"\n},\n\"get_cidr_range\": {\n\"status\": \"completed\",\n\"description\": \"Getting available CIDR range for Alert Logic's security subnet.\"\n}\n}\n},\n{\n\"type\": \"region\",\n\"scope\": [],\n\"protection_state\": \"completed\",\n\"key\": \"/aws/sa-east-1\"\n},\n{\n\"type\": \"region\",\n\"scope\": [\n{\n\"type\": \"vpc\",\n\"protection_state\": \"completed\",\n\"key\": \"/aws/eu-west-1/vpc/vpc-0bc01000001e6e\",\n\"deployment_set\": {\n\"share_image\": {\n\"status\": \"completed\",\n\"description\": \"Share Alert Logic's security appliance ami\"\n},\n\"security_subnet_setup\": {\n\"status\": \"completed\",\n\"description\": \"Create Alert Logic's security subnet\"\n},\n\"security_group_setup\": {\n\"status\": \"completed\",\n\"description\": \"Create AlertLogic security group\"\n},\n\"security_appliance_deployment\": {\n\"status\": \"completed\",\n\"description\": \"Deploy Alert Logic's security appliance\"\n},\n\"route_table_setup\": {\n\"status\": \"completed\",\n\"description\": \"Create routing table for Alert Logic's security subnet\"\n},\n\"network_visibility_setup\": {\n\"status\": \"completed\",\n\"description\": \"Ensure network visibility for Alert Logic's security subnet\"\n},\n\"get_cidr_range\": {\n\"status\": \"completed\",\n\"description\": \"Getting available CIDR range for Alert Logic's security subnet.\"\n}\n}\n}\n],\n\"protection_state\": \"completed\",\n\"key\": \"/aws/eu-west-1\"\n}\n],\n\"environment_id\": \"7573E365-0B2A-1005-B049-7831C1BE64D2\",\n\"account_id\": \"01000001\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "groupTitle": "Launcher_Operations",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1/deployment/:deployment_token",
+    "title": "Get provisioning document for appliance",
+    "version": "1.0.0",
+    "name": "GetProvisioningDocument",
+    "group": "Launcher_Operations",
+    "description": "<p>The GetProvisioningDocument API returns a MIME multi-part document containing everything required to bootstrap an Alert Logic appliance.<br/> <br /> The deployment token is a hexadecimal representation of the SHA1 hash of a concatenated string containing the AWS account ID (accountId), region (region), instance ID (instanceId), and the launch time (pendingTime) of the instance. This information can be retrieved from the instance identity document available from the AWS metadata URL: <a href=\"http://169.254.169.254/latest/dynamic/instance-identity/document\">http://169.254.169.254/latest/dynamic/instance-identity/document</a><br/> <br /> For an instance with account ID 481746159046, region us-east-1, instance ID i-d755c626, and launch time 2015-01-30T23:37:08Z, the raw deployment token would be &#39;481746159046us-east-1i-d755c6262015-01-30T23:37:08Z&#39;, resulting in a hexadecimal SHA1 hash of &#39;A94B48FBCDCE82B031D40F2E00DF498CD50B1720&#39;.<br/> <br /> The document that is returned for a deployment token is a MIME multi-part document containing parts with the following content types, in the order they should be processed:<br/> <br /> text/tags: A JSON representation of the instance&#39;s AWS tags<br /> text/identity: The agent&#39;s SSL identity<br /> text/vaporator-host: The IP address or hostname of the YABB instance<br /> text/repositories: Yum repositories that should be installed on the instance<br /> text/packages: Packages that should be installed on the instance<br /> text/commands: Shell commands that should be run on the instance</p> ",
+    "examples": [
+      {
+        "title": "Get environment deployment status:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1/deployment/a94b48fbcdce82b031d40f2e00df498cd50b1720",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "deployment_token",
+            "description": "<p>Appliance deployment token</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "document",
+            "description": "<p>Appliance deployment document</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "Content-Type: multipart/mixed; boundary=5b87da8a2b36468e\nMIME-Version: 1.0\n--5b87da8a2b36468e\n...\n--5b87da8a2b36468e--",
+          "type": "String"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "groupTitle": "Launcher_Operations",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1/amis/scan",
+    "title": "Get map of regions and corresponding scanner ami images ids",
+    "version": "1.0.0",
+    "name": "GetScannerAmis",
+    "group": "Launcher_Operations",
+    "description": "<p>This API path is to be used by other microservices for determitaion if an instance is spun up from one of the returned AMI ids and is Alertlogic scan appliance. e.g. scanscheduler excludes such instances from continuous scan rotation.</p> ",
+    "examples": [
+      {
+        "title": "Get region to AMI id mapping:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1/amis/scan",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "JSON",
+            "optional": false,
+            "field": "ami-map",
+            "description": "<p>region to ami map document</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n\"eu-west-1\": [{\n\"ami-id\": \"ami-53b80e20\",\n\"description\": \"Cloud Insight US v1\"\n},\n{\n\"ami-id\": \"ami-87654321\",\n\"description\": \"Cloud Insight US v0\"\n}],\n\"ap-southeast-1\": [{\n\"ami-id\": \"ami-87654321\"\n}],\n\"eu-central-1\": [{\n\"ami-id\": \"ami-3dc4dc51\"\n}],\n\"ap-northeast-2\": [{\n\"ami-id\": \"ami-cc0fc1a2\"\n}],\n\"ap-northeast-1\": [{\n\"ami-id\": \"ami-9e8ab1f0\"\n}],\n\"us-east-1\": [{\n\"ami-id\": \"ami-10557a7a\"\n}],\n\"sa-east-1\": [{\n\"ami-id\": \"ami-1013937c\"\n}],\n\"us-west-1\": [{\n\"ami-id\": \"ami-13324473\"\n}],\n\"us-west-2\": [{\n\"ami-id\": \"ami-c59e78a5\"\n}],\n\"ap-southeast-2\": [{\n\"ami-id\": \"ami-edd7f38e\"\n}]\n}",
+          "type": "String"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "groupTitle": "Launcher_Operations",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    }
+  }
+]

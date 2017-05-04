@@ -31,8 +31,6 @@ class GetDeploymentModeCommand(DeploymentModeBase, CLICommand):
     @classmethod
     def get_parser(cls, subparsers):
         parser_get_deployment_mode = subparsers.add_parser(cls.command, help="gets environment deployment mode")
-        parser_get_deployment_mode.add_argument("-e", "--environment_id", help="environment id (uuid)")
-
 
     def execute(self, environment_id=None, **kwargs):
         response = self.validate_environment(self.services, environment_id)
@@ -56,17 +54,14 @@ class SetDeploymentModeCommand(DeploymentModeBase, CLICommand):
     @classmethod
     def get_parser(cls, subparsers):
         parser_set_deployment_mode = subparsers.add_parser(cls.command, help="sets environment deployment mode")
-        parser_set_deployment_mode.add_argument("-e", "--environment_id", help="environment id (uuid)")
-        parser_set_deployment_mode.add_argument("-m", "--deployment_mode", required=True,
-                                                choices=["readonly", "automatic"])
+        parser_set_deployment_mode.add_argument("-m", "--mode", required=True, choices=["readonly", "automatic"])
 
-    def execute(self, environment_id=None, deployment_mode=None, **kwargs):
+    def execute(self, environment_id=None, mode=None, **kwargs):
         response = self.validate_environment(self.services, environment_id)
         try:
-            new_config = { "source": { "config": { "deployment_mode": deployment_mode } } }
+            new_config = { "source": { "config": { "deployment_mode": mode } } }
             response = self.services.sources.merge_source(id=environment_id, json=new_config)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise InvalidHTTPResponse("update deployment mode", e.message)
-
+            raise InvalidHTTPResponse("set_deployment_mode", e.message)
         return "ok"

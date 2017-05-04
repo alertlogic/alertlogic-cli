@@ -8,7 +8,6 @@ class Environments(CLIModule):
 
     @classmethod
     def get_parser(cls, subparsers):
-        parser_environment = subparsers.add_parser(cls.command, help="environment specific actions")
-        subparsers_environment = parser_environment.add_subparsers(dest="subcommand")
-
-        return subparsers_environment
+        parser = subparsers.add_parser(cls.command, help="environment specific actions")
+        parser.add_argument("-e", "--environment_id", help="environment id (uuid)")
+        return parser.add_subparsers(dest="subcommand")

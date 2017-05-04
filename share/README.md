@@ -37,20 +37,68 @@ datacenter = us
 
 ## Usage
 
-alertlogic-cli currently supports the following commands and subcommands:
+Alert Logic CLI currently supports the following commands and subcommands:
 
-### `environment`:
-    * `set_deployment_mode`: for a given environment changes deployment mode between readonly or manual, usage:
-    ``` set_deployment_mode <environment_id> <readonly|manual>```, example:
-    ``` bash
-    $ alertlogic-cli environment set_deployment_mode --environment_id 0D2CD709-F70B-4584-A544-B209CEC8F99A --deployment_mode readonly
-    ok
-    ```
-    * `get_deployment_mode`: for a given environment gets current deployment mode, usage:
-    ``` get_deployment_mode <environment_id>```, example:
-    ``` bash
-    $ alertlogic-cli environment get_deployment_mode --environment_id 0D2CD709-F70B-4584-A544-B209CEC8F99A
-    readonly
-    ```
+1. `environment` - groups the environment related operations
+
+    Options available:
+
+    * `--environment_id ENVIRONMENT_ID` - to point on a customer environment
+
+    Operations available:
+
+    * `set_deployment_mode` - changes environment deployment mode between readonly or manual
+
+        Options available:
+
+        `--mode {readonly,automatic}` - deployment mode needed
+
+        Example:
+        ``` bash
+        $ alertlogic-cli environment --environment_id 00000000-0000-0000-0000-000000000000 set_deployment_mode --mode readonly
+        ```
+
+    * `get_deployment_mode` - shows environment deployment mode:
+
+        Example:
+        ``` bash
+        $ alertlogic-cli environment --environment_id 00000000-0000-0000-0000-000000000000 get_deployment_mode
+        ```
+
+    * `get_deployment_status` - gets deployment status for a given environment
+
+        Example:
+        ``` bash
+        $ alertlogic-cli environment --environment_id 00000000-0000-0000-0000-000000000000 get_deployment_status
+        ```
+
+    * `list_deployed_resources` - lists security infrastructure resources deployed
+
+        Example:
+        ``` bash
+        $ alertlogic-cli environment --environment_id 00000000-0000-0000-0000-000000000000 list_deployed_resources
+        ```
+
+    * `list_scan_queues` - lists hosts in scan queues for a given environment
+
+        Options available:
+
+        `--vpc_key VPC_KEY` - filter hosts for a given VPC
+
+        Example:
+        ``` bash
+        $ alertlogic-cli environment --environment_id 00000000-0000-0000-0000-000000000000 list_scan_queues
+        ```
+
+    * `scan_host` - puts a host in the immediate scan queue
+
+        Options available:
+
+        `--host_key HOST_KEY` - a host to put in the queue
+
+        Example:
+        ``` bash
+        $ alertlogic-cli environment --environment_id 00000000-0000-0000-0000-000000000000 scan_host --host_key /aws/us-east-1/host/i-00000000000000000
+        ```
 
 For further information run `alertlogic-cli --help`.

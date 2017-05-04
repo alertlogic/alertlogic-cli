@@ -9,10 +9,11 @@ import requests
 import json
 import logging
 import os.path
+import urllib, urlparse
 
 API_DATA_DIR = os.path.abspath(os.path.dirname(__file__)+"/api_data")
 
-API_SERVICES = ["sources"]
+API_SERVICES = ["sources", "scan_scheduler", "launcher"]
 
 log = logging.getLogger()
 
@@ -133,18 +134,10 @@ class Endpoint():
             "/scheduler/v1/12345678/BA395435-551B-4250-B52E-71FCCFF73124/scan?asset=/aws/us-east-1/host/i-023c7629"
         :param url_args: dict with values to replace url parameters
         """
-        parts = [part for part in self.url.lower().split("/") if len(part) > 0]
-        parsed_url = ""
-        for part in parts:
-            if part.startswith(":"):
-                required_arg = part[1:] # removes ":" at the beginning of the string
-                if required_arg in url_args:
-                    parsed_url += "/"+url_args[required_arg]
-                else:
-                    raise InvalidEndpointCall("missing required url argument {}".format(required_arg))
-            else:
-                parsed_url += "/"+part
-        return parsed_url
+        parsed = list(urlparse.urlparse(self.url.lower()))
+        parsed[2] = substitute_path_args(parsed[2], url_args)
+        parsed[4] = substitute_query_args(parsed[4], url_args)
+        return urlparse.urlunparse(parsed)
 
     def call(self, session, url_args, json=None):
         """parses the url (see parse_url()), and makes an http call, uses session as requests auth plugin
@@ -155,3 +148,31 @@ class Endpoint():
         parsed_url = session.api_endpoint + self.parse_url(url_args)
         log.debug("calling requests: operation={} url={} json={}".format(self.operation, parsed_url, json))
         return requests.request(self.operation, parsed_url, json=json, auth=session)
+
+def substitute_path_args(path, args):
+    parts = [part for part in path.lower().split("/") if len(part) > 0]
+    substituted = ""
+    for part in parts:
+        if part.startswith(":"):
+            required_arg = part[1:] # removes ":" at the beginning of the string
+            if required_arg in args:
+                substituted += "/" + args[required_arg]
+            else:
+                raise InvalidEndpointCall("missing required url argument {}".format(required_arg))
+        else:
+            substituted += "/" + part
+    return substituted
+
+def substitute_query_args(query, args):
+    parsed = urlparse.parse_qs(query)
+    for key in parsed:
+        value = parsed[key][0]
+        if value.startswith(":"):
+            required_arg = value[1:] # removes ":" at the beginning of the string
+            if required_arg in args:
+                parsed[key] = args[required_arg]
+            else:
+                raise InvalidEndpointCall("missing required url argument {}".format(required_arg))
+    substituted = urllib.urlencode(parsed)
+    substituted = urllib.unquote_plus(substituted)
+    return substituted

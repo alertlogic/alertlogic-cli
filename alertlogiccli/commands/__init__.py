@@ -5,6 +5,7 @@ import importlib
 import inspect
 from abc import ABCMeta, abstractmethod
 
+
 class CLIModule:
     """Base class to represent comamnd line interface module
     At the moment each command belongs to a module defining scope of command.
