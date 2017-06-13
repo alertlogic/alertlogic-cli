@@ -1,6 +1,6 @@
 from distutils.core import setup
 from setuptools import find_packages
-VERSION = '1.0.0'
+VERSION = '1.2.0'
 setup(
     name = 'alertlogic_cli',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
