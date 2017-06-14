@@ -47,7 +47,7 @@ def bug_report_traceback():
            "{}")
     return msg.format(traceback.format_exc())
 
-def parse_args():
+def parse_args(services):
     parser = argparse.ArgumentParser(description="alertlogic cloud insight client")
 
     parser.add_argument("--logging_config_file", help="use a specific configuration file for logging")
@@ -60,7 +60,7 @@ def parse_args():
     parser.add_argument("-a", "--account_id", help="use a specific account (managed accounts only)")
     subparsers = parser.add_subparsers(title="commands", description="valid commands", dest="command")
 
-    commands = import_command_modules(subparsers)
+    commands = import_command_modules(subparsers, services)
     args = parser.parse_args()
     return {'commands': commands, 'args': args}
 
@@ -84,10 +84,9 @@ def make_config(args):
         config.account_id = args.account_id
     return config
 
-def run_command(args, commands):
+def run_command(args, commands, services):
     config = make_config(args)
     session = config.make_session()
-    services = alertlogic.dynapi.Services()
     services.set_session(session)
 
     if args.environment_id is None:
@@ -105,12 +104,12 @@ def main():
 
     if not import_dependencies():
         sys.exit(2)
-
-    context = parse_args()
+    services = alertlogic.dynapi.Services()
+    context = parse_args(services)
     args = context['args']
     try:
         init_logging(args)
-        result = run_command(args, context['commands'])
+        result = run_command(args, context['commands'], services)
         print(result)
         sys.exit(0)
     except (alertlogic.auth.AuthenticationException,

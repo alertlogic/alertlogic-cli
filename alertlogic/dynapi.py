@@ -26,10 +26,18 @@ class Services():
     more info: http://apidocjs.com
     """
     def __init__(self):
-        for service_name in API_SERVICES:
-            filename = API_DATA_DIR+"/"+service_name+".json"
+        self.add_services(API_SERVICES, API_DATA_DIR)
+
+    def add_services(self, api_services, api_data_dir):
+        for service_name in api_services:
+            filename = api_data_dir + "/" + service_name + ".json"
             service = self.parse_apidoc_file(filename)
-            self.__dict__[service_name] = service
+            if self.__dict__.has_key(service_name):
+                currentapi = self.__dict__[service_name]
+                currentapi.merge_api(service)
+                self.__dict__[service_name]._endpoints
+            else:
+                self.__dict__[service_name] = service
 
     def parse_apidoc_file(self, filename):
         """generates a Service() object by parsing an apidoc json file
@@ -67,9 +75,13 @@ class Service():
     """Stores a set of Endpoint()s and allows to call them dynamically as functions
     by using metaprogramming
     """
+
     def __init__(self):
         self._endpoints = {}
         self._session = None
+
+    def merge_api(self, service):
+        self._endpoints.update(service._endpoints)
 
     def add_endpoint(self, name, operation, url):
         """Creates and stores an Endpoint() see Endpoint class for more info
