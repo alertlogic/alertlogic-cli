@@ -3,7 +3,7 @@ from setuptools import find_packages
 VERSION = '1.2.0'
 setup(
     name = 'alertlogic_cli',
-    packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    packages=find_packages(exclude=['contrib', 'docs', 'tests*', 'troubleshooting']),
     scripts = ['alertlogic-cli'],
     version = VERSION,
     license='MIT',
