@@ -84,7 +84,11 @@ def make_config(args):
         config.account_id = args.account_id
     return config
 
-def run_command(args, commands, services):
+def run_command(services):
+    context = parse_args(services)
+    commands = context['commands']
+    args = context['args']
+    init_logging(args)
     config = make_config(args)
     session = config.make_session()
     services.set_session(session)
@@ -105,11 +109,8 @@ def main():
     if not import_dependencies():
         sys.exit(2)
     services = alertlogic.dynapi.Services()
-    context = parse_args(services)
-    args = context['args']
     try:
-        init_logging(args)
-        result = run_command(args, context['commands'], services)
+        result = run_command(services)
         print(result)
         sys.exit(0)
     except (alertlogic.auth.AuthenticationException,

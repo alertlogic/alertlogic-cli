@@ -35,7 +35,6 @@ class Services():
             if self.__dict__.has_key(service_name):
                 currentapi = self.__dict__[service_name]
                 currentapi.merge_api(service)
-                self.__dict__[service_name]._endpoints
             else:
                 self.__dict__[service_name] = service
 
