@@ -1,0 +1,3 @@
+[submodule "alertlogiccli/commands/troubleshooting"]
+	path = alertlogiccli/commands/troubleshooting
+	url = git@algithub.pd.alertlogic.net:defender/alertlogic-cli-troubleshooting.git

@@ -80,7 +80,7 @@ def filter_command_classes(module_path, baseClass):
 #     second element is subcommand ``command`` class attribute
 #   value is command class object
 #
-def import_command_modules(subparsers):
+def import_command_modules(subparsers, services):
     commands_module_path, = alertlogiccli.commands.__path__
     commands_modules = filter(lambda (loader, name, ispkg): ispkg, pkgutil.walk_packages(path=[commands_module_path]))
 
@@ -92,6 +92,10 @@ def import_command_modules(subparsers):
         ## single module class per command module is expected
         [ModuleClass] = filter_command_classes('alertlogiccli.commands.' + module_name, CLIModule)
         func = getattr(ModuleClass, 'get_parser')
+        if  hasattr(ModuleClass, 'extend_api'):
+            extend_api_fun = getattr(ModuleClass, 'extend_api')
+            extend_api_fun(services)
+
         module_parsers = func(subparsers)
         ModuleClassCmd = getattr(ModuleClass, 'command')
 
