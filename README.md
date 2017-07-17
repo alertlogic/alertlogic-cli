@@ -17,7 +17,7 @@ cd tests
 
 ```
 
-## Development FAQ:
+## Debugging:
 
 * How do I run it in debug mode?
 
@@ -39,7 +39,8 @@ cd tests
     to the syslog. Please provide the command line argument `--logging_config_file`
     pointing on your custom configuration file to enable your custom log handlers.
 
-* Building and publishing to the PyPi
+
+## Publishing:
 
 In order to build, publish and test the package you need to create `~/.pypirc`:
 ```
@@ -76,10 +77,47 @@ use the following command:
 `pip install -i https://testpypi.python.org/pypi alertlogic-cli`
 
 
-In order to manipulate previous releases(delete, hide, etc.) PyPi web interface to be used:
+In order to manipulate previous releases (delete, hide, etc.) you need to use PyPi web interface:
 https://pypi.python.org/pypi - for the production
 https://testpypi.python.org/pypi - for the testpypi
 
-
-General documentation is listed here:
+More info:
 https://packaging.python.org/distributing/
+
+
+## How to add new commands:
+
+1. Add a subdirectory in alertlogiccli/commands/
+
+2. Write at least 1 subcommand, they must be classes that inherit from Command
+   and they must implement 2 methods:
+   configure_parser() and execute()
+
+``` python
+import alertlogiccli.command
+class Deploy(alertlogiccli.command.Command):
+    def configure_parser(self, subparsers):
+        parser = subparsers.add_parser("deploy", help="Deploys something somewhere")
+        parser.set_defaults(command=self)
+    
+    def execute(self, context):
+        args = context.get_final_args()
+        deployment = context.get_services().deployment
+        response = deployment.deploy_something(account_id=args["account_id"])
+        return response.http_code
+```
+
+3. in that subdirectory add an __init__.py file
+   be sure to include instances of your subcommands:
+
+``` python
+from . import deployment
+
+metadata = {
+    "subcommands": [
+        deployment.Deploy()
+    ],
+    "name": "deployment",
+    "help": "deployment commands"
+}
+```

@@ -13,7 +13,7 @@ import urllib, urlparse
 
 API_DATA_DIR = os.path.abspath(os.path.dirname(__file__)+"/api_data")
 
-API_SERVICES = ["sources", "scan_scheduler", "launcher"]
+API_SERVICES = ["sources", "scan_scheduler", "launcher", "launcher_remediation"]
 
 log = logging.getLogger()
 
@@ -61,7 +61,7 @@ class Services():
                 log.debug("unable to parse apidoc endpoint: {}".format(e))
                 pass
         return service
-
+        
     def set_session(self, session):
         """this function makes it easier to call set_session on all the underlying services
         :param session: an alertlogic.auth.Session object
@@ -77,10 +77,8 @@ class Service():
 
     def __init__(self):
         self._endpoints = {}
+        self._defaults = {}
         self._session = None
-
-    def merge_api(self, service):
-        self._endpoints.update(service._endpoints)
 
     def add_endpoint(self, name, operation, url):
         """Creates and stores an Endpoint() see Endpoint class for more info
@@ -89,8 +87,8 @@ class Service():
         self._endpoints[endpoint.name] = endpoint
 
     def set_session(self, session):
-        """ changes current session, sessions are used to authenticate api calls
-        and to override account id when a call doesn't provide it
+        """ changes current session, this session object is used to authenticate
+        api calls
         :param session: an authenticated alertlogic.auth.Session object
         """
         self._session = session
@@ -102,11 +100,8 @@ class Service():
         """
         if name in self._endpoints:
             def handler(*args, **kwargs):
-                # json argument are passed separately
+                # json argument is passed separately
                 json = kwargs.pop("json", None)
-                # if account_id is not an argument then use the one provided by session
-                if "account_id" not in kwargs:
-                    kwargs["account_id"] = self._session.account_id
                 return self._endpoints[name].call(self._session, kwargs, json=json)
             return handler
         else:
@@ -156,7 +151,7 @@ class Endpoint():
         :param url_args: dict with values to replace url parameters, see parse_args() for more info
         :param json: this will be passed adhoc to requests
         """
-        parsed_url = session.api_endpoint + self.parse_url(url_args)
+        parsed_url = session.region.get_api_endpoint() + self.parse_url(url_args)
         log.debug("calling requests: operation={} url={} json={}".format(self.operation, parsed_url, json))
         return requests.request(self.operation, parsed_url, json=json, auth=session)
 
@@ -166,7 +161,7 @@ def substitute_path_args(path, args):
     for part in parts:
         if part.startswith(":"):
             required_arg = part[1:] # removes ":" at the beginning of the string
-            if required_arg in args:
+            if required_arg in args and args[required_arg] is not None:
                 substituted += "/" + args[required_arg]
             else:
                 raise InvalidEndpointCall("missing required url argument {}".format(required_arg))

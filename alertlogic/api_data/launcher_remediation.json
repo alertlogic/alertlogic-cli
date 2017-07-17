@@ -1,0 +1,2010 @@
+[
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/access_report/appliance/:appliance_id",
+    "title": "Access appliance's report",
+    "version": "1.0.0",
+    "name": "AccessReportAppliance",
+    "group": "Launcher_Appliance_Operations",
+    "description": "<p>Queries the appliance's access report</p>",
+    "examples": [
+      {
+        "title": "Access appliance's report:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/access_report/appliance/16D9F549-452A-4548-8428-C177A65230D4",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "appliance_id",
+            "description": "<p>Appliance's id.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "HTTP/1.1 200\n{\n  \"aws_raw_report\": {},\n  \"assets_raw_report\": {},\n  \"aws_nacl_access\": \"allow\",\n  \"aws_sg_access\": \"allow\",\n  \"aws_rtb_access\": \"allow\",\n  \"assets_nacl_access\": \"allow\",\n  \"assets_sg_access\": \"allow\",\n  \"assets_rtb_access\": \"allow\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Appliance_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/access_report/instance/:region/:instance_id",
+    "title": "Access instance's report",
+    "version": "1.0.0",
+    "name": "AccessReportInstance",
+    "group": "Launcher_Appliance_Operations",
+    "description": "<p>Queries the instance's access report</p>",
+    "examples": [
+      {
+        "title": "Access instance's report:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/access_report/instance/us-east-1/i-abc123de",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "region",
+            "description": "<p>Host's region name.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "instance_id",
+            "description": "<p>Host's instance id.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "HTTP/1.1 200\n{\n  \"aws_raw_report\": {\n    \"raw_ingress_nacl_entries\": [\n      {\n        \"action\": \"allow\",\n        \"direction\": \"ingress\",\n        \"key\": \"acl-123abc45\",\n        \"port_range\": [0, 65535],\n        \"protocol\": \"all\",\n        \"rule_number\": 100,\n        \"target\": \"cidr:0.0.0.0/0\"\n      }\n    ],\n    \"raw_egress_nacl_entries\": [],\n    \"raw_ingress_sg_entries\": [],\n    \"raw_egress_sg_entries\": [],\n    \"raw_route_entries\": []\n  },\n  \"assets_raw_report\": {\n    \"raw_ingress_nacl_entries\": [\n      {\n        \"action\": \"allow\",\n        \"direction\": \"ingress\",\n        \"key\": \"/aws/us-east-1/acl-entry/acl-123abc45/100/ingress\",\n        \"port_range\": [[], []],\n        \"protocol\": \"all\",\n        \"rule_number\": 100,\n        \"target\": \"cidr:0.0.0.0/0\"\n      }\n    ],\n    \"raw_egress_nacl_entries\": [],\n    \"raw_ingress_sg_entries\": [],\n    \"raw_egress_sg_entries\": [],\n    \"raw_route_entries\": []\n  },\n  \"aws_nacl_access\": \"allow\",\n  \"aws_sg_access\": \"allow\",\n  \"aws_rtb_access\": \"allow\",\n  \"assets_nacl_access\": \"allow\",\n  \"assets_sg_access\": \"allow\",\n  \"assets_rtb_access\": \"allow\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Appliance_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/terminate_appliance/:environment_id/:region/:instance_id",
+    "title": "Terminates an appliance",
+    "version": "1.0.0",
+    "name": "TerminateAppliance",
+    "group": "Launcher_Appliance_Operations",
+    "description": "<p>Terminates a specific appliance</p>",
+    "examples": [
+      {
+        "title": "Terminate appliance:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/terminate_appliance/7573E365-0B2A-1005-1007-7831C1BE64D2/us-east-1/i-abc123de",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "region",
+            "description": "<p>Appliance's region name.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "instance_id",
+            "description": "<p>Appliance's instance id.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "HTTP/1.1 200\nOK",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ],
+        "404": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "notFoundError",
+            "description": "<p>The query hits a node that doesn't own the account/environment process.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "404 Not found:",
+          "content": "HTTP/1.1 404 Not found",
+          "type": "json"
+        },
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Appliance_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/autoscaling_states?vpc_key=:vpc_key",
+    "title": "Get a single vpc-specific autoscaling state",
+    "version": "1.0.0",
+    "name": "GetSingleVPCAutoscalingState",
+    "group": "Launcher_Autoscaling",
+    "description": "<p>Queries the autoscaling state for a single VPC.</p>",
+    "examples": [
+      {
+        "title": "Get vpc autoscaling state:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/autoscaling_states?vpc_key=/aws/us-east-1/vpc/vpc-abcdef",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key to request the autoscaling state for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer vpc assets key.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of VPC from the autoscaling point of view.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "appliance_number",
+            "description": "<p>Number of appliances estimated for the VPC.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "instance_number",
+            "description": "<p>Number of instances that should be deployed in the VPC.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n  \"vpc_key\": \"/aws/us-east-1/vpc/vpc-abcdef\",\n  \"type\": \"small_host_number\",\n  \"appliance_number\": 1\",\n  \"instance_number\": 1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ],
+        "404": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "notfoundError",
+            "description": "<p>Object Not Found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        },
+        {
+          "title": "404 Not Found:",
+          "content": "HTTP/1.1 404 not_found",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Autoscaling"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/autoscaling_states",
+    "title": "Get autoscaling states for all VPCs in the environment",
+    "version": "1.0.0",
+    "name": "GetVPCAutoscalingStates",
+    "group": "Launcher_Autoscaling",
+    "description": "<p>Queries autoscaling states for all VPCs in the environment.</p>",
+    "examples": [
+      {
+        "title": "Get autoscaling states:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/autoscaling_states",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer vpc assets key.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of VPC from the autoscaling point of view.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "appliance_number",
+            "description": "<p>Number of appliances estimated for the VPC.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "instance_number",
+            "description": "<p>Number of instances that should be deployed in the VPC.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "[\n  {\n   \"vpc_key\": \"/aws/us-east-1/vpc/vpc-ghijkl\",\n   \"type\": \"no_hosts\",\n   \"appliance_number\": 0\",\n   \"instance_number\": 1\"\n  },\n  {\n   \"vpc_key\": \"/aws/us-east-1/vpc/vpc-abcdef\",\n   \"type\": \"small_host_number\",\n   \"appliance_number\": 1\",\n   \"instance_number\": 1\"\n  }\n]",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ],
+        "404": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "notfoundError",
+            "description": "<p>Object Not Found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        },
+        {
+          "title": "404 Not Found:",
+          "content": "HTTP/1.1 404 not_found",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Autoscaling"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/check_token/:deployment_token",
+    "title": "Checks a deployment token",
+    "version": "1.0.0",
+    "name": "CheckToken",
+    "group": "Launcher_Deploy_Operations",
+    "description": "<p>Checks a deployment token.</p>",
+    "examples": [
+      {
+        "title": "Check token:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/check_token/F2F20213B6B3C4108ABF8D655B8A92B89006E544",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "deployment_token",
+            "description": "<p>Deployment's token.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "HTTP/1.1 200\n{\n  \"status\": 1,\n  \"token\": \"F2F20213B6B3C4108ABF8D655B8A92B89006E544\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "status",
+            "description": "<p>Token's status. If the status is 1 the token is <code>claimed</code> and if is 0 the token is <code>unclaimed</code>.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Deploy_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/redeploy/:environment_id/?hard=:hard&vpc_key=:vpc_key",
+    "title": "Redeploys an environment or a vpc",
+    "version": "1.0.0",
+    "name": "Redeploy",
+    "group": "Launcher_Deploy_Operations",
+    "description": "<p>Runs a soft redeploy per environment or hard redeploy per environment or per vpc. <br> A soft redeploy deploys appliances in unprotected environments. <br> A hard redeploy does the same but it removes the security infrastructure from the environment first.</p>",
+    "examples": [
+      {
+        "title": "Hard redeploy per vpc:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/redeploy/7573E365-0B2A-1005-1007-7831C1BE64D2?hard=true&vpc_key=/aws/us-east-1/vpc/vpc-abcdef",
+        "type": "json"
+      },
+      {
+        "title": "Hard redeploy:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/redeploy/7573E365-0B2A-1005-1007-7831C1BE64D2?hard=true",
+        "type": "json"
+      },
+      {
+        "title": "Soft redeploy:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/redeploy/7573E365-0B2A-1005-1007-7831C1BE64D2",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"true\"",
+              "\"false\""
+            ],
+            "optional": false,
+            "field": "hard",
+            "description": "<p>Deployment type</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key (applies to hard redeploy only).</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "HTTP/1.1 200\nOK",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ],
+        "404": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "notFoundError",
+            "description": "<p>The query hits a node that doesn't own the account/environment process.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "404 Not found:",
+          "content": "HTTP/1.1 404 Not found",
+          "type": "json"
+        },
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Deploy_Operations"
+  },
+  {
+    "type": "delete",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning/:option_name",
+    "title": "Delete an environment-specific tuning option",
+    "version": "1.0.0",
+    "name": "DeleteEnvironmentTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Delete a tuning option at an environment level. This option overrides any erlang configurable parameters, but can be overridden by a vpc-specific option. Returns previous value of the deleted option if there were any.</p>",
+    "examples": [
+      {
+        "title": "Delete environment tuning option:",
+        "content": "curl -v -X DELETE https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning/instance_number",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id to request tuning options for.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"instance_type\"",
+              "\"instance_number\"",
+              "\"resource_tags\"",
+              "\"subnet_cidr\"",
+              "\"autoscaling_types\""
+            ],
+            "optional": false,
+            "field": "option_name",
+            "description": "<p>Option name to tune.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "204 Success:",
+          "content": "HTTP/1.1 204",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "ForbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "delete",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning/:option_name?vpc_key=:vpc_key",
+    "title": "Delete a vpc-specific tuning option",
+    "version": "1.0.0",
+    "name": "DeleteVPCTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Delete a tuning option at a VPC level. This option override any erlang configurable parameters. Returns previous value of the deleted option if there were any.</p>",
+    "examples": [
+      {
+        "title": "Delete vpc tuning option:",
+        "content": "curl -v -X DELETE https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning/instance_number?vpc_key=/aws/us-east-1/vpc/vpc-abcdef",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"instance_type\"",
+              "\"instance_number\"",
+              "\"resource_tags\"",
+              "\"subnet_cidr\"",
+              "\"autoscaling_types\""
+            ],
+            "optional": false,
+            "field": "option_name",
+            "description": "<p>Option name to tune.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key (per assets) to request tuning options for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "204 Success:",
+          "content": "HTTP/1.1 204",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning",
+    "title": "Get environment-specific tuning",
+    "version": "1.0.0",
+    "name": "GetEnvironmentTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Queries all tuning options attached to an environment. These options override any erlang configurable parameters, but can be overridden by vpc-specific options.</p>",
+    "examples": [
+      {
+        "title": "Get environment tuning options:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id to request tuning options for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;environment&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "List",
+            "optional": false,
+            "field": "options",
+            "description": "<p>Tuned options.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"environment\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"options\": [\n    {\n      \"scope\": \"environment\",\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    }\n  ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning/:option_name",
+    "title": "Get a single environment-specific tuning option",
+    "version": "1.0.0",
+    "name": "GetSingleEnvironmentTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Queries a tuning option attached to an environment. This option overrides any erlang configurable parameters, but can be overridden by a vpc-specific option.</p>",
+    "examples": [
+      {
+        "title": "Get environment single tuning option:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning/instance_type",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id to request tuning options for.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"instance_type\"",
+              "\"instance_number\"",
+              "\"resource_tags\"",
+              "\"subnet_cidr\"",
+              "\"autoscaling_types\""
+            ],
+            "optional": false,
+            "field": "option_name",
+            "description": "<p>Option name to tune.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;environment&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "option",
+            "description": "<p>Tuned option.</p>"
+          }
+        ],
+        "Missing": [
+          {
+            "group": "Missing",
+            "optional": false,
+            "field": "Option",
+            "description": "<p>not tuned</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"environment\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"options\": [\n    {\n      \"scope\": \"environment\",\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    }\n  ]\n}",
+          "type": "json"
+        },
+        {
+          "title": "200 Option not tuned:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"environment\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"options\": []\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning/:option_name?vpc_key=:vpc_key",
+    "title": "Get a single vpc-specific tuning option",
+    "version": "1.0.0",
+    "name": "GetSingleVPCTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Queries a tuning option attached to a VPC. It can be specified either at environment or vpc level. This option overrides any erlang configurable parameters.</p>",
+    "examples": [
+      {
+        "title": "Get vpc single tuning option:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning/instance_type?vpc_key=/aws/us-east-1/vpc/vpc-abcdef",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"instance_type\"",
+              "\"instance_number\"",
+              "\"resource_tags\"",
+              "\"subnet_cidr\"",
+              "\"autoscaling_types\""
+            ],
+            "optional": false,
+            "field": "option_name",
+            "description": "<p>Option name to tune.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key (per assets) to request tuning options for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;vpc&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer vpc assets' key.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "option",
+            "description": "<p>Tuned option.</p>"
+          }
+        ],
+        "Missing": [
+          {
+            "group": "Missing",
+            "optional": false,
+            "field": "Option",
+            "description": "<p>not tuned</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"vpc\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"options\": [\n    {\n      \"scope\": \"environment\",\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    }\n  ],\n  \"vpc_key\": \"/aws/us-east-1/vpc/vpc-abcdef\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "200 Option not tuned:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"vpc\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"vpc_key\": \"/aws/us-east-1/vpc/vpc-abcdef\",\n  \"options\": []\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "get",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning?vpc_key=:vpc_key",
+    "title": "Get vpc-specific tuning",
+    "version": "1.0.0",
+    "name": "GetVPCTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Queries all tuning options attached to a VPC. They can be specified either at environment or vpc level. These options override any erlang configurable parameters.</p>",
+    "examples": [
+      {
+        "title": "Get vpc tuning options:",
+        "content": "curl -v -X GET https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning?vpc_key=/aws/us-east-1/vpc/vpc-abcdef",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key (per assets) to request tuning options for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;vpc&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer vpc assets' key.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "List",
+            "optional": false,
+            "field": "options",
+            "description": "<p>Tuned options.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "200 Success:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"vpc\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"options\": [\n    {\n      \"scope\": \"environment\",\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    },\n    {\n      \"scope\": \"vpc\",\n      \"option\": \"instance_number\",\n      \"value\": 2\n    }\n  ],\n  \"vpc_key\": \"/aws/us-east-1/vpc/vpc-abcdef\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "put",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning/:option_name",
+    "title": "Sets a single environment-specific tuning option",
+    "version": "1.0.0",
+    "name": "SetEnvironmentTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Set a tuning options at an environment level. This option overrides any erlang configurable parameters, but can be overridden by a vpc-specific option.</p>",
+    "examples": [
+      {
+        "title": "Set environment tuning option:",
+        "content": "curl -v -d '{\"value\" : \"m3.large\"}' -X PUT https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning/instance_type",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id to request tuning options for.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"instance_type\"",
+              "\"instance_number\"",
+              "\"resource_tags\"",
+              "\"subnet_cidr\"",
+              "\"autoscaling_types\""
+            ],
+            "optional": false,
+            "field": "option_name",
+            "description": "<p>Option name to tune.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;environment&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "option",
+            "description": "<p>Tuned option.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "201 Success:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"environment\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"options\": [\n    {\n      \"scope\": \"environment\",\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    }\n  ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "put",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning",
+    "title": "Sets a few environment-specific options in a single request",
+    "version": "1.0.0",
+    "name": "SetEnvironmentTuningOptions",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Sets series of options in a single request at an environment level. This option overrides any erlang configurable parameters, but can be overridden by a vpc-specific option.</p>",
+    "examples": [
+      {
+        "title": "Set vpc tuning option:",
+        "content": "curl -v -d@'Sample Request JSON' -X PUT https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning",
+        "type": "json"
+      },
+      {
+        "title": "Sample Request JSON",
+        "content": "{\n  \"options\": [\n    {\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    },\n    {\n      \"option\": \"instance_number\",\n      \"value\": 3\n    }\n  ]\n}",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key (per assets) to request tuning options for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;vpc&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer vpc assets' key.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "option",
+            "description": "<p>Tuned option.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "201 Success:",
+          "content": "{\n  \"account\": \"01000001\",\n  \"environment\": \"95073CBC-0A48-1005-8104-7831C1BE64D2\",\n  \"type\": \"environment\",\n  \"options\": []\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "put",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning/:option_name?vpc_key=:vpc_key",
+    "title": "Sets a single vpc-specific tuning option",
+    "version": "1.0.0",
+    "name": "SetVPCTuning",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Set a tuning option at a VPC level. This option override any erlang configurable parameters.</p>",
+    "examples": [
+      {
+        "title": "Set vpc tuning option:",
+        "content": "curl -v -d '{\"value\" : \"m3.large\"}' -X PUT https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning/instance_type?vpc_key=/aws/us-east-1/vpc/vpc-abcdef",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"instance_type\"",
+              "\"instance_number\"",
+              "\"resource_tags\"",
+              "\"subnet_cidr\"",
+              "\"autoscaling_types\""
+            ],
+            "optional": false,
+            "field": "option_name",
+            "description": "<p>Option name to tune.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key (per assets) to request tuning options for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;vpc&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer vpc assets' key.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "option",
+            "description": "<p>Tuned option.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "201 Success:",
+          "content": "{\n  \"account\": \"00000000\"\n  \"type\": \"vpc\",\n  \"environment\": \"7573E365-0B2A-1005-1007-7831C1BE64D2\",\n  \"vpc_key\": \"/aws/us-east-1/vpc/vpc-abcdef\",\n  \"options\": [\n    {\n      \"scope\": \"vpc\",\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    }\n  ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "type": "put",
+    "url": "/launcher/v1_remediation/:account_id/:environment_id/tuning?vpc_key=:vpc_key",
+    "title": "Sets a few vpc-specific options in a single request",
+    "version": "1.0.0",
+    "name": "SetVPCTuningOptions",
+    "group": "Launcher_Tuning_Operations",
+    "description": "<p>Sets series of options in a single request at a VPC level. This option override any erlang configurable parameters.</p>",
+    "examples": [
+      {
+        "title": "Set vpc tuning option:",
+        "content": "curl -v -d@'Sample Request JSON' -X PUT https://api.cloudinsight.alertlogic.com/launcher/v1_remediation/00000000/7573E365-0B2A-1005-1007-7831C1BE64D2/tuning?vpc_key=/aws/us-east-1/vpc/vpc-abcdef",
+        "type": "json"
+      },
+      {
+        "title": "Sample Request JSON",
+        "content": "{\n  \"options\": [\n    {\n      \"option\": \"instance_type\",\n      \"value\": \"m3.large\"\n    },\n    {\n      \"option\": \"instance_number\",\n      \"value\": 3\n    }\n  ]\n}",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>Customer's account id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>Customer's environment id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer's vpc key (per assets) to request tuning options for.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "account",
+            "description": "<p>Customer account.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of tuning (&quot;vpc&quot;).</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Customer environment.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vpc_key",
+            "description": "<p>Customer vpc assets' key.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "option",
+            "description": "<p>Tuned option.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "201 Success:",
+          "content": "{\n  \"account\": \"01000001\",\n  \"environment\": \"95073CBC-0A48-1005-8104-7831C1BE64D2\",\n  \"type\": \"vpc\",\n  \"options\": [],\n  \"vpc_key\": \"/aws/us-east-1/vpc/vpc-abcdef\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "notAuthorizedError",
+            "description": "<p><code>AuthenticationToken</code> passed could not be authenticated.</p>"
+          }
+        ],
+        "403": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "forbiddenError",
+            "description": "<p>Insufficient permissions.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Unauthorized:",
+          "content": "HTTP/1.1 401 Unauthorized",
+          "type": "json"
+        },
+        {
+          "title": "403 Forbidden:",
+          "content": "HTTP/1.1 403 Forbidden",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "groupTitle": "Launcher_Tuning_Operations"
+  },
+  {
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "doc_remediation/launcher_apidoc.erl",
+    "group": "_home_juan_al_cds_launcher_doc_remediation_launcher_apidoc_erl",
+    "groupTitle": "_home_juan_al_cds_launcher_doc_remediation_launcher_apidoc_erl",
+    "name": ""
+  }
+]
