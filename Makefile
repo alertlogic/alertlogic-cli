@@ -4,6 +4,9 @@ REPO ?= pypi
 .PHONY: dist register register_prod upload upload_prod install uninstall
 .DEFAULT_GOAL := dist
 
+test:
+	pytest tests/*_tests.py
+
 dist:
 	python setup.py sdist
 

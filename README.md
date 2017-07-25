@@ -8,6 +8,7 @@ Additional Dependencies:
 
 * mock
 * httpretty
+* pytest
 
 Running the tests:
 
