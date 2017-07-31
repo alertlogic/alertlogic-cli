@@ -1,22 +1,15 @@
-#!/usr/bin/env python2
-
+import pytest
+import mock
 import httpretty
 import json
-import mock
-import os.path
-import sys
-import unittest
-from notebook.services.contents.handlers import sort_key
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
+import defaults
+import mock_tools
 
-import alertlogiccli.commands.environment.scan_queue as scan_queue
-import alertlogic.dynapi
+import alertlogiccli.command
+import alertlogiccli.commands.deployment.scan_queue
 
-ACCOUNT_ID = "ACCOUNT_ID"
-ENVIRONMENT_ID = "ENVIRONMENT_ID"
-
-LIST_HOSTS_REPLY_JSON = {
+LIST_REPLY_JSON = {
     "assets": [
         {
             "vpc": "VPC1_KEY",
@@ -83,7 +76,7 @@ LIST_HOSTS_REPLY_JSON = {
     ]
 }
 
-LIST_HOSTS_RESULT_JSON = {
+LIST_EXPECTED_JSON = {
     "regular": [
         {
             "hosts": [
@@ -165,41 +158,33 @@ LIST_HOSTS_RESULT_JSON = {
     ]
 }
 
-class ListScanQueuesTestCase(unittest.TestCase):
-    def setUp(self):
-        mocked_session = mock.MagicMock()
-        mocked_session.api_endpoint = "http://mock"
-        mocked_session.account_id = ACCOUNT_ID
-        services = alertlogic.dynapi.Services()
-        services.set_session(mocked_session)
-        self.command = scan_queue.ListScanQueuesCommand(services)
-
+class TestListScanQueues():
     @httpretty.activate
     def test_ok(self):
-        url = "http://mock/scheduler/v1/{}/{}/list".format(ACCOUNT_ID, ENVIRONMENT_ID)
-        body = json.dumps(LIST_HOSTS_REPLY_JSON)
-        httpretty.register_uri(httpretty.GET, url, body=body, status=200, content_type="text/json")
-        result = self.command.execute(account_id=ACCOUNT_ID, environment_id=ENVIRONMENT_ID)
-        expected_sorted = json.dumps(LIST_HOSTS_RESULT_JSON, sort_keys=True)
+        args = mock_tools.make_args()
+        body = json.dumps(LIST_REPLY_JSON)
+        httpretty.register_uri(httpretty.GET,
+                               "{api_endpoint}/scheduler/v1/{account_id}/{deployment_id}/list".format(**vars(args)),
+                               body=body,
+                               status=200,
+                               content_type="text/json")
+        context = mock_tools.make_context(args)
+        result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues().execute(context)
+        
+        expected_sorted = json.dumps(LIST_EXPECTED_JSON, sort_keys=True)
         result_sorted = json.dumps(json.loads(result), sort_keys=True)
-        self.assertEqual(expected_sorted, result_sorted, "unexpected result")
+        
+        assert(expected_sorted == result_sorted)
 
-class ScanHostTestCase(unittest.TestCase):
-    def setUp(self):
-        mocked_session = mock.MagicMock()
-        mocked_session.api_endpoint = "http://mock"
-        mocked_session.account_id = ACCOUNT_ID
-        services = alertlogic.dynapi.Services()
-        services.set_session(mocked_session)
-        self.command = scan_queue.ScanHostCommand(services)
-
+class ScanHostTestCase():
     @httpretty.activate
     def test_ok(self):
-        url = "http://mock/scheduler/v1/{}/{}/scan?asset=HOST_KEY".format(ACCOUNT_ID, ENVIRONMENT_ID)
-        httpretty.register_uri(httpretty.PUT, url, status=200, content_type="text/json")
-        result = self.command.execute(account_id=ACCOUNT_ID, environment_id=ENVIRONMENT_ID, host_key="HOST_KEY")
-        expected = "ok"
-        self.assertEqual(expected, result, "unexpected result")
-
-if __name__ == '__main__':
-    unittest.main()
+        args = mock_tools.make_args({"asset_key": "HOST_KEY"})
+        body = json.dumps(LIST_REPLY_JSON)
+        httpretty.register_uri(httpretty.PUT,
+                               "{api_endpoint}/scheduler/v1/{account_id}/{deployment_id}/scan?asset={}".format(**vars(args)),
+                               status=200,
+                               content_type="text/json")
+        context = mock_tools.make_context(args)
+        result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues().execute(context)
+        assert(result == "ok")

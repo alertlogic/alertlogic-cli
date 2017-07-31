@@ -6,44 +6,43 @@ import alertlogic.auth
 
 log = logging.getLogger()
 
-DEFAULT_CONFIG_FILE = os.path.expanduser("~/.alertlogic/config.ini")
-
 class ConfigException(Exception):
     def __init__(self, message):
-        super(ConfigException, self).__init__("configuration error: {}".format(message))
+        super(ConfigException, self).__init__("config error: {}".format(message))
 
 class Config():
-    def __init__(self, config_file=DEFAULT_CONFIG_FILE, profile="default"):
-        self.read(config_file)
-        self.set_profile(profile)
+    """
+    Reads and stores configuration parameters
+    """
+    def __init__(self, filename, profile):
+        self._parser = ConfigParser.ConfigParser()
+        self._read(filename)
+        self._set_profile(profile)
 
-    def make_session(self):
-        session = alertlogic.auth.Session(self.api_endpoint, self.username, self.password, self.account_id)
-        return session
-
-    def read(self, config_file):
+    def _read(self, filename):
         try:
-            self._parser = ConfigParser.ConfigParser()
-            read_ok = self._parser.read(config_file)
-            if not config_file in read_ok:
-                raise ConfigException("unable to read {}".format(config_file))
+            read_ok = self._parser.read(filename)
+            if not filename in read_ok:
+                raise ConfigException("unable to read {}".format(filename))
         except ConfigParser.MissingSectionHeaderError:
-            raise ConfigException("invalid format")
+            raise ConfigException("invalid format in file {}".format(filename))
 
-    def set_profile(self, profile):
+    def _set_profile(self, profile):
+        self.api_endpoint = None
+        self.account_id = None
+        self.deployment_id = None
+        
         try:
-            self.username = self._parser.get(profile, "username")
-            self.password = self._parser.get(profile, "password")
             self.api_endpoint = self._parser.get(profile, "api_endpoint")
-
-            self.account_id = None
-            self.environment_id = None
-
-            if self._parser.has_option(profile, "environment_id"):
-                self.environment_id = self._parser.get(profile, "environment_id")
-                log.debug("found environment_id: {} option in config file".format(self.environment_id))
-
         except ConfigParser.NoSectionError as e:
             raise ConfigException("profile {} not found".format(profile))
         except ConfigParser.NoOptionError as e:
             raise ConfigException("option {} not found in profile {}".format(e.option, profile))
+        
+        if self._parser.has_option(profile, "account_id"):
+            self.account_id = self._parser.get(profile, "account_id")
+            log.debug("found account_id: {} option in config file".format(self.account_id))
+        
+        if self._parser.has_option(profile, "deployment_id"):
+            self.deployment_id = self._parser.get(profile, "deployment_id")
+            log.debug("found deployment_id: {} option in config file".format(self.deployment_id))
