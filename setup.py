@@ -1,21 +1,36 @@
-from distutils.core import setup
-from setuptools import find_packages
-VERSION = '1.2.0'
+import re
+import ast
+from setuptools import setup, find_packages
+
+_version_re = re.compile(r'__version__\s+=\s+(.*)')
+
+with open('alertlogic/__init__.py', 'rb') as f:
+    version = str(ast.literal_eval(_version_re.search(
+        f.read().decode('utf-8')).group(1)))
+
 setup(
-    name = 'alertlogic_cli',
-    packages=find_packages(exclude=['contrib', 'docs', 'tests*', 'troubleshooting']),
-    scripts = ['alertlogic-cli'],
-    version = VERSION,
+    name='alertlogic-cli',
+    version=version,
+    url='https://github.com/alertlogic/alertlogic-cli',
     license='MIT',
-    include_package_data=True,
-    install_requires=[
-        'requests',
-    ],
-    description = 'Command Line Client for Alertlogic Services.',
     author = 'Alert Logic Inc.',
     author_email = 'support@alertlogic.com',
-    url = 'https://github.com/alertlogic/alertlogic-cli',
-    download_url = "https://github.com/alertlogic/alertlogic-cli/archive/%s.tar.gz" % (VERSION),
-    keywords = ['cli', 'alertlogic'],
-    classifiers = [],
+    description = 'Command Line Client for Alertlogic Services.',
+    scripts = ['alertlogic-cli'],
+    packages=find_packages(exclude=['contrib', 'docs', 'tests*', 'troubleshooting']),
+    include_package_data=True,
+    zip_safe=False,
+    platforms='any',
+    python_requires='>=2.7, <3',
+    install_requires=[
+        'requests>=2.18'
+    ],
+    extras_require={
+        'dev': [
+            'pytest>=3',
+            'mock>=2.0.0',
+            'httpretty>=0.8.14'
+        ],
+    },
+    keywords = ['cli', 'alertlogic']
 )
