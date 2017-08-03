@@ -1,7 +1,4 @@
-REPO_TEST ?= pypitest
-REPO ?= pypi
-
-.PHONY: dist register register_prod upload upload_prod install uninstall
+.PHONY: dist install uninstall
 .DEFAULT_GOAL := dist
 
 test:
@@ -10,17 +7,8 @@ test:
 dist:
 	python setup.py sdist
 
-register:
-	python setup.py register -r $(REPO_TEST)
-
-register_prod:
-	python setup.py register -r $(REPO)
-
-upload:
-	python setup.py sdist upload -r $(REPO_TEST)
-
-upload_prod:
-	python setup.py sdist upload -r $(REPO)
+pypi_upload: dist
+	twine upload dist/alertlogic-cli-*.tar.gz
 
 install:
 	python setup.py install

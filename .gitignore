@@ -1,1 +1,3 @@
 *.pyc
+/alertlogic_cli.egg-info
+/dist
