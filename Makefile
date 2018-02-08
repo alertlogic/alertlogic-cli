@@ -4,6 +4,9 @@
 test:
 	pytest tests/*_tests.py
 
+lint:
+	pycodestyle .
+
 dist:
 	python setup.py sdist
 
