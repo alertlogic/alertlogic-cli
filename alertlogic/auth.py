@@ -10,8 +10,7 @@ import requests
 
 class AuthenticationException(Exception):
     def __init__(self, message):
-        super(AuthenticationException,
-              self).__init__("authentication error: {}".format(message))
+        super(AuthenticationException, self).__init__("authentication error: {}".format(message))
 
 
 class Session():
@@ -33,7 +32,8 @@ class Session():
     def _authenticate(self, username, password):
         """
         Authenticates against alertlogic Access and Identity Management Service (AIMS)
-        more info: https://console.cloudinsight.alertlogic.com/api/aims/#api-AIMS_Authentication_and_Authorization_Resources-Authenticate
+        more info:
+        https://console.cloudinsight.alertlogic.com/api/aims/#api-AIMS_Authentication_and_Authorization_Resources-Authenticate
         """
         try:
             auth = requests.auth.HTTPBasicAuth(username, password)
