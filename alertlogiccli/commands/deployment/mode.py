@@ -15,14 +15,11 @@ class Base():
             response.raise_for_status()
             if response.json()["source"]["type"] != "environment":
                 raise alertlogiccli.command.InvalidParameter(
-                    "deployment", args["deployment_id"],
-                    "is not an deployment")
+                    "deployment", args["deployment_id"], "is not an deployment")
         except requests.exceptions.HTTPError as e:
-            raise alertlogiccli.command.InvalidHTTPResponse(
-                "validate deployment", e.message)
+            raise alertlogiccli.command.InvalidHTTPResponse("validate deployment", e.message)
         except (KeyError, ValueError):
-            raise alertlogiccli.command.InvalidServiceResponse(
-                "validate deployment", "source.type not found", response)
+            raise alertlogiccli.command.InvalidServiceResponse("validate deployment", "source.type not found", response)
 
         return response
 
@@ -31,8 +28,7 @@ class GetMode(Base, alertlogiccli.command.Command):
     """Command to get deployment mode of a given deployment"""
 
     def configure_parser(self, subparsers):
-        parser = subparsers.add_parser(
-            "get_deployment_mode", help="gets deployment deployment mode")
+        parser = subparsers.add_parser("get_deployment_mode", help="gets deployment deployment mode")
         parser.set_defaults(command=self)
 
     def execute(self, context):
@@ -75,6 +71,5 @@ class SetMode(Base, alertlogiccli.command.Command):
                 json=new_config)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise alertlogiccli.command.InvalidHTTPResponse(
-                "set_deployment_mode", e.message)
+            raise alertlogiccli.command.InvalidHTTPResponse("set_deployment_mode", e.message)
         return "ok"

@@ -41,15 +41,12 @@ class Config():
         except ConfigParser.NoSectionError as e:
             raise ConfigException("profile {} not found".format(profile))
         except ConfigParser.NoOptionError as e:
-            raise ConfigException("option {} not found in profile {}".format(
-                e.option, profile))
+            raise ConfigException("option {} not found in profile {}".format(e.option, profile))
 
         if self._parser.has_option(profile, "account_id"):
             self.account_id = self._parser.get(profile, "account_id")
-            log.debug("found account_id: {} option in config file".format(
-                self.account_id))
+            log.debug("found account_id: {} option in config file".format(self.account_id))
 
         if self._parser.has_option(profile, "deployment_id"):
             self.deployment_id = self._parser.get(profile, "deployment_id")
-            log.debug("found deployment_id: {} option in config file".format(
-                self.deployment_id))
+            log.debug("found deployment_id: {} option in config file".format(self.deployment_id))

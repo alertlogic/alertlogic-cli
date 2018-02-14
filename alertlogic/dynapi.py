@@ -181,8 +181,7 @@ def substitute_path_args(path, args):
             if required_arg in args and args[required_arg] is not None:
                 substituted += "/" + args[required_arg]
             else:
-                raise InvalidEndpointCall(
-                    "missing required url argument {}".format(required_arg))
+                raise InvalidEndpointCall("missing required url argument {}".format(required_arg))
         else:
             substituted += "/" + part
     return substituted

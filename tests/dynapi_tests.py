@@ -11,8 +11,7 @@ import alertlogic.dynapi
 
 
 def test_parse_apidoc():
-    with mock.patch.object(alertlogic.dynapi, 'API_SERVICES',
-                           "") as mock_value:
+    with mock.patch.object(alertlogic.dynapi, 'API_SERVICES', "") as mock_value:
         services = alertlogic.dynapi.Services()
         service_data = [{
             "name": "test_endpoint1",
@@ -39,11 +38,8 @@ def test_parse_apidoc():
 
 
 def test_endpoint():
-    endpoint = alertlogic.dynapi.Endpoint("test_endpoint", "get",
-                                          "/part1/:parameter/part2")
-    assert (endpoint.parse_url({
-        "parameter": "value1"
-    }) == "/part1/value1/part2")
+    endpoint = alertlogic.dynapi.Endpoint("test_endpoint", "get", "/part1/:parameter/part2")
+    assert (endpoint.parse_url({"parameter": "value1"}) == "/part1/value1/part2")
     with pytest.raises(alertlogic.dynapi.InvalidEndpointCall):
         endpoint.parse_url({"invalid": "invalid"})
     with pytest.raises(alertlogic.dynapi.InvalidEndpointDefinition):

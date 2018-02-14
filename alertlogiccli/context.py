@@ -47,8 +47,6 @@ class Context():
             except KeyError:
                 continue
 
-        all_args[
-            "account_id"] = self._args.account_id or self._config.account_id or self._session.account_id
-        all_args[
-            "deployment_id"] = self._args.deployment_id or self._config.deployment_id
+        all_args["account_id"] = self._args.account_id or self._config.account_id or self._session.account_id
+        all_args["deployment_id"] = self._args.deployment_id or self._config.deployment_id
         return all_args

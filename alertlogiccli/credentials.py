@@ -36,8 +36,7 @@ class Credentials():
         try:
             read_ok = self._parser.read(filename)
             if filename not in read_ok:
-                raise CredentialsException(
-                    "unable to read {}".format(filename))
+                raise CredentialsException("unable to read {}".format(filename))
         except ConfigParser.MissingSectionHeaderError:
             raise CredentialsException("invalid format")
 
@@ -46,9 +45,6 @@ class Credentials():
             self._username = self._parser.get(profile, "username")
             self._password = self._parser.get(profile, "password")
         except ConfigParser.NoSectionError as e:
-            raise CredentialsException(
-                "credentials profile {} not found".format(profile))
+            raise CredentialsException("credentials profile {} not found".format(profile))
         except ConfigParser.NoOptionError as e:
-            raise CredentialsException(
-                "credentials field {} not found in profile {}".format(
-                    e.option, profile))
+            raise CredentialsException("credentials field {} not found in profile {}".format(e.option, profile))
