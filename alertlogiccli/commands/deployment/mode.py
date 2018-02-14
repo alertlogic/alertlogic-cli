@@ -9,11 +9,9 @@ class Base():
         sources = context.get_services().sources
 
         try:
-            response = sources.get_source(
-                account_id=args["account_id"], id=args["deployment_id"])
+            response = sources.get_source(account_id=args["account_id"], id=args["deployment_id"])
             if response.status_code == 404:
-                raise alertlogiccli.command.InvalidParameter(
-                    "deployment", args["deployment_id"], "not found")
+                raise alertlogiccli.command.InvalidParameter("deployment", args["deployment_id"], "not found")
             response.raise_for_status()
             if response.json()["source"]["type"] != "environment":
                 raise alertlogiccli.command.InvalidParameter(

@@ -42,8 +42,7 @@ class Session():
                 auth=auth)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise AuthenticationException("invalid http response {}".format(
-                e.message))
+            raise AuthenticationException("invalid http response {}".format(e.message))
 
         try:
             self._token = response.json()["authentication"]["token"]
@@ -51,8 +50,7 @@ class Session():
             raise AuthenticationException("token not found in response")
 
         try:
-            self.account_id = response.json()["authentication"]["account"][
-                "id"]
+            self.account_id = response.json()["authentication"]["account"]["id"]
         except (KeyError, TypeError, ValueError):
             raise AuthenticationException("account id not found in response")
 

@@ -114,8 +114,7 @@ class Service():
             def handler(*args, **kwargs):
                 # json argument is passed separately
                 json = kwargs.pop("json", None)
-                return self._endpoints[name].call(
-                    self._session, kwargs, json=json)
+                return self._endpoints[name].call(self._session, kwargs, json=json)
 
             return handler
         else:
@@ -144,8 +143,7 @@ class Endpoint():
         self.operation = operation.upper()
         # verifies that the given operation is correct
         if self.operation not in ["GET", "POST", "DELETE", "PUT", "HEAD"]:
-            raise InvalidEndpointDefinition("invalid operation: {}".format(
-                self.operation))
+            raise InvalidEndpointDefinition("invalid operation: {}".format(self.operation))
 
     def parse_url(self, url_args):
         """Parses an endpoint's url by replacing the parts that start with ":" with the values of *url_args*
@@ -168,12 +166,9 @@ class Endpoint():
         :param url_args: dict with values to replace url parameters, see parse_args() for more info
         :param json: this will be passed adhoc to requests
         """
-        parsed_url = session.region.get_api_endpoint() + self.parse_url(
-            url_args)
-        log.debug("calling requests: operation={} url={} json={}".format(
-            self.operation, parsed_url, json))
-        return requests.request(
-            self.operation, parsed_url, json=json, auth=session)
+        parsed_url = session.region.get_api_endpoint() + self.parse_url(url_args)
+        log.debug("calling requests: operation={} url={} json={}".format(self.operation, parsed_url, json))
+        return requests.request(self.operation, parsed_url, json=json, auth=session)
 
 
 def substitute_path_args(path, args):
@@ -198,13 +193,11 @@ def substitute_query_args(query, args):
     for key in parsed:
         value = parsed[key][0]
         if value.startswith(":"):
-            required_arg = value[
-                1:]  # removes ":" at the beginning of the string
+            required_arg = value[1:]  # removes ":" at the beginning of the string
             if required_arg in args:
                 parsed[key] = args[required_arg]
             else:
-                raise InvalidEndpointCall(
-                    "missing required url argument {}".format(required_arg))
+                raise InvalidEndpointCall("missing required url argument {}".format(required_arg))
     substituted = urllib.urlencode(parsed)
     substituted = urllib.unquote_plus(substituted)
     return substituted

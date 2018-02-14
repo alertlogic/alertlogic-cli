@@ -12,8 +12,6 @@ metadata = {
         scan_queue.ScanHost(),
         scan_queue.ListScanQueues()
     ],
-    "name":
-    "deployment",
-    "help":
-    "deployment related commands"
+    "name": "deployment",
+    "help": "deployment related commands"
 }

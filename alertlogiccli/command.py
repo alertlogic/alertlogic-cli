@@ -29,20 +29,16 @@ class CommandException(Exception):
 
 class InvalidParameter(CommandException):
     def __init__(self, name, value, problem):
-        super(InvalidParameter, self).__init__("{} \"{}\" {}".format(
-            name, value, problem))
+        super(InvalidParameter, self).__init__("{} \"{}\" {}".format(name, value, problem))
 
 
 class InvalidHTTPResponse(CommandException):
     def __init__(self, trying_to, message):
-        super(InvalidHTTPResponse,
-              self).__init__("{} while trying to {}".format(
-                  message, trying_to))
+        super(InvalidHTTPResponse, self).__init__("{} while trying to {}".format(message, trying_to))
 
 
 class InvalidServiceResponse(CommandException):
     def __init__(self, trying_to, cause, response):
         raw = "{} while trying to {} code[ {} ] content[ {} ]"
-        msg = raw.format(cause, trying_to, response.status_code,
-                         response.content)
+        msg = raw.format(cause, trying_to, response.status_code, response.content)
         super(InvalidServiceResponse, self).__init__(msg)
