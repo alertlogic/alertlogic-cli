@@ -43,5 +43,4 @@ def test_endpoint():
     with pytest.raises(alertlogic.dynapi.InvalidEndpointCall):
         endpoint.parse_url({"invalid": "invalid"})
     with pytest.raises(alertlogic.dynapi.InvalidEndpointDefinition):
-        alertlogic.dynapi.Endpoint("test_endpoint", "invalid",
-                                   "/part1/:parameter/part2")
+        alertlogic.dynapi.Endpoint("test_endpoint", "invalid", "/part1/:parameter/part2")

@@ -22,8 +22,8 @@ class ListScanQueues(alertlogiccli.command.Command):
                 environment_id=args["deployment_id"])
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise alertlogiccli.command.InvalidHTTPResponse(
-                "fetch scan queues", e.message)
+            raise alertlogiccli.command.InvalidHTTPResponse("fetch scan queues", e.message)
+
         content = response.json()
         regular = self.group_by_vpc(content["assets"])
         immediate = self.group_by_vpc(content["immediate"])
@@ -44,8 +44,7 @@ class ScanHost(alertlogiccli.command.Command):
     """Puts a host to the immediate scan queue"""
 
     def configure_parser(self, subparsers):
-        parser = subparsers.add_parser(
-            "scan_host", help="puts a host in the immediate scan queue")
+        parser = subparsers.add_parser("scan_host", help="puts a host in the immediate scan queue")
         parser.set_defaults(command=self)
 
         parser.add_argument(
@@ -64,6 +63,5 @@ class ScanHost(alertlogiccli.command.Command):
                 asset_key=args["asset_key"])
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise alertlogiccli.command.InvalidHTTPResponse(
-                "put host in scan queue", e.message)
+            raise alertlogiccli.command.InvalidHTTPResponse("put host in scan queue", e.message)
         return "ok"

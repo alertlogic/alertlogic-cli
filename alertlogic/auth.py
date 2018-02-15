@@ -37,9 +37,7 @@ class Session():
         """
         try:
             auth = requests.auth.HTTPBasicAuth(username, password)
-            response = requests.post(
-                self.region.get_api_endpoint() + "/aims/v1/authenticate",
-                auth=auth)
+            response = requests.post(self.region.get_api_endpoint() + "/aims/v1/authenticate", auth=auth)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise AuthenticationException("invalid http response {}".format(e.message))

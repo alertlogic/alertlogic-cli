@@ -159,8 +159,7 @@ class TestListScanQueues():
             status=200,
             content_type="text/json")
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues(
-        ).execute(context)
+        result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues().execute(context)
 
         expected_sorted = json.dumps(LIST_EXPECTED_JSON, sort_keys=True)
         result_sorted = json.dumps(json.loads(result), sort_keys=True)
@@ -180,6 +179,5 @@ class ScanHostTestCase():
             status=200,
             content_type="text/json")
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues(
-        ).execute(context)
+        result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues().execute(context)
         assert (result == "ok")

@@ -37,13 +37,11 @@ class Context():
 
     def get_final_args(self):
         all_args = vars(self._args).copy()
-        for key in [
-                "command", "profile", "api_endpoint", "config_file",
-                "credentials_file", "logging_config_file"
-        ]:
+        for key in ["command", "profile", "api_endpoint",
+                    "config_file", "credentials_file", "logging_config_file"]:
 
             try:
-                del (all_args[key])
+                del(all_args[key])
             except KeyError:
                 continue
 

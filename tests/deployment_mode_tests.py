@@ -58,8 +58,7 @@ class TestGetMode():
             status=200,
             content_type="text/json")
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.deployment.mode.GetMode().execute(
-            context)
+        result = alertlogiccli.commands.deployment.mode.GetMode().execute(context)
         assert (result == "readonly")
 
 
@@ -80,8 +79,7 @@ class TestSetMode():
             format(**vars(args)),
             status=200)
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.deployment.mode.SetMode().execute(
-            context)
+        result = alertlogiccli.commands.deployment.mode.SetMode().execute(context)
         assert (result)
 
     @httpretty.activate

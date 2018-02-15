@@ -48,11 +48,9 @@ class SetMode(Base, alertlogiccli.command.Command):
     """Command to set deployment mode ("readonly" or "automatic") for a given deployment"""
 
     def configure_parser(self, subparsers):
-        parser = subparsers.add_parser(
-            "set_deployment_mode", help="sets deployment deployment mode")
+        parser = subparsers.add_parser("set_deployment_mode", help="sets deployment deployment mode")
         parser.set_defaults(command=self)
-        parser.add_argument(
-            "-m", "--mode", required=True, choices=["readonly", "automatic"])
+        parser.add_argument("-m", "--mode", required=True, choices=["readonly", "automatic"])
 
     def execute(self, context):
         args = context.get_final_args()

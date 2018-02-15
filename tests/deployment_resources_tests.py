@@ -54,8 +54,7 @@ class TestListDeployed():
             status=200,
             content_type="text/json")
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.deployment.resources.ListDeployed(
-        ).execute(context)
+        result = alertlogiccli.commands.deployment.resources.ListDeployed().execute(context)
 
         expected_sorted = json.dumps(json.loads(body), sort_keys=True)
         result_sorted = json.dumps(json.loads(result), sort_keys=True)

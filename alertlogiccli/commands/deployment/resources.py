@@ -19,13 +19,14 @@ class ListDeployed(alertlogiccli.command.Command):
     def execute(self, context):
         args = context.get_final_args()
         launcher = context.get_services().launcher
+
         try:
             response = launcher.getawsresourcesbyenvironment(
                 account_id=args["account_id"],
                 environment_id=args["deployment_id"])
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise alertlogiccli.command.InvalidHTTPResponse(
-                "fetch deployed resources", e.message)
+            raise alertlogiccli.command.InvalidHTTPResponse("fetch deployed resources", e.message)
+
         content = response.json()
         return json.dumps(content, sort_keys=True, indent=4)

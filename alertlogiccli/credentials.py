@@ -27,8 +27,7 @@ class Credentials():
         self._set_profile(profile)
 
     def make_session(self, region):
-        session = alertlogic.auth.Session(region, self._username,
-                                          self._password)
+        session = alertlogic.auth.Session(region, self._username, self._password)
         del (self._password)
         return session
 

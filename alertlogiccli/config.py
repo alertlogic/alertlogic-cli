@@ -9,8 +9,7 @@ log = logging.getLogger()
 
 class ConfigException(Exception):
     def __init__(self, message):
-        super(ConfigException,
-              self).__init__("config error: {}".format(message))
+        super(ConfigException, self).__init__("config error: {}".format(message))
 
 
 class Config():
