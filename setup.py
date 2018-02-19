@@ -29,7 +29,8 @@ setup(
         'dev': [
             'pytest>=3',
             'mock>=2.0.0',
-            'httpretty>=0.8.14'
+            'httpretty>=0.8.14',
+            'pycodestyle>=2.3.1'
         ],
     },
     keywords=['cli', 'alertlogic']
