@@ -9,6 +9,7 @@ Additional Dependencies:
 * mock
 * httpretty
 * pytest
+* pycodestyle
 
 Running the tests:
 
@@ -100,7 +101,7 @@ class Deploy(alertlogiccli.command.Command):
     def configure_parser(self, subparsers):
         parser = subparsers.add_parser("deploy", help="Deploys something somewhere")
         parser.set_defaults(command=self)
-    
+
     def execute(self, context):
         args = context.get_final_args()
         deployment = context.get_services().deployment
