@@ -63,7 +63,9 @@ def import_commands():
 def make_parser(commands):
     parser = argparse.ArgumentParser(description="alertlogic cloud insight client")
 
-    parser.add_argument("-c",  "--config_file",
+    parser.add_argument(
+        "-c",
+        "--config_file",
         default=alertlogiccli.cons.DEFAULT_CONFIG_FILE,
         help="use a specific configuration file"
     )
