@@ -176,7 +176,7 @@ def substitute_path_args(path, args):
     substituted = ""
     for part in parts:
         if part.startswith(":"):
-            required_arg = part[=1:]  # removes ":" at the beginning of the string
+            required_arg = part[1:]  # removes ":" at the beginning of the string
             if required_arg in args and args[required_arg] is not None:
                 substituted += "/" + args[required_arg]
             else:
