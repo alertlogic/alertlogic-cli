@@ -61,12 +61,9 @@ def import_commands():
 
 
 def make_parser(commands):
-    parser = argparse.ArgumentParser(
-        description="alertlogic cloud insight client")
+    parser = argparse.ArgumentParser(description="alertlogic cloud insight client")
 
-    parser.add_argument(
-        "-c",
-        "--config_file",
+    parser.add_argument("-c",  "--config_file",
         default=alertlogiccli.cons.DEFAULT_CONFIG_FILE,
         help="use a specific configuration file"
     )
@@ -86,7 +83,10 @@ def make_parser(commands):
         default=alertlogiccli.cons.DEFAULT_PROFILE,
         help="use a specific profile in config and credentials"
     )
-    parser.add_argument("--api_endpoint", help="alertlogic api endpoint, either: uk or us")
+    parser.add_argument(
+        "--api_endpoint",
+        help="alertlogic api endpoint, either: uk or us"
+    )
     parser.add_argument(
         "-a",
         "--account_id",
