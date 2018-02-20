@@ -5,9 +5,11 @@ import alertlogic.auth
 
 log = logging.getLogger()
 
+
 class CredentialsException(Exception):
     def __init__(self, message):
         super(CredentialsException, self).__init__("credentials error: {}".format(message))
+
 
 class Credentials():
     """
@@ -17,6 +19,7 @@ class Credentials():
     * it's only delete()d meaning the data will be there until gc is triggered
     * it's never zeroed
     """
+
     def __init__(self, filename, profile):
         self._parser = ConfigParser.ConfigParser()
         self._read(filename)
@@ -24,13 +27,13 @@ class Credentials():
 
     def make_session(self, region):
         session = alertlogic.auth.Session(region, self._username, self._password)
-        del(self._password)
+        del (self._password)
         return session
 
     def _read(self, filename):
         try:
             read_ok = self._parser.read(filename)
-            if not filename in read_ok:
+            if filename not in read_ok:
                 raise CredentialsException("unable to read {}".format(filename))
         except ConfigParser.MissingSectionHeaderError:
             raise CredentialsException("invalid format")

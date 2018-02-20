@@ -7,9 +7,11 @@
 
 import requests
 
+
 class AuthenticationException(Exception):
     def __init__(self, message):
         super(AuthenticationException, self).__init__("authentication error: {}".format(message))
+
 
 class Session():
     """
@@ -17,6 +19,7 @@ class Session():
     additionally objects of this class can be used as auth modules for the requests lib, more info:
     http://docs.python-requests.org/en/master/user/authentication/#new-forms-of-authentication
     """
+
     def __init__(self, region, username, password):
         """
         :param region: a Region object
@@ -29,11 +32,12 @@ class Session():
     def _authenticate(self, username, password):
         """
         Authenticates against alertlogic Access and Identity Management Service (AIMS)
-        more info: https://console.cloudinsight.alertlogic.com/api/aims/#api-AIMS_Authentication_and_Authorization_Resources-Authenticate
+        more info:
+        https://console.cloudinsight.alertlogic.com/api/aims/#api-AIMS_Authentication_and_Authorization_Resources-Authenticate
         """
         try:
             auth = requests.auth.HTTPBasicAuth(username, password)
-            response = requests.post(self.region.get_api_endpoint()+"/aims/v1/authenticate", auth=auth)
+            response = requests.post(self.region.get_api_endpoint() + "/aims/v1/authenticate", auth=auth)
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise AuthenticationException("invalid http response {}".format(e.message))

@@ -13,10 +13,10 @@ setup(
     version=version,
     url='https://github.com/alertlogic/alertlogic-cli',
     license='MIT',
-    author = 'Alert Logic Inc.',
-    author_email = 'support@alertlogic.com',
-    description = 'Command Line Client for Alertlogic Services.',
-    scripts = ['alertlogic-cli'],
+    author='Alert Logic Inc.',
+    author_email='support@alertlogic.com',
+    description='Command Line Client for Alertlogic Services.',
+    scripts=['alertlogic-cli'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests*', 'troubleshooting']),
     include_package_data=True,
     zip_safe=False,
@@ -29,8 +29,9 @@ setup(
         'dev': [
             'pytest>=3',
             'mock>=2.0.0',
-            'httpretty>=0.8.14'
+            'httpretty>=0.8.14',
+            'pycodestyle>=2.3.1'
         ],
     },
-    keywords = ['cli', 'alertlogic']
+    keywords=['cli', 'alertlogic']
 )
