@@ -14,9 +14,7 @@ Additional Dependencies:
 Running the tests:
 
 ```
-cd tests
-./all.py
-
+make test
 ```
 
 ## Debugging:
