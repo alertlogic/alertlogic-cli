@@ -154,8 +154,7 @@ def main():
             "Oops something went wrong.\n"
             "Please contact support@alertlogic.com and provide the following information:\n"
             "****************************************************************************\n"
-            "{}").format(traceback.format_exc()
-        )
+            "{}").format(traceback.format_exc())
         print(msg)
         sys.exit(2)
 
