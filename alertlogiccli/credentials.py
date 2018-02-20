@@ -8,8 +8,7 @@ log = logging.getLogger()
 
 class CredentialsException(Exception):
     def __init__(self, message):
-        super(CredentialsException,
-              self).__init__("credentials error: {}".format(message))
+        super(CredentialsException,self).__init__("credentials error: {}".format(message))
 
 
 class Credentials():
