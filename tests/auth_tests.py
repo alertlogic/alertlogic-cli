@@ -23,7 +23,8 @@ def test_authenticate_ok():
         "http://mock/aims/v1/authenticate",
         status=200,
         content_type="text/json",
-        body=json.dumps(response_body))
+        body=json.dumps(response_body)
+    )
     region = alertlogic.region.Region("http://mock")
     session = alertlogic.auth.Session(region, "USERNAME", "PASSWORD")
     assert (session.account_id == "ACCOUNT_ID")
@@ -43,7 +44,8 @@ def test_authenticate_fail_http_400():
         httpretty.POST,
         "http://mock/aims/v1/authenticate",
         status=400,
-        body=json.dumps(response_body))
+        body=json.dumps(response_body)
+    )
     region = alertlogic.region.Region("http://mock")
     with pytest.raises(alertlogic.auth.AuthenticationException):
         session = alertlogic.auth.Session(region, "USERNAME", "PASSWORD")
@@ -56,7 +58,8 @@ def test_authenticate_fail_empty_body():
         "http://mock/aims/v1/authenticate",
         status=200,
         content_type="text/json",
-        body="")
+        body=""
+    )
     region = alertlogic.region.Region("http://mock")
     with pytest.raises(alertlogic.auth.AuthenticationException):
         session = alertlogic.auth.Session(region, "USERNAME", "PASSWORD")

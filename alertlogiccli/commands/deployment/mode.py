@@ -66,7 +66,8 @@ class SetMode(Base, alertlogiccli.command.Command):
             response = sources.merge_source(
                 account_id=args["account_id"],
                 id=args["deployment_id"],
-                json=new_config)
+                json=new_config
+            )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise alertlogiccli.command.InvalidHTTPResponse("set_deployment_mode", e.message)

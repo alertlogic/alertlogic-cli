@@ -23,7 +23,8 @@ class ListDeployed(alertlogiccli.command.Command):
         try:
             response = launcher.getawsresourcesbyenvironment(
                 account_id=args["account_id"],
-                environment_id=args["deployment_id"])
+                environment_id=args["deployment_id"]
+            )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise alertlogiccli.command.InvalidHTTPResponse("fetch deployed resources", e.message)

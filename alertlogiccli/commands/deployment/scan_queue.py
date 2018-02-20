@@ -10,7 +10,8 @@ class ListScanQueues(alertlogiccli.command.Command):
     def configure_parser(self, subparsers):
         parser = subparsers.add_parser(
             "list_scan_queues",
-            help="lists hosts in scan queues for a given deployment")
+            help="lists hosts in scan queues for a given deployment"
+        )
         parser.set_defaults(command=self)
 
     def execute(self, context):
@@ -19,7 +20,8 @@ class ListScanQueues(alertlogiccli.command.Command):
         try:
             response = scan_scheduler.listscanassets(
                 account_id=args["account_id"],
-                environment_id=args["deployment_id"])
+                environment_id=args["deployment_id"]
+            )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise alertlogiccli.command.InvalidHTTPResponse("fetch scan queues", e.message)
@@ -51,7 +53,8 @@ class ScanHost(alertlogiccli.command.Command):
             "--host_key",
             dest="asset_key",
             required=True,
-            help="a host key to put in the queue")
+            help="a host key to put in the queue"
+        )
 
     def execute(self, context):
         args = context.get_final_args()
@@ -60,7 +63,8 @@ class ScanHost(alertlogiccli.command.Command):
             response = scan_scheduler.scanasset(
                 account_id=args["account_id"],
                 environment_id=args["deployment_id"],
-                asset_key=args["asset_key"])
+                asset_key=args["asset_key"]
+            )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise alertlogiccli.command.InvalidHTTPResponse("put host in scan queue", e.message)

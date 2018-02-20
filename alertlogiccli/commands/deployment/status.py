@@ -17,7 +17,8 @@ class GetStatus(alertlogiccli.command.Command):
         try:
             response = launcher.getdeploymentstatus(
                 account_id=args["account_id"],
-                environment_id=args["deployment_id"])
+                environment_id=args["deployment_id"]
+            )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise alertlogiccli.command.InvalidHTTPResponse("fetch deployment status", e.message)

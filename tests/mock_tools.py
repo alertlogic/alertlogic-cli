@@ -21,7 +21,8 @@ def mock_session():
 def mock_credentials():
     mocked_credentials = mock.MagicMock()
     mocked_credentials.make_session = mock.MagicMock(
-        return_value=mock_session())
+        return_value=mock_session()
+    )
     return mocked_credentials
 
 

@@ -68,33 +68,39 @@ def make_parser(commands):
         "-c",
         "--config_file",
         default=alertlogiccli.cons.DEFAULT_CONFIG_FILE,
-        help="use a specific configuration file")
+        help="use a specific configuration file"
+    )
     parser.add_argument(
         "-e",
         "--credentials_file",
         default=alertlogiccli.cons.DEFAULT_CREDENTIALS_FILE,
-        help="use a specific credentials file")
+        help="use a specific credentials file"
+    )
     parser.add_argument(
         "--logging_config_file",
-        help="use a specific configuration file for logging")
+        help="use a specific configuration file for logging"
+    )
     parser.add_argument(
         "-p",
         "--profile",
         default=alertlogiccli.cons.DEFAULT_PROFILE,
-        help="use a specific profile in config and credentials")
-    parser.add_argument(
-        "--api_endpoint", help="alertlogic api endpoint, either: uk or us")
+        help="use a specific profile in config and credentials"
+    )
+    parser.add_argument("--api_endpoint", help="alertlogic api endpoint, either: uk or us")
     parser.add_argument(
         "-a",
         "--account_id",
-        help="use a specific account (managed accounts only)")
+        help="use a specific account (managed accounts only)"
+    )
     parser.add_argument(
         "-d",
         "--deployment_id",
-        help="deployment id used by most commands (uuid)")
+        help="deployment id used by most commands (uuid)"
+    )
 
     subparsers = parser.add_subparsers(
-        title="commands", description="valid commands")
+        title="commands", description="valid commands"
+    )
 
     for command in commands:
         subparser = subparsers.add_parser(command["name"], help=command["help"])
@@ -146,7 +152,8 @@ def main():
             "Oops something went wrong.\n"
             "Please contact support@alertlogic.com and provide the following information:\n"
             "****************************************************************************\n"
-            "{}").format(traceback.format_exc())
+            "{}").format(traceback.format_exc()
+        )
         print(msg)
         sys.exit(2)
 

@@ -52,7 +52,8 @@ class TestListDeployed():
             format(**vars(args)),
             body=body,
             status=200,
-            content_type="text/json")
+            content_type="text/json"
+        )
         context = mock_tools.make_context(args)
         result = alertlogiccli.commands.deployment.resources.ListDeployed().execute(context)
 

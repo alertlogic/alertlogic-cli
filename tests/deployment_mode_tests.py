@@ -16,7 +16,8 @@ class TestGetMode():
             httpretty.GET,
             "{api_endpoint}/sources/v1/{account_id}/sources/{deployment_id}".
             format(**vars(args)),
-            status=404)
+            status=404
+        )
         with pytest.raises(alertlogiccli.command.InvalidParameter):
             context = mock_tools.make_context(args)
             alertlogiccli.commands.deployment.mode.GetMode().execute(context)
@@ -28,7 +29,8 @@ class TestGetMode():
             httpretty.GET,
             "{api_endpoint}/sources/v1/{account_id}/sources/{deployment_id}".
             format(**vars(args)),
-            status=500)
+            status=500
+        )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
             alertlogiccli.commands.deployment.mode.GetMode().execute(context)
@@ -42,7 +44,8 @@ class TestGetMode():
             format(**vars(args)),
             body='INVALID_BODY',
             status=200,
-            content_type="text/json")
+            content_type="text/json"
+        )
         with pytest.raises(alertlogiccli.command.InvalidServiceResponse):
             context = mock_tools.make_context(args)
             alertlogiccli.commands.deployment.mode.GetMode().execute(context)
@@ -56,7 +59,8 @@ class TestGetMode():
             format(**vars(args)),
             body='{"source": {"type": "environment", "config": {"deployment_mode": "readonly"}}}',
             status=200,
-            content_type="text/json")
+            content_type="text/json"
+        )
         context = mock_tools.make_context(args)
         result = alertlogiccli.commands.deployment.mode.GetMode().execute(context)
         assert (result == "readonly")
@@ -72,12 +76,14 @@ class TestSetMode():
             format(**vars(args)),
             body='{"source": {"type": "environment"}}',
             status=200,
-            content_type="text/json")
+            content_type="text/json"
+        )
         httpretty.register_uri(
             httpretty.POST,
             "{api_endpoint}/sources/v1/{account_id}/sources/{deployment_id}".
             format(**vars(args)),
-            status=200)
+            status=200
+        )
         context = mock_tools.make_context(args)
         result = alertlogiccli.commands.deployment.mode.SetMode().execute(context)
         assert (result)
@@ -91,12 +97,14 @@ class TestSetMode():
             format(**vars(args)),
             body='{"source": {"type": "environment"}}',
             status=200,
-            content_type="text/json")
+            content_type="text/json"
+        )
         httpretty.register_uri(
             httpretty.POST,
             "{api_endpoint}/sources/v1/{account_id}/sources/{deployment_id}".
             format(**vars(args)),
-            status=500)
+            status=500
+        )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
             alertlogiccli.commands.deployment.mode.SetMode().execute(context)

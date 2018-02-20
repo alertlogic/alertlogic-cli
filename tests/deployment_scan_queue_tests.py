@@ -157,7 +157,8 @@ class TestListScanQueues():
             format(**vars(args)),
             body=body,
             status=200,
-            content_type="text/json")
+            content_type="text/json"
+        )
         context = mock_tools.make_context(args)
         result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues().execute(context)
 
@@ -177,7 +178,8 @@ class ScanHostTestCase():
             "{api_endpoint}/scheduler/v1/{account_id}/{deployment_id}/scan?asset={}".
             format(**vars(args)),
             status=200,
-            content_type="text/json")
+            content_type="text/json"
+        )
         context = mock_tools.make_context(args)
         result = alertlogiccli.commands.deployment.scan_queue.ListScanQueues().execute(context)
         assert (result == "ok")
