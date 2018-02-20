@@ -17,7 +17,8 @@ def test_parse_apidoc():
             "name": "test_endpoint1",
             "type": "get",
             "url": "/test_service/endpoint1"
-        }, {
+        },
+        {
             "name": "test_endpoint2",
             "type": "post",
             "url": "/test_service/endpoint2"
