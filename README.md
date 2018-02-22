@@ -39,52 +39,6 @@ make test
     to the syslog. Please provide the command line argument `--logging_config_file`
     pointing on your custom configuration file to enable your custom log handlers.
 
-
-## Publishing:
-
-In order to build, publish and test the package you need to create `~/.pypirc`:
-```
-[distutils]
-index-servers =
-  pypi
-  pypitest
-
-[pypi]
-repository=https://pypi.python.org/pypi
-username=alertlogic
-password=password
-
-[pypitest]
-repository=https://testpypi.python.org/pypi
-username=alertlogic
-password=password
-```
-
-After it is created the following commands allow you to build upload and test the package:
-
-* `make dist` - buids the package and puts it into `dist/` subfolder
-* `make upload` - uploads to the `testpypi` server under alertlogic organization
-* `make install` - installs the package locally(not from PyPi, to install from PyPi use pip)
-* `make uninstall` - removes the package from the system
-* `make register` - register the package with testpypi
-* `make register_prod` - register the package with pypi
-* `make upload` - build and upload version of the package to the testpypi
-* `make upload_prod` - build and upload version of the package to the pypi(then can be installed as `pip install alertlogic-cli`)
-
-In order to install the package remotely from testpypi, after it is uploaded,
-use the following command:
-
-`pip install -i https://testpypi.python.org/pypi alertlogic-cli`
-
-
-In order to manipulate previous releases (delete, hide, etc.) you need to use PyPi web interface:
-https://pypi.python.org/pypi - for the production
-https://testpypi.python.org/pypi - for the testpypi
-
-More info:
-https://packaging.python.org/distributing/
-
-
 ## How to add new commands:
 
 1. Add a subdirectory in alertlogiccli/commands/
