@@ -69,28 +69,28 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 set_deployment_mode --mode readonly
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment set_deployment_mode --mode readonly
         ```
 
     * `get_deployment_mode` - shows deployment deployment mode:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 get_deployment_mode
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment get_deployment_mode
         ```
 
     * `get_deployment_status` - gets deployment status for a given deployment
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 get_deployment_status
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment get_deployment_status
         ```
 
     * `list_deployed_resources` - lists security infrastructure resources deployed
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 list_deployed_resources
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment list_deployed_resources
         ```
 
     * `list_scan_queues` - lists hosts in scan queues for a given deployment
@@ -101,7 +101,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 list_scan_queues
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment list_scan_queues
         ```
 
     * `scan_host` - puts a host in the immediate scan queue
@@ -112,7 +112,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 scan_host --host_key /aws/us-east-1/host/i-00000000000000000
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment scan_host --host_key /aws/us-east-1/host/i-00000000000000000
         ```
 
 For further information run `alertlogic-cli --help`.

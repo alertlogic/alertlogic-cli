@@ -15,7 +15,7 @@ import urlparse
 API_DATA_DIR = os.path.abspath(os.path.dirname(__file__) + "/api_data")
 
 API_SERVICES = [
-    "sources", "scan_scheduler", "launcher", "launcher_remediation"
+    "sources", "scan_scheduler", "launcher", "launcher_remediation", "otis", "saturn", "skaletor"
 ]
 
 log = logging.getLogger()
@@ -188,6 +188,7 @@ def substitute_path_args(path, args):
 
 def substitute_query_args(query, args):
     parsed = urlparse.parse_qs(query)
+    qstoremove = {}
     for key in parsed:
         value = parsed[key][0]
         if value.startswith(":"):
@@ -195,7 +196,9 @@ def substitute_query_args(query, args):
             if required_arg in args:
                 parsed[key] = args[required_arg]
             else:
-                raise InvalidEndpointCall("missing required url argument {}".format(required_arg))
+                qstoremove[key] = key
+    for key in qstoremove:
+        del parsed[key]
     substituted = urllib.urlencode(parsed)
     substituted = urllib.unquote_plus(substituted)
     return substituted

@@ -1,0 +1,804 @@
+[
+  {
+    "type": "delete",
+    "url": "/otis/v1/:account_id/options/:name",
+    "title": "Delete an option",
+    "name": "Delete_an_option",
+    "group": "Tuning_Operations_V1_DEPRECATED",
+    "description": "<p>Delete an option for the given account</p> ",
+    "version": "1.0.0",
+    "examples": [
+      {
+        "title": "Delete predefined security subnets:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X DELETE https://api.cloudinsight.alertlogic.com/otis/v1/12345678/options/predefined_security_subnets",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "204": [
+          {
+            "group": "204",
+            "optional": false,
+            "field": "Success",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V1_DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/otis/v1/:account_id/options",
+    "title": "List all defined options",
+    "name": "List_all_defined_options",
+    "group": "Tuning_Operations_V1_DEPRECATED",
+    "description": "<p>Returns a list of all defined options for the given account</p> ",
+    "version": "1.0.0",
+    "examples": [
+      {
+        "title": "List all defined options for the given account:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/otis/v1/12345678/options\n[\n    {\n        \"name\": \"predefined_securuty_subnets\",\n        \"value\": {\n            \"vpc-3850036c\": \"subnet-b12ecd41\",\n            \"vpc-9f6fd709\": \"subnet-bca8d737\"\n        }\n    }\n]",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "options",
+            "description": "<p>A list of defined options</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.name",
+            "description": "<p>An option name</p> "
+          },
+          {
+            "group": "200",
+            "type": "Json",
+            "optional": false,
+            "field": "option.value",
+            "description": "<p>An option value</p> "
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V1_DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/otis/v1/:account_id/options/:name",
+    "title": "Read an option",
+    "name": "Read_an_option",
+    "group": "Tuning_Operations_V1_DEPRECATED",
+    "description": "<p>Read an option value for the given account</p> ",
+    "version": "1.0.0",
+    "examples": [
+      {
+        "title": "Read predefined security subnets:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/otis/v1/12345678/options/predefined_security_subnets\n{\n    \"vpc-3850036c\": \"subnet-b12ecd41\",\n    \"vpc-9f6fd709\": \"subnet-bca8d737\"\n}",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Json",
+            "optional": false,
+            "field": "value",
+            "description": "<p>An option value</p> "
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V1_DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ],
+        "404 Not Found": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>The item does not exist</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "put",
+    "url": "/otis/v1/:account_id/options/:name",
+    "title": "Write an option",
+    "name": "Write_an_option",
+    "group": "Tuning_Operations_V1_DEPRECATED",
+    "description": "<p>Write an option value for the given account</p> ",
+    "version": "1.0.0",
+    "examples": [
+      {
+        "title": "Write predefined security subnets:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST https://api.cloudinsight.alertlogic.com/otis/v1/12345678/options/predefined_security_subnets -d @- <<BODY\n{\n    \"vpc-3850036c\": \"subnet-b12ecd41\"\n    \"vpc-9f6fd709\": \"subnet-bca8d737\"\n}\nBODY",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "204": [
+          {
+            "group": "204",
+            "optional": false,
+            "field": "Success",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V1_DEPRECATED",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "400 Bad Request": [
+          {
+            "group": "400",
+            "optional": false,
+            "field": "BadRequest",
+            "description": "<p>The request is malformed</p> "
+          }
+        ],
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "delete",
+    "url": "/otis/v2/:account_id/options/:id",
+    "title": "Delete option",
+    "name": "Delete_an_option_value_defined_by_the_id",
+    "group": "Tuning_Operations_V2",
+    "description": "<p>Delete a specific option for the given account</p> ",
+    "version": "2.0.0",
+    "examples": [
+      {
+        "title": "Delete option value corresponding to id:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X DELETE https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options/6E284CE6-2740-11E1-8DF7-00163E777167",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "204": [
+          {
+            "group": "204",
+            "optional": false,
+            "field": "Success",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V2",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/otis/v2/:account_id/options/:id",
+    "title": "Get option",
+    "name": "Get_corresponding_value_to_given_id",
+    "group": "Tuning_Operations_V2",
+    "description": "<p>Returns a single option object</p> ",
+    "version": "2.0.0",
+    "examples": [
+      {
+        "title": "Get the option object that corresponds to id in path:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options/6E284CE6-2740-11E1-8DF7-00163E777167\n{\n     \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n     \"name\": \"predefined_security_subnet\",\n     \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-3850036c\"},\n     \"value\": \"subnet-b12ecd41\"\n}",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Json",
+            "optional": false,
+            "field": "option",
+            "description": "<p>A defined option</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.id",
+            "description": "<p>The id of the option value</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.name",
+            "description": "<p>An option name</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.scope",
+            "description": "<p>The scope of the option</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.value",
+            "description": "<p>An option value</p> "
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V2",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ],
+        "404 Not Found": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>The item does not exist</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "get",
+    "url": "/otis/v2/:account_id/options",
+    "title": "List options",
+    "name": "List_option_values",
+    "group": "Tuning_Operations_V2",
+    "description": "<p>Returns a list of all defined options for the given account</p> ",
+    "version": "2.0.0",
+    "parameter": {
+      "fields": {
+        "QueryString": [
+          {
+            "group": "QueryString",
+            "type": "String",
+            "optional": false,
+            "field": "option.name",
+            "description": "<p>Option name currently only option name is &#39;predefined_security_subnet&#39;</p> "
+          },
+          {
+            "group": "QueryString",
+            "type": "String",
+            "optional": false,
+            "field": "option.scope",
+            "description": "<p>The scope of the option, for predefined_security_subnet the scope is the aws_account_id (scope.aws_account_id) and vpc_id (scope.vpc_id)</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "List all defined options for the given account:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options\n[\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"predefined_security_subnet\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-3850036c\"},\n        \"value\": \"subnet-b12ecd41\"\n    },\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"predefined_security_subnet\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-9f6fd709\"},\n        \"value\": \"subnet-bca8d737\"\n    }\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"num_scanners\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-9f6fd709\"},\n        \"value\": 2\n    }\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"scanner_instance_type\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-9f6fd709\"},\n        \"value\": \"m3.medium\"\n    }\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"scanner_autoscaling_enabled\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-9f6fd709\"},\n        \"value\": true\n    }\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"scanner_autoscaling_enabled\",\n        \"value\": false\n    }\n]",
+        "type": "json"
+      },
+      {
+        "title": "List all defined options for the given account with option name predefined_security_subnet:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options?name=predefined_security_subnet\n[\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"predefined_security_subnet\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-3850036c\"},\n        \"value\": \"subnet-b12ecd41\"\n    },\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"predefined_security_subnet\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-9f6fd709\"},\n        \"value\": \"subnet-bca8d737\"\n    }\n]",
+        "type": "json"
+      },
+      {
+        "title": "List all defined options for the given account with scope vpc-3850036c:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options?scope.vpc_id=vpc-3850036c\n[\n    {\n        \"id\": \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\",\n        \"name\": \"predefined_security_subnet\",\n        \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-3850036c\"},\n        \"value\": \"subnet-b12ecd41\"\n    }\n]",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "options",
+            "description": "<p>A list of defined options</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.id",
+            "description": "<p>The id of the option value</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.name",
+            "description": "<p>An option name</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.scope",
+            "description": "<p>The scope of the option</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.value",
+            "description": "<p>An option value</p> "
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V2",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "put",
+    "url": "/otis/v2/:account_id/options/:id",
+    "title": "Update option",
+    "name": "Update_an_option",
+    "group": "Tuning_Operations_V2",
+    "description": "<p>Update an option value for the given account that corresponds to the id</p> ",
+    "version": "2.0.0",
+    "examples": [
+      {
+        "title": "Update option that corresponds to id:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X PUT https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options/6E284CE6-2740-11E1-8DF7-00163E777167 -d @- <<BODY\n{\n    \"value\": \"subnet-b12ecd41\"\n}\nBODY\n{\n    \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n    \"name\": \"predefined_security_subnet\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-3850036c\"},\n    \"value\": \"subnet-b12ecd41\"\n}",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Json",
+            "optional": false,
+            "field": "option",
+            "description": "<p>A defined option</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.id",
+            "description": "<p>The id of the option value</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.name",
+            "description": "<p>An option name</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.scope",
+            "description": "<p>The scope of the option</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "option.value",
+            "description": "<p>An option value</p> "
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V2",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "400 Bad Request": [
+          {
+            "group": "400",
+            "optional": false,
+            "field": "BadRequest",
+            "description": "<p>The request is malformed</p> "
+          }
+        ],
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ],
+        "404 Not Found": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>The item does not exist</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "post",
+    "url": "/otis/v2/:account_id/options",
+    "title": "Write option",
+    "name": "Write_an_option",
+    "group": "Tuning_Operations_V2",
+    "description": "<p>Write an option value for the given account</p> ",
+    "version": "2.0.0",
+    "examples": [
+      {
+        "title": "Write predefined security subnet:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options -d @- <<BODY\n{\n    \"name\": \"predefined_security_subnet\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-3850036c\"},\n    \"value\": \"subnet-b12ecd41\"\n}\nBODY\n{\n    \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n    \"name\": \"predefined_security_subnet\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-3850036c\"},\n    \"value\": \"subnet-b12ecd41\"\n}",
+        "type": "json"
+      },
+      {
+        "title": "Write scanner autoscaling enabled for AL account:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options -d @- <<BODY\n{\n    \"name\": \"scanner_autoscaling_enabled\",\n    \"value\": true\n}\nBODY\n{\n    \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n    \"name\": \"scanner_autoscaling_enabled\",\n    \"value\": true\n}",
+        "type": "json"
+      },
+      {
+        "title": "Write scanner autoscaling enabled for AWS account:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options -d @- <<BODY\n{\n    \"name\": \"scanner_autoscaling_enabled\",\n    \"scope\": {\"aws_account_id\": \"123456789012\"},\n    \"value\": true\n}\nBODY\n{\n    \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n    \"name\": \"scanner_autoscaling_enabled\",\n    \"scope\": {\"aws_account_id\": \"123456789012\"},\n    \"value\": true\n}",
+        "type": "json"
+      },
+      {
+        "title": "Write scanner autoscaling enabled for VPC:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options -d @- <<BODY\n{\n    \"name\": \"scanner_autoscaling_enabled\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-12345678\"},\n    \"value\": true\n}\nBODY\n{\n    \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n    \"name\": \"scanner_autoscaling_enabled\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-12345678\"},\n    \"value\": true\n}",
+        "type": "json"
+      },
+      {
+        "title": "Write num scanners:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options -d @- <<BODY\n{\n    \"name\": \"num_scanners\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-12345678\"},\n    \"value\": 4\n}\nBODY\n{\n    \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n    \"name\": \"num_scanners\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-12345678\"},\n    \"value\": 4\n}",
+        "type": "json"
+      },
+      {
+        "title": "Write scanner instance type:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST https://api.cloudinsight.alertlogic.com/otis/v2/12345678/options -d @- <<BODY\n{\n    \"name\": \"scanner_instance_type\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-12345678\"},\n    \"value\": \"m3.medium\"\n}\nBODY\n{\n    \"id\": \"6E284CE6-2740-11E1-8DF7-00163E777167\",\n    \"name\": \"scanner_instance_type\",\n    \"scope\": {\"aws_account_id\": \"123456789012\", \"vpc_id\": \"vpc-12345678\"},\n    \"value\": \"m3.medium\"\n}",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "201": [
+          {
+            "group": "201",
+            "type": "Json",
+            "optional": false,
+            "field": "option",
+            "description": "<p>A defined option</p> "
+          },
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "option.id",
+            "description": "<p>The id of the option value</p> "
+          },
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "option.name",
+            "description": "<p>An option name</p> "
+          },
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "option.scope",
+            "description": "<p>The scope of the option</p> "
+          },
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "option.value",
+            "description": "<p>An option value</p> "
+          }
+        ]
+      }
+    },
+    "filename": "deps/otis/doc/apidoc.erl",
+    "groupTitle": "Tuning_Operations_V2",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "400 Bad Request": [
+          {
+            "group": "400",
+            "optional": false,
+            "field": "BadRequest",
+            "description": "<p>The request is malformed</p> "
+          }
+        ],
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ]
+      }
+    }
+  }
+]

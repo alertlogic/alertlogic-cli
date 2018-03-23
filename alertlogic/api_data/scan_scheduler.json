@@ -407,6 +407,66 @@
     }
   },
   {
+    "type": "get",
+    "url": "/scheduler/v1/:account_id/:environment_id/targets",
+    "title": "Retrieve a list of target hosts",
+    "name": "ListScanTargets",
+    "group": "Scheduler_Resources",
+    "version": "1.0.0",
+    "description": "<p>List of hosts is returned, in the order they will be scanned. This does not dequeue hosts.</p> <p>Each entry in the list contains:</p> <ul> <li><em>policy</em> - policy details affecting how the scan is performed.</li> <li><em>id</em> - Host key from the Assets service</li> <li><em>vpc</em> - VPC key</li> <li><em>subnet</em> - Subnet ID</li> <li><em>name</em> - Hostname</li> <li><em>address</em> - IP address</li> <li><em>metadata</em> - Internal scheduler metadata for the asset</li> <li><em>scanner</em> - Scanner. Please ignore that one.</li> </ul> <p>The metadata object includes:</p> <ul> <li><em>priority</em> - Scan priority (deprecated; always -1)</li> <li><em>last_scan</em> - Timestamp of last scan completion</li> <li><em>last_heartbeat</em> - Timestamp of the scan heartbeat</li> <li><em>status</em> - Current scan status (idle, pending, queued)</li> <li><em>request_id</em> - ID of the scan execution, if scan is in progress</li> <li><em>launch_time</em> - Timestamp of the launch time of the host</li> </ul> <p>The policy object includes:</p> <ul> <li><em>ports</em> - list of port ranges to be scanned</li> <li><em>credentials</em> - metadata describing the credentials to be used to perform the scan</li> </ul> ",
+    "examples": [
+      {
+        "title": "Retrieving a list of target hosts:",
+        "content": "curl -X GET https://api.cloudinsight.alertlogic.com/scheduler/v1/01000001/BA395439-550B-4249-B53E-70FCCFF73125/targets",
+        "type": "curl"
+      }
+    ],
+    "success": {
+      "examples": [
+        {
+          "title": "200 Ok:",
+          "content": "{\n   \"targets\" : [\n       {\n           \"policy\" : {\n               \"ports\" : [\n                   [\n                       1,\n                       65535\n                   ]\n               ],\n               \"credentials\" : null\n           },\n           \"subnet\" : \"/aws/us-west-2/subnet/subnet-407bc236\",\n           \"address\" : \"173.19.6.210\",\n           \"id\" : \"/aws/us-west-2/host/i-014a74d9e07b266c2\",\n           \"name\" : \"ip-171-17-4-208.us-west-2.compute.internal\",\n           \"vpc\" : \"/aws/us-west-2/vpc/vpc-38c87d5c\",\n           \"metadata\" : {\n               \"request_id\" : \"7F8619E4-4A6C-1004-9FCC-1A60FDE2328C\",\n               \"status\" : \"idle\",\n               \"last_scan\" : 1499828587,\n               \"last_heartbeat\" : 0,\n               \"launch_time\" : 1487869857,\n               \"priority\" : -1\n           },\n           \"scanner\" : null\n       }\n   ]",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "deps/scan_scheduler/doc/apidoc.erl",
+    "groupTitle": "Scheduler_Resources",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AuthenticationToken</code> returned by AIMS service.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment_id",
+            "description": "<p>AL Environment ID</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "put",
     "url": "/scheduler/v1/:account_id/:environment_id/scan?asset=:asset_key",
     "title": "Immediately scan an asset",
