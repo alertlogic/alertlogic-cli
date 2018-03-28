@@ -4,7 +4,7 @@ import requests
 import json
 
 class ScannerEstimation(alertlogiccli.command.Command):
-    """Command to get installation status from saturn"""
+    """Command to get scanner estimation from skaletor"""
 
     def configure_parser(self, subparsers):
         parser = subparsers.add_parser("scanner_estimation", help="gets scanner estimation from skaletor")
