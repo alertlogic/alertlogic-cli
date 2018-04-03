@@ -145,7 +145,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
         $ alertlogic-cli --account_id 12345678 guided get_configuration
         ```
 
-    * `get_estimation` - Gets the estimation for required number of scanners for a given scope
+    * `scanner_estimation` - Gets the estimation for required number of scanners for a given scope
 
         Options available:
 
@@ -155,7 +155,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli --account_id 12345678 guided get_estimation --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
+        $ alertlogic-cli --account_id 12345678 guided scanner_estimation --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
         ```
 
     * `installation_status` - Gets the status of installations deployed in guided mode

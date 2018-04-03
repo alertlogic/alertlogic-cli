@@ -188,7 +188,7 @@ def substitute_path_args(path, args):
 
 def substitute_query_args(query, args):
     parsed = urlparse.parse_qs(query)
-    qs_to_remove = {}
+    qs_to_remove = []
     for key in parsed:
         value = parsed[key][0]
         if value.startswith(":"):
@@ -196,7 +196,7 @@ def substitute_query_args(query, args):
             if required_arg in args:
                 parsed[key] = args[required_arg]
             else:
-                qs_to_remove[key] = key
+                qs_to_remove.append(key)
     for key in qs_to_remove:
         del parsed[key]
     substituted = urllib.urlencode(parsed)
