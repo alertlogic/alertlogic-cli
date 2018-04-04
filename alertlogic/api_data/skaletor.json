@@ -1,0 +1,139 @@
+[
+  {
+    "type": "get",
+    "url": "/skaletor/v1/:account_id/scanners?deployment_id=:deployment_id&vpc_key=:vpc_key",
+    "title": "Get scan appliance estimations for an account. Optional filters can be specified for better granularity",
+    "name": "Get_scanners",
+    "group": "Scanner",
+    "description": "<p>Return the estimated appliance number for all in scope VPCs for all deployment IDs in the account ID provided.</p> ",
+    "version": "1.0.0",
+    "examples": [
+      {
+        "title": "List all scanner estimations for the given account:",
+        "content": "curl -H \"x-aims-auth-token: ${TOKEN}\" -X GET https://api.cloudinsight.alertlogic.com/skaletor/v1/01000001/scanners",
+        "type": "json"
+      },
+      {
+        "title": "200 Success:",
+        "content": "{\n  \"count\" : 2,\n  \"scanners\" : [\n    {\n      \"account_id\" : \"01000001\",\n      \"deployment_id\" : \"582C62B4-9D1D-4F1C-9117-BE4198198861\",\n      \"vpc_key\" : \"/aws/us-west-1/vpc/vpc-123456\",\n      \"scaling_policy\" : \"empty\",\n      \"num_scanners_required\" : 0\n    },\n    {\n      \"account_id\" : \"01000001\",\n      \"deployment_id\" : \"45052A47-5CDB-4320-8E39-03D11711EFFD\",\n      \"vpc_key\" : \"/aws/us-west-1/vpc/vpc-645321\",\n      \"scaling_policy\" : \"small\",\n      \"num_scanners_required\" : 1\n    }\n  ]\n}",
+        "type": "json"
+      },
+      {
+        "title": "List all scan appliance estimations for the given account and deployment:",
+        "content": "curl -H \"x-aims-auth-token: ${TOKEN}\" -X GET https://api.cloudinsight.alertlogic.com/skaletor/v1/01000001/scanners?deployment_id=582C62B4-9D1D-4F1C-9117-BE4198198861&vpc_key=/aws/us-west-1/vpc/vpc-123456",
+        "type": "json"
+      },
+      {
+        "title": "200 Success:",
+        "content": "{\n  \"count\" : 1,\n  \"scanners\" : [\n    {\n      \"account_id\" : \"01000001\",\n      \"deployment_id\" : \"582C62B4-9D1D-4F1C-9117-BE4198198861\",\n      \"vpc_key\" : \"/aws/us-west-1/vpc/vpc-123456\",\n      \"scaling_policy\" : \"empty\",\n      \"num_scanners_required\" : 0\n    }\n  ]\n}",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Integer",
+            "optional": false,
+            "field": "count",
+            "description": "<p>The number of scanners returned</p> "
+          },
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "scanners",
+            "description": "<p>A list of scan appliance number estimations</p> "
+          },
+          {
+            "group": "200",
+            "type": "Integer",
+            "optional": false,
+            "field": "scanner.num_scanners_required",
+            "description": "<p>Estimated number of scanners required for the VPC</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "scanner.scaling_policy",
+            "description": "<p>One of three scaling policies for the VPC based on the number of hosts to scan: <code>empty</code>, <code>small</code> or <code>big</code>. This data is purely informational and corresponds to the algorithm used internally to do the calculations.</p> "
+          }
+        ]
+      }
+    },
+    "filename": "doc/apidoc.erl",
+    "groupTitle": "Scanner",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          }
+        ],
+        "url": [
+          {
+            "group": "url",
+            "type": "String",
+            "optional": true,
+            "field": "scanner.deployment_id",
+            "description": "<p>deployments Deployment ID</p> "
+          },
+          {
+            "group": "url",
+            "type": "String",
+            "optional": true,
+            "field": "scanner.vpc_key",
+            "description": "<p>assets VPC key</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ],
+        "404 Not Found": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>The item does not exist</p> "
+          }
+        ]
+      }
+    }
+  }
+]

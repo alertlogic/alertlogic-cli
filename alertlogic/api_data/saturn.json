@@ -1,0 +1,381 @@
+[
+  {
+    "type": "get",
+    "url": "saturn/v1/:account_id/installations?vpc_key=:vpc_key",
+    "title": "Get currently deployed installations and resources",
+    "name": "Get_deployed_installations_and_it_s_resources",
+    "group": "Deployed_installations",
+    "description": "<p>Lists all installations and resources deployed in its scope for an account, installtions may be filtered by vpc_key</p> ",
+    "examples": [
+      {
+        "title": "no vpc_key set:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/saturn/v1/67000720/installations",
+        "type": "json"
+      },
+      {
+        "title": "vpc_key set:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" https://api.cloudinsight.alertlogic.com/saturn/v1/67000720/installations?vpc_key=/aws/us-west-1/vpc/vpc-89019202",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "installations",
+            "description": "<p>installation objects and resources deployed in its scope</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.account_id",
+            "description": "<p>The Alert Logic account ID of the installation</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.deployment_id",
+            "description": "<p>Deployment ID of installation</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.vpc_key",
+            "description": "<p>Cloud Insight assets vpc key identifying an installation</p> "
+          },
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "installation.mode",
+            "description": "<p>object containing detail about installation mode</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.mode.type",
+            "description": "<p>Deployment mode</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.mode.subnet_id",
+            "description": "<p>Subnet in which to deploy security infrastructure</p> "
+          },
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "installation.status",
+            "description": "<p>object containing info about health of installation</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.status",
+            "description": "<p>Current status of installation: new | ok | error</p> "
+          },
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "installation.status.state",
+            "description": "<p>object containing info about current operation in installation</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.state.operation",
+            "description": "<p>Current operation being carried out on installation: deploy | remove</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.state.status",
+            "description": "<p>Status of operation: started | completed | failed</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.state.timestamp",
+            "description": "<p>unix timestamp of last update to state</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.verified_on",
+            "description": "<p>unix timestamp of verification of resources (only shown if state is deploy, completed)</p> "
+          },
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "installation.status.error",
+            "description": "<p>object containing info about installation error (only shown if state is error)</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.error.type",
+            "description": "<p>Type of error: configuration | internal | external</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.error.code",
+            "description": "<p>Error code defining error starts with AWS: for aws error, AL: for Alert Logic error</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.error.description",
+            "description": "<p>A more detailed description of error</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.status.error.timestamp",
+            "description": "<p>unix timestamp of when error was detected</p> "
+          },
+          {
+            "group": "200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "installation.resources",
+            "description": "<p>object containing detail about installation resources</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.resources.type",
+            "description": "<p>Type of resource</p> "
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "installation.resources.details",
+            "description": "<p>Details of resource including name</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Multiple intallations objects are returned",
+          "content": "[\n  {\n      \"account_id\" : \"67000720\",\n      \"deployment_id\" : \"6C44897A-74B0-4C3A-A346-87618160C6F2\",\n      \"vpc_key\" : \"/aws/us-west-1/vpc/vpc-89019202\",\n      \"mode\" : {\n          \"type\": \"guided\",\n          \"subnet_id\": \"subnet-00000001\"\n      },\n      \"status\" : {\n          \"status\" : \"error\",\n          \"state\" : {\n              \"operation\": \"deploy\",\n              \"status\": \"failed\"\n              \"timestamp\": \"1234567890\"\n              },\n          \"error\" : {\n              \"type\" : \"configuration\",\n              \"code\" : \"AL:UndefinedSubnet\",\n              \"resource\" : \"subnet\",\n              \"description\" : \"A predefined security subnet is not specified for the target VPC\",\n              \"timestamp\" : \"1234567890\"\n          }\n      },\n      \"resources\" : [\n          {\n              \"type\": \"launch_configuration\",\n              \"details\": {\n                  \"config_name\": \"AlertLogic Security Launch Configuration 67000720/F14EECDC-59B2-1005-8778-0EF3D1E470FE/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"auto_scaling_group\",\n              \"details\": {\n                  \"group_name\": \"AlertLogic Security Autoscaling Group 67000720/DF0BD523-DA14-431B-8541-7972133140CC/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"security_group\",\n              \"details\": {\n                  \"group_id\": \"sg-78729010\"\n              }\n          }\n      ]\n  },\n  {\n      \"account_id\" : \"67000720\",\n      \"deployment_id\" : \"7FDC124A-82A0-5B3A-A346-87618160E2TY\",\n      \"vpc_key\" : \"/aws/us-west-1/vpc/vpc-46386042\",\n      \"mode\" : {\n          \"type\": \"guided\",\n          \"subnet_id\": \"subnet-00000001\"\n      },\n      \"status\" : {\n          \"status\" : \"ok\",\n          \"state\" : {\n              \"operation\": \"deploy\",\n              \"status\": \"completed\"\n              \"timestamp\": \"1234567890\"\n          },\n          \"verified_on\" : 1509955009\n      },\n      \"resources\" : [\n          {\n              \"type\": \"launch_configuration\",\n              \"details\": {\n                  \"config_name\": \"AlertLogic Security Launch Configuration 67000720/F14EECDC-59B2-1005-8778-0EF3D1E470FE/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"auto_scaling_group\",\n              \"details\": {\n                  \"group_name\": \"AlertLogic Security Autoscaling Group 67000720/DF0BD523-DA14-431B-8541-7972133140CC/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"security_group\",\n              \"details\": {\n                  \"group_id\": \"sg-78729010\"\n              }\n          }\n      ]\n  },\n  {\n      \"account_id\" : \"67000720\",\n      \"deployment_id\" : \"7FDC124A-82A0-5B3A-A346-87618160E2TY\",\n      \"vpc_key\" : \"/aws/us-west-1/vpc/vpc-46386042\",\n      \"mode\" : {\n          \"type\": \"guided\",\n          \"subnet_id\": \"subnet-00000001\"\n      },\n      \"status\" : {\n          \"status\" : \"new\"\n      },\n      \"resources\" : [\n          {\n              \"type\": \"launch_configuration\",\n              \"details\": {\n                  \"config_name\": \"AlertLogic Security Launch Configuration 67000720/F14EECDC-59B2-1005-8778-0EF3D1E470FE/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"auto_scaling_group\",\n              \"details\": {\n                  \"group_name\": \"AlertLogic Security Autoscaling Group 67000720/DF0BD523-DA14-431B-8541-7972133140CC/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"security_group\",\n              \"details\": {\n                  \"group_id\": \"sg-78729010\"\n              }\n          }\n      ]\n  }\n]",
+          "type": "json"
+        },
+        {
+          "title": "Installation object returned by vpc_key request parameter value",
+          "content": "  {\n      \"account_id\" : \"67000720\",\n      \"deployment_id\" : \"6C44897A-74B0-4C3A-A346-87618160C6F2\",\n      \"vpc_key\" : \"/aws/us-west-1/vpc/vpc-89019202\",\n      \"mode\" : {\n          \"type\": \"guided\",\n          \"subnet_id\": \"subnet-00000001\"\n      },\n      \"status\" : {\n          \"status\" : \"error\",\n          \"state\" :  {\n              \"operation\": \"deploy\",\n              \"status\": \"failed\"\n              \"timestamp\": \"1234567890\"\n          },\n          \"error\" : {\n              \"type\" : \"configuration\",\n              \"code\" : \"AL:UndefinedSubnet\",\n              \"resource\" : \"subnet\",\n              \"description\" : \"A predefined security subnet is not specified for the target VPC\",\n              \"timestamp\" : \"1234567890\"\n          }\n      },\n      \"resources\" : [\n          {\n              \"type\": \"launch_configuration\",\n              \"details\": {\n                  \"config_name\": \"AlertLogic Security Launch Configuration 67000720/F14EECDC-59B2-1005-8778-0EF3D1E470FE/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"auto_scaling_group\",\n              \"details\": {\n                  \"group_name\": \"AlertLogic Security Autoscaling Group 67000720/DF0BD523-DA14-431B-8541-7972133140CC/vpc-89019202\"\n              }\n          },\n          {\n              \"type\": \"security_group\",\n              \"details\": {\n                  \"group_id\": \"sg-78729010\"\n              }\n          }\n      ]\n  }",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "doc/apidoc.erl",
+    "groupTitle": "Deployed_installations",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          }
+        ],
+        "url": [
+          {
+            "group": "url",
+            "type": "String",
+            "optional": true,
+            "field": "vpc_key",
+            "description": "<p>Cloud Insight assets vpc key identifying an installation</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ],
+        "404 Not Found": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>The item does not exist</p> "
+          }
+        ],
+        "500 Internal server error": [
+          {
+            "group": "500",
+            "optional": false,
+            "field": "InternalServerError",
+            "description": "<p>server error occured</p> "
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "post",
+    "url": "saturn/v1/:account_id/redeploy?deployment_id=:deployment_id&vpc_key=:vpc_key",
+    "title": "Redeploy account security infrastructure.",
+    "name": "Redeploy_account_security_infrastructure",
+    "group": "Redeploy",
+    "description": "<p>Redeploy account security infrastructure: Current infrastructure will be removed and new one will be created. If deployment ID and/or vpc_key is provided, infrastructure will only be redeployed in the provided scope.</p> ",
+    "examples": [
+      {
+        "title": "no deployment_id or vpc_key set:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST \"https://api.cloudinsight.alertlogic.com/saturn/v1/00000001/redeploy\"",
+        "type": "json"
+      },
+      {
+        "title": "deployment_id and vpc_key set:",
+        "content": "curl -v -H \"x-aims-auth-token: ${TOKEN}\" -X POST \"https://api.cloudinsight.alertlogic.com/saturn/v1/00000001/redeploy?deployment_id=6E284CE6-2740-11E1-8DF7-00163E777167&vpc_key=/aws/us-west-1/vpc/vpc-123456\"",
+        "type": "json"
+      }
+    ],
+    "success": {
+      "fields": {
+        "204": [
+          {
+            "group": "204",
+            "optional": false,
+            "field": "Ok",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "doc/apidoc.erl",
+    "groupTitle": "Redeploy",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-aims-auth-token",
+            "description": "<p><code>AimsAuthToken</code> returned by AIMS service</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "account_id",
+            "description": "<p>AIMS Account ID</p> "
+          }
+        ],
+        "url": [
+          {
+            "group": "url",
+            "type": "String",
+            "optional": true,
+            "field": "deployment_id",
+            "description": "<p>deployments Deployment ID</p> "
+          },
+          {
+            "group": "url",
+            "type": "String",
+            "optional": true,
+            "field": "vpc_key",
+            "description": "<p>Cloud Insight assets vpc key identifying an installation</p> "
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401",
+            "optional": false,
+            "field": "NotAuthorized",
+            "description": "<p>AuthenticationToken passed could not be authenticated</p> "
+          }
+        ],
+        "403 Forbidden": [
+          {
+            "group": "403",
+            "optional": false,
+            "field": "Forbidden",
+            "description": "<p>A client has insufficient permissions</p> "
+          }
+        ],
+        "404 Not Found": [
+          {
+            "group": "404",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>The item does not exist</p> "
+          }
+        ],
+        "500 Internal server error": [
+          {
+            "group": "500",
+            "optional": false,
+            "field": "InternalServerError",
+            "description": "<p>server error occured</p> "
+          }
+        ]
+      }
+    }
+  }
+]

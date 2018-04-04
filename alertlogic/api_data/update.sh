@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # space separted list of services
-APIS="sources scan_scheduler launcher"
+APIS="sources scan_scheduler launcher otis saturn skaletor"
 URL="https://console.cloudinsight.alertlogic.com/api"
 
 for api in $APIS; do

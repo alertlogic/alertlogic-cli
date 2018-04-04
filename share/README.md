@@ -59,6 +59,8 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
     * `--deployment_id ENVIRONMENT_ID` - to point on a customer deployment
 
+    * `--account_id ACCOUNT_ID` - to point at a customer account
+
     Operations available:
 
     * `set_deployment_mode` - changes deployment deployment mode between readonly or manual
@@ -69,28 +71,28 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 set_deployment_mode --mode readonly
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment set_deployment_mode --mode readonly
         ```
 
     * `get_deployment_mode` - shows deployment deployment mode:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 get_deployment_mode
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment get_deployment_mode
         ```
 
     * `get_deployment_status` - gets deployment status for a given deployment
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 get_deployment_status
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment get_deployment_status
         ```
 
     * `list_deployed_resources` - lists security infrastructure resources deployed
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 list_deployed_resources
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment list_deployed_resources
         ```
 
     * `list_scan_queues` - lists hosts in scan queues for a given deployment
@@ -101,7 +103,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 list_scan_queues
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment list_scan_queues
         ```
 
     * `scan_host` - puts a host in the immediate scan queue
@@ -112,7 +114,69 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli deployment --deployment_id 00000000-0000-0000-0000-000000000000 scan_host --host_key /aws/us-east-1/host/i-00000000000000000
+        $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment scan_host --host_key /aws/us-east-1/host/i-00000000000000000
         ```
+
+    * `set_subnet` - Sets a predefined security subnet to deploy infrastructure in. For guided mode deployments
+
+        Options available:
+
+        `--provider_type PROVIDER_TYPE` - Provider type for subnet (aws/azure) (Required)
+
+        `--provider_id PROVIDER_ID` - Provider id for subnet (Required)
+
+        `--vpc_id VPC_ID` - VPC id that subnet is within (Required)
+
+        `--subnet_id SUBNET_ID` - Subnet in which to deploy security infrastructure (Required)
+
+        Example:
+        ``` bash
+        $ alertlogic-cli --account_id 12345678 deployment set_subnet --provider_type aws --provider_id 123456789012 --vpc_id vpc-12345678 --subnet_id subnet-12345678
+        ```
+
+    * `get_configuration` - Gets the list of tuning options defined for an account
+
+        Example:
+        ``` bash
+        $ alertlogic-cli --account_id 12345678 deployment get_configuration
+        ```
+
+    * `scanner_estimation` - Gets the estimation for required number of scanners for a given scope
+
+        Options available:
+
+        `--deployment_id DEPLOYMENT_ID` - Point at specific deployment
+
+        `--vpc_key VPC_KEY` - Point at specific vpc
+
+        Example:
+        ``` bash
+        $ alertlogic-cli --account_id 12345678 deployment scanner_estimation --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
+        ```
+
+    * `installation_status` - Gets the status of installations deployed in guided mode
+
+        Options available:
+
+        `--vpc_key VPC_KEY` - Point at specific vpc
+
+        Example:
+        ``` bash
+        $ alertlogic-cli --account_id 12345678 deployment installation_status --vpc_key vpc-12345678
+        ```
+
+    * `redeploy` - Redeploys infrastructure within provided scope
+
+        Options available:
+
+        `--deployment_id DEPLOYMENT_ID` - Point at specific deployment
+
+        `--vpc_key VPC_KEY` - Point at specific vpc
+
+        Example:
+        ``` bash
+        $ alertlogic-cli --account_id 12345678 deployment redploy --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
+        ```
+
 
 For further information run `alertlogic-cli --help`.

@@ -126,7 +126,7 @@ def run_command():
 
     context = alertlogiccli.context.Context(args, config, credentials)
 
-    command = args.command.execute(context)
+    return args.command.execute(context)
 
 
 def main():
