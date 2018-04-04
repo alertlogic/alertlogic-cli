@@ -47,9 +47,7 @@ def import_commands():
 
     try:
         import alertlogiccli.commands.deployment
-        import alertlogiccli.commands.guided
         commands.append(alertlogiccli.commands.deployment.metadata)
-        commands.append(alertlogiccli.commands.guided.metadata)
     except ImportError:
         pass
 

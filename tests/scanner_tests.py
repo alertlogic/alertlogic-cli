@@ -1,11 +1,9 @@
-import pytest
-import mock
 import httpretty
-
-import mock_tools
+import pytest
 
 import alertlogiccli.command
-import alertlogiccli.commands.guided.scanner
+import alertlogiccli.commands.deployment.scanner
+import mock_tools
 
 
 class TestScanner():
@@ -21,7 +19,7 @@ class TestScanner():
         )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
-            alertlogiccli.commands.guided.scanner.ScannerEstimation().execute(context)
+            alertlogiccli.commands.deployment.scanner.ScannerEstimation().execute(context)
 
     @httpretty.activate
     def test_server_error(self):
@@ -34,7 +32,7 @@ class TestScanner():
         )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
-            alertlogiccli.commands.guided.scanner.ScannerEstimation().execute(context)
+            alertlogiccli.commands.deployment.scanner.ScannerEstimation().execute(context)
 
     @httpretty.activate
     def test_created(self):
@@ -59,7 +57,7 @@ class TestScanner():
             content_type="text/json"
         )
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.guided.scanner.ScannerEstimation().execute(context)
+        result = alertlogiccli.commands.deployment.scanner.ScannerEstimation().execute(context)
         assert (result == '{'
                           '"count":1,'
                           '"scanners":['

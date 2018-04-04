@@ -1,11 +1,9 @@
-import pytest
-import mock
 import httpretty
-
-import mock_tools
+import pytest
 
 import alertlogiccli.command
-import alertlogiccli.commands.guided.subnet
+import alertlogiccli.commands.deployment.subnet
+import mock_tools
 
 
 class TestSetSubnet():
@@ -23,7 +21,7 @@ class TestSetSubnet():
         )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
-            alertlogiccli.commands.guided.subnet.SetSubnet().execute(context)
+            alertlogiccli.commands.deployment.subnet.SetSubnet().execute(context)
 
     @httpretty.activate
     def test_server_error(self):
@@ -38,7 +36,7 @@ class TestSetSubnet():
         )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
-            alertlogiccli.commands.guided.subnet.SetSubnet().execute(context)
+            alertlogiccli.commands.deployment.subnet.SetSubnet().execute(context)
 
     @httpretty.activate
     def test_created(self):
@@ -59,7 +57,7 @@ class TestSetSubnet():
             content_type="text/json"
         )
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.guided.subnet.SetSubnet().execute(context)
+        result = alertlogiccli.commands.deployment.subnet.SetSubnet().execute(context)
         assert (result == '{'
                           '"id":"1",'
                           '"name":"predefined_security_subnet",'
@@ -81,7 +79,7 @@ class TestGetConfiguration():
         )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
-            alertlogiccli.commands.guided.subnet.GetConfiguration().execute(context)
+            alertlogiccli.commands.deployment.subnet.GetConfiguration().execute(context)
 
     @httpretty.activate
     def test_server_error(self):
@@ -94,7 +92,7 @@ class TestGetConfiguration():
         )
         with pytest.raises(alertlogiccli.command.InvalidHTTPResponse):
             context = mock_tools.make_context(args)
-            alertlogiccli.commands.guided.subnet.GetConfiguration().execute(context)
+            alertlogiccli.commands.deployment.subnet.GetConfiguration().execute(context)
 
     @httpretty.activate
     def test_created(self):
@@ -115,7 +113,7 @@ class TestGetConfiguration():
             content_type="text/json"
         )
         context = mock_tools.make_context(args)
-        result = alertlogiccli.commands.guided.subnet.GetConfiguration().execute(context)
+        result = alertlogiccli.commands.deployment.subnet.GetConfiguration().execute(context)
         assert (result == '['
                           '{'
                           '"id":"1",'

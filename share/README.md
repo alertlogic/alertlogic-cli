@@ -117,11 +117,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
         $ alertlogic-cli --deployment_id 00000000-0000-0000-0000-000000000000 deployment scan_host --host_key /aws/us-east-1/host/i-00000000000000000
         ```
 
-2. `guided` - groups the guided mode related options
-
-    Operations available:
-
-    * `set_subnet` - Sets a predefined security subnet to deploy infrastructure in
+    * `set_subnet` - Sets a predefined security subnet to deploy infrastructure in. For guided mode deployments
 
         Options available:
 
@@ -135,14 +131,14 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli --account_id 12345678 guided set_subnet --provider_type aws --provider_id 123456789012 --vpc_id vpc-12345678 --subnet_id subnet-12345678
+        $ alertlogic-cli --account_id 12345678 deployment set_subnet --provider_type aws --provider_id 123456789012 --vpc_id vpc-12345678 --subnet_id subnet-12345678
         ```
 
     * `get_configuration` - Gets the list of tuning options defined for an account
 
         Example:
         ``` bash
-        $ alertlogic-cli --account_id 12345678 guided get_configuration
+        $ alertlogic-cli --account_id 12345678 deployment get_configuration
         ```
 
     * `scanner_estimation` - Gets the estimation for required number of scanners for a given scope
@@ -155,7 +151,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli --account_id 12345678 guided scanner_estimation --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
+        $ alertlogic-cli --account_id 12345678 deployment scanner_estimation --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
         ```
 
     * `installation_status` - Gets the status of installations deployed in guided mode
@@ -166,7 +162,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli --account_id 12345678 guided installation_status --vpc_key vpc-12345678
+        $ alertlogic-cli --account_id 12345678 deployment installation_status --vpc_key vpc-12345678
         ```
 
     * `redeploy` - Redeploys infrastructure within provided scope
@@ -179,7 +175,7 @@ Alert Logic CLI currently supports the following commands and subcommands:
 
         Example:
         ``` bash
-        $ alertlogic-cli --account_id 12345678 guided redploy --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
+        $ alertlogic-cli --account_id 12345678 deployment redploy --deployment_id 00000000-0000-0000-0000-000000000000 --vpc_key vpc-12345678
         ```
 
 
