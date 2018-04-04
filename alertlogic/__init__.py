@@ -1,4 +1,4 @@
 __author__ = 'Juan Tascon'
 __author_email__ = "jtascon@alertlogic.com"
-__version__ = '1.3.3'
+__version__ = '1.4.0'
 __license__ = 'MIT'
