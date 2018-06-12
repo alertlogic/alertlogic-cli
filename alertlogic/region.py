@@ -9,7 +9,8 @@ List of known regions
 """
 REGIONS = {
     "us": "https://api.cloudinsight.alertlogic.com",
-    "uk": "https://api.cloudinsight.alertlogic.co.uk"
+    "uk": "https://api.cloudinsight.alertlogic.co.uk",
+    "int": "https://api.product.dev.alertlogic.com"
 }
 
 

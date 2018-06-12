@@ -21,9 +21,9 @@ class ListDeployed(alertlogiccli.command.Command):
         launcher = context.get_services().launcher
 
         try:
-            response = launcher.getawsresourcesbyenvironment(
+            response = launcher.list_deployed(
                 account_id=args["account_id"],
-                environment_id=args["deployment_id"]
+                deployment_id=args["deployment_id"]
             )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:

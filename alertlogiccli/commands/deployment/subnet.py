@@ -19,18 +19,12 @@ class SetSubnet(alertlogiccli.command.Command):
         args = context.get_final_args()
         otis = context.get_services().otis
         try:
-            new_option = {
-                "name": "predefined_security_subnet",
-                "scope": {
-                    "provider_id": args["provider_id"],
-                    "provider_type": args["provider_type"],
-                    "vpc_id": args["vpc_id"]
-                },
-                "value": args["subnet_id"]
-            }
-            response = otis.write_an_option(
+            response = otis.set_subnet(
                 account_id=args["account_id"],
-                json=new_option
+                provider_id=args["provider_id"],
+                provider_type=args["provider_type"],
+                vpc_id=args["vpc_id"],
+                subnet_id=args["subnet_id"]
             )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -49,7 +43,7 @@ class GetConfiguration():
         args = context.get_final_args()
         otis = context.get_services().otis
         try:
-            response = otis.list_option_values(account_id = args["account_id"])
+            response = otis.get_options(account_id = args["account_id"])
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise alertlogiccli.command.InvalidHTTPResponse("get_config", e.message)

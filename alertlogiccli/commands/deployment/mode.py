@@ -9,7 +9,7 @@ class Base():
         sources = context.get_services().sources
 
         try:
-            response = sources.get_source(account_id=args["account_id"], id=args["deployment_id"])
+            response = sources.get_source(account_id=args["account_id"], source_id=args["deployment_id"])
             if response.status_code == 404:
                 raise alertlogiccli.command.InvalidParameter("deployment", args["deployment_id"], "not found")
             response.raise_for_status()
@@ -56,17 +56,10 @@ class SetMode(Base, alertlogiccli.command.Command):
         args = context.get_final_args()
         sources = context.get_services().sources
         try:
-            new_config = {
-                "source": {
-                    "config": {
-                        "deployment_mode": args["mode"]
-                    }
-                }
-            }
-            response = sources.merge_source(
+            response = sources.set_mode(
                 account_id=args["account_id"],
-                id=args["deployment_id"],
-                json=new_config
+                deployment_id=args["deployment_id"],
+                mode=args["mode"]
             )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
