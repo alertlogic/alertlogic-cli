@@ -45,16 +45,64 @@ class Sources(Service):
         except KeyError:
             raise KeyError
 
+    def merge_sources(self, account_id, source_id, source):
+        path_parts = [account_id, 'sources', source_id]
+        return self.call_endpoint('POST', path_parts, json=source)
+
     def set_mode(self, account_id, deployment_id, mode):
-        path_parts = [account_id, 'sources', deployment_id]
         source = {
             "source": {
                 "config": {
                     "deployment_mode": mode
                 }
             }
+         }
+        return self.merge_sources(account_id, deployment_id, source)
+
+    def set_deployment_scope(self, account_id, source_id, include, exclude):
+        source = {
+            "source": {
+                "config": {
+                    "aws": {
+                        "scope": {
+                            "include": include,
+                            "exclude": exclude
+                        }
+                    }
+                }
+            }
+        }
+        return self.merge_sources(account_id, source_id, source)
+
+    def create_deployment(self, account_id, aws_account_id, credential_id, name, mode, scan=True):
+        path_parts = [account_id, 'sources']
+        source = {
+            "source": {
+                "config": {
+                    "collection_method": "api",
+                    "collection_type": "aws",
+                    "aws": {
+                        "account_id": aws_account_id,
+                        "credential": {
+                            "id": credential_id
+                        },
+                        "discover": True,
+                        "scan": scan,
+                        "deployment_mode": mode
+                    }
+                },
+                "enabled": True,
+                "name": name,
+                "product_type": "outcomes",
+                "tags": [],
+                "type": "environment"
+            }
         }
         return self.call_endpoint('POST', path_parts, json=source)
+
+    def delete_source(self, account_id, source_id):
+        path_parts = [account_id, 'sources', source_id]
+        return self.call_endpoint('DELETE', path_parts)
 
 
 class Launcher(Service):
@@ -85,6 +133,13 @@ class ScanScheduler(Service):
         path_parts = [account_id, deployment_id, 'list']
         return self.call_endpoint('GET', path_parts)
 
+    def get_scan_summary(self, account_id, deployment_id, vpc_key=None):
+        path_parts = [account_id, deployment_id, 'summary']
+        if vpc_key:
+            params = {"vpc_key": vpc_key}
+        else:
+            params = {}
+        return self.call_endpoint('GET', path_parts, params=params)
 
 class Saturn(Service):
 
@@ -168,3 +223,23 @@ class Themis(Service):
             "external_id": account_id
         }
         return self.call_endpoint('POST', path_parts, json=role)
+
+
+class ScanCollect(Service):
+
+    def __init__(self, session):
+        Service.__init__(self, "scancollect", "v1_remediation", session)
+
+    def get_appliance_vmserver_id(self, account_id, deployment_id, appliance_id):
+        path_parts = [account_id, deployment_id, 'appliance_vmserver_id', appliance_id]
+        return self.call_endpoint('GET', path_parts)
+
+
+class AssetsQuery(Service):
+
+    def __init__(self, session):
+        Service.__init__(self, "assets_query", "v1", session)
+
+    def get_assets_in_deployment(self, account_id, deployment_id, params=None):
+        path_parts = [account_id, 'deployments', deployment_id, 'assets']
+        return self.call_endpoint('GET', path_parts, params=params)
