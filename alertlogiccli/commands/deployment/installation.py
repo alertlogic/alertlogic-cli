@@ -1,3 +1,4 @@
+from alertlogic.services import Saturn
 import alertlogiccli.command
 
 import requests
@@ -13,7 +14,7 @@ class InstallationStatus(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        saturn = context.get_services().saturn
+        saturn = Saturn(context.get_session())
         try:
             response = saturn.deployed_installations(
                 account_id = args["account_id"],
@@ -35,7 +36,7 @@ class Redeploy(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        saturn = context.get_services().saturn
+        saturn = Saturn(context.get_session())
         try:
             response = saturn.redeploy(
                account_id = args["account_id"],

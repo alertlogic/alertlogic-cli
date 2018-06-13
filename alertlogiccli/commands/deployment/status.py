@@ -1,3 +1,4 @@
+from alertlogic.services import Launcher
 import alertlogiccli.command
 
 import requests
@@ -13,7 +14,7 @@ class GetStatus(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        launcher = context.get_services().launcher
+        launcher = Launcher(context.get_session())
         try:
             response = launcher.deployment_status(
                 account_id=args["account_id"],

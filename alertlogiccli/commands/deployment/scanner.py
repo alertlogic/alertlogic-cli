@@ -1,3 +1,4 @@
+from alertlogic.services import Skaletor
 import alertlogiccli.command
 
 import requests
@@ -14,7 +15,7 @@ class ScannerEstimation(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        skaletor = context.get_services().skaletor
+        skaletor = Skaletor(context.get_session())
         try:
             response = skaletor.get_scanner_estimation(
                 account_id = args["account_id"],

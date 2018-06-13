@@ -1,3 +1,4 @@
+from alertlogic.services import ScanScheduler
 import alertlogiccli.command
 
 import requests
@@ -16,7 +17,7 @@ class ListScanQueues(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        scan_scheduler = context.get_services().scan_scheduler
+        scan_scheduler = ScanScheduler(context.get_session())
         try:
             response = scan_scheduler.list_scan_assets(
                 account_id=args["account_id"],
@@ -58,7 +59,7 @@ class ScanHost(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        scan_scheduler = context.get_services().scan_scheduler
+        scan_scheduler = ScanScheduler(context.get_session())
         try:
             response = scan_scheduler.scan_host(
                 account_id=args["account_id"],

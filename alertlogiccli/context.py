@@ -29,10 +29,9 @@ class Context():
         self._region = alertlogic.region.Region(api_endpoint)
 
         self._session = self._credentials.make_session(self._region)
-        self._services = alertlogic.services.Services(self._session)
 
-    def get_services(self):
-        return self._services
+    def get_session(self):
+        return self._session
 
     def get_final_args(self):
         all_args = vars(self._args).copy()

@@ -1,3 +1,4 @@
+from alertlogic.services import Credentials
 import alertlogiccli.command
 
 import requests
@@ -15,7 +16,7 @@ class create_credential(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        credentials = context.get_services().credentials
+        credentials = Credentials(context.get_session())
         try:
             response = credentials.create_credential(
                 account_id=args["account_id"],
@@ -38,7 +39,7 @@ class delete_credential():
 
     def execute(self, context):
         args = context.get_final_args()
-        credentials = context.get_services().credentials
+        credentials = Credentials(context.get_session())
         try:
             response = credentials.delete_credential(
                 account_id = args["account_id"],

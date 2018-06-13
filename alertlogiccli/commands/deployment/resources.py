@@ -1,5 +1,5 @@
 # This module defines commands to manipulate scheduler queues for a given deployment
-
+from alertlogic.services import Launcher
 import alertlogiccli.command
 
 import requests
@@ -18,8 +18,7 @@ class ListDeployed(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        launcher = context.get_services().launcher
-
+        launcher = Launcher(context.get_session())
         try:
             response = launcher.list_deployed(
                 account_id=args["account_id"],

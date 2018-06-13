@@ -1,7 +1,8 @@
+from alertlogic.services import Otis
 import alertlogiccli.command
-
 import requests
 import json
+
 
 
 class SetSubnet(alertlogiccli.command.Command):
@@ -17,7 +18,7 @@ class SetSubnet(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        otis = context.get_services().otis
+        otis = Otis(context.get_session())
         try:
             response = otis.set_subnet(
                 account_id=args["account_id"],
@@ -41,7 +42,7 @@ class GetConfiguration():
 
     def execute(self, context):
         args = context.get_final_args()
-        otis = context.get_services().otis
+        otis = Otis(context.get_session())
         try:
             response = otis.get_options(account_id = args["account_id"])
             response.raise_for_status()
