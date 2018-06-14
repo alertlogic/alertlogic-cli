@@ -3,6 +3,7 @@
 
 test:
 	pytest -s tests/*_tests.py
+	pytest -s alertlogic/tests/*_tests.py
 
 lint:
 	pycodestyle .
