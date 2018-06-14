@@ -18,6 +18,18 @@ class Service:
         """
         self._session = session
 
+    def get(self, path_parts, params=None, json=None):
+        return self.call_endpoint('GET', path_parts, params, json)
+
+    def post(self, path_parts, params=None, json=None):
+        return self.call_endpoint('POST', path_parts, params, json)
+
+    def put(self, path_parts, params=None, json=None):
+        return self.call_endpoint('PUT', path_parts, params, json)
+
+    def delete(self, path_parts, params=None, json=None):
+        return self.call_endpoint('DELETE', path_parts, params, json)
+
     def call_endpoint(self, method, path_parts, params=None, json=None):
         url = self.build_url(path_parts)
         try:

@@ -24,7 +24,6 @@ def import_dependencies():
         import alertlogic.auth
         import alertlogic.region
         import alertlogic.service
-        import alertlogic.services
     except ImportError:
         print("unable to find alertlogic library, check your installation")
         return False
