@@ -118,7 +118,7 @@ class ScanScheduler(Service):
 
     def scan_host(self, account_id, deployment_id, asset_key):
         params = {'asset': asset_key}
-        return self.put([account_id, deployment_id, 'scan'], params=params)
+        return self.put([account_id, deployment_id, 'scan'], query_params=params)
 
     def list_scan_assets(self, account_id, deployment_id):
         return self.get([account_id, deployment_id, 'list'])
@@ -128,7 +128,8 @@ class ScanScheduler(Service):
             params = {"vpc_key": vpc_key}
         else:
             params = {}
-        return self.get([account_id, deployment_id, 'summary'], params=params)
+        return self.get([account_id, deployment_id, 'summary'], query_params=params)
+
 
 class Saturn(Service):
 
@@ -142,7 +143,7 @@ class Saturn(Service):
             params = {'deployment_id': deployment_id}
         else:
             params = None
-        return self.post([account_id, 'redeploy'], params=params)
+        return self.post([account_id, 'redeploy'], query_params=params)
 
     def deployed_installations(self, account_id, vpc_key=None):
         if vpc_key is None:
@@ -166,7 +167,7 @@ class Skaletor(Service):
             params = {'vpc_key': vpc_key}
         else:
             params = None
-        return self.get([account_id, 'scanners'], params=params)
+        return self.get([account_id, 'scanners'], query_params=params)
 
 
 class Credentials(Service):
@@ -193,8 +194,8 @@ class Themis(Service):
     def __init__(self, session):
         Service.__init__(self, "themis", "v1", session)
 
-    def get_role(self, account_id, playform_type, role_type, role_version):
-        return self.get([account_id, playform_type, role_type, role_version])
+    def get_role(self, account_id, platform_type, role_type, role_version):
+        return self.get([account_id, platform_type, role_type, role_version])
 
     def validate_credentials(self, account_id, platform_type, role_type, version, arn):
         role = {
@@ -222,4 +223,4 @@ class AssetsQuery(Service):
         Service.__init__(self, "assets_query", "v1", session)
 
     def get_assets_in_deployment(self, account_id, deployment_id, params=None):
-        return self.get([account_id, 'deployments', deployment_id, 'assets'], params=params)
+        return self.get([account_id, 'deployments', deployment_id, 'assets'], query_params=params)
