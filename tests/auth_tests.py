@@ -5,7 +5,8 @@ import json
 
 import alertlogic.auth
 import alertlogic.region
-import alertlogic.dynapi
+import alertlogic.services
+import alertlogic.service
 
 
 @httpretty.activate

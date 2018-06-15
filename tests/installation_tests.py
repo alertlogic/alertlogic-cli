@@ -65,7 +65,7 @@ class TestRedeploy():
 
     @httpretty.activate
     def test_not_found(self):
-        args = mock_tools.make_args({"deployment_id": None, "vpc_key": None})
+        args = mock_tools.make_args({"deployment_id": "2", "vpc_key": None})
         httpretty.register_uri(
             httpretty.POST,
             "{api_endpoint}/saturn/v1/{account_id}/redeploy?deployment_id=:deployment_id&vpc_key=:vpc_key".
@@ -78,7 +78,7 @@ class TestRedeploy():
 
     @httpretty.activate
     def test_server_error(self):
-        args = mock_tools.make_args({"deployment_id": None, "vpc_key": None})
+        args = mock_tools.make_args({"deployment_id": "2", "vpc_key": None})
         httpretty.register_uri(
             httpretty.POST,
             "{api_endpoint}/saturn/v1/{account_id}/redeploy?deployment_id=:deployment_id&vpc_key=:vpc_key".
@@ -91,7 +91,7 @@ class TestRedeploy():
 
     @httpretty.activate
     def test_created(self):
-        args = mock_tools.make_args({"deployment_id": None, "vpc_key": None})
+        args = mock_tools.make_args({"deployment_id": "2", "vpc_key": None})
         httpretty.register_uri(
             httpretty.POST,
             "{api_endpoint}/saturn/v1/{account_id}/redeploy?deployment_id=:deployment_id&vpc_key=:vpc_key".

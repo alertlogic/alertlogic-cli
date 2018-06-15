@@ -13,7 +13,7 @@ class TestScanner():
         args = mock_tools.make_args({"vpc_key": None})
         httpretty.register_uri(
             httpretty.GET,
-            "{api_endpoint}/skaletor/v1/{account_id}/scanners".
+            "{api_endpoint}/skaletor/v1/{account_id}/scanners?deployment_id=:deployment_id&vpc_key=:vpc_key".
             format(**vars(args)),
             status=404
         )
@@ -26,7 +26,7 @@ class TestScanner():
         args = mock_tools.make_args({"vpc_key": None})
         httpretty.register_uri(
             httpretty.GET,
-            "{api_endpoint}/skaletor/v1/{account_id}/scanners".
+            "{api_endpoint}/skaletor/v1/{account_id}/scanners?deployment_id=:deployment_id&vpc_key=:vpc_key".
             format(**vars(args)),
             status=500
         )
@@ -39,7 +39,7 @@ class TestScanner():
         args = mock_tools.make_args({"vpc_key": None})
         httpretty.register_uri(
             httpretty.GET,
-            "{api_endpoint}/skaletor/v1/{account_id}/scanners".
+            "{api_endpoint}/skaletor/v1/{account_id}/scanners?deployment_id=:deployment_id&vpc_key=:vpc_key".
             format(**vars(args)),
             status=200,
             body='{'

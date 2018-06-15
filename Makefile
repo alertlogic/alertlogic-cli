@@ -2,7 +2,8 @@
 .DEFAULT_GOAL := dist
 
 test:
-	pytest tests/*_tests.py
+	pytest -s tests/*_tests.py
+	pytest -s alertlogic/tests/*_tests.py
 
 lint:
 	pycodestyle .

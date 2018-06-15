@@ -1,3 +1,4 @@
+from alertlogic.services import Saturn
 import alertlogiccli.command
 
 import requests
@@ -13,19 +14,13 @@ class InstallationStatus(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        saturn = context.get_services().saturn
+        saturn = Saturn(context.get_session())
         try:
-            if args["vpc_key"] is None:
-                response = saturn.get_deployed_installations_and_it_s_resources(
-                    account_id = args["account_id"]
-                )
-                response.raise_for_status()
-            else:
-                response = saturn.get_deployed_installations_and_it_s_resources(
-                    account_id = args["account_id"],
-                    vpc_key = args["vpc_key"]
-                )
-                response.raise_for_status()
+            response = saturn.deployed_installations(
+                account_id = args["account_id"],
+                vpc_key = args["vpc_key"]
+            )
+            response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             raise alertlogiccli.command.InvalidHTTPResponse("installation_status", e.message)
         return json.dumps(response.json(), sort_keys=True, separators=(',',':'))
@@ -41,26 +36,14 @@ class Redeploy(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        saturn = context.get_services().saturn
+        saturn = Saturn(context.get_session())
         try:
-            if args["vpc_key"] is not None and args["deployment_id"] is not None:
-                response = saturn.redeploy_account_security_infrastructure(
-                    account_id = args["account_id"],
-                    deployment_id = args["deployment_id"],
-                    vpc_key = args["vpc_key"]
-                )
-                response.raise_for_status()
-            elif args["vpc_key"] is None and args["deployment_id"] is not None:
-                response = saturn.redeploy_account_security_infrastructure(
-                    account_id = args["account_id"],
-                    deployment_id = args["deployment_id"]
-                )
-                response.raise_for_status()
-            else:
-                response = saturn.redeploy_account_security_infrastructure(
-                    account_id = args["account_id"]
-                )
-                response.raise_for_status()
+            response = saturn.redeploy(
+               account_id = args["account_id"],
+               deployment_id = args["deployment_id"],
+               vpc_key = args["vpc_key"]
+            )
+            response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise alertlogiccli.command.InvalidHTTPResponse("installation_status", e.message)
+            raise alertlogiccli.command.InvalidHTTPResponse("redeploy", e.message)
         return "ok"

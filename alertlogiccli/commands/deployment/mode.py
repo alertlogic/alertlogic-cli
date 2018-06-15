@@ -1,15 +1,17 @@
+from alertlogic.services import Sources
 import alertlogiccli.command
 
 import requests
 
 
 class Base():
+
     def validate_deployment(self, context):
         args = context.get_final_args()
-        sources = context.get_services().sources
 
+        sources = Sources(context.get_session())
         try:
-            response = sources.get_source(account_id=args["account_id"], id=args["deployment_id"])
+            response = sources.get_source(account_id=args["account_id"], source_id=args["deployment_id"])
             if response.status_code == 404:
                 raise alertlogiccli.command.InvalidParameter("deployment", args["deployment_id"], "not found")
             response.raise_for_status()
@@ -32,7 +34,6 @@ class GetMode(Base, alertlogiccli.command.Command):
         parser.set_defaults(command=self)
 
     def execute(self, context):
-        args = context.get_final_args()
         response = self.validate_deployment(context)
         try:
             mode = response.json()["source"]["config"]["deployment_mode"]
@@ -54,19 +55,12 @@ class SetMode(Base, alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        sources = context.get_services().sources
+        sources = Sources(context.get_session())
         try:
-            new_config = {
-                "source": {
-                    "config": {
-                        "deployment_mode": args["mode"]
-                    }
-                }
-            }
-            response = sources.merge_source(
+            response = sources.set_mode(
                 account_id=args["account_id"],
-                id=args["deployment_id"],
-                json=new_config
+                deployment_id=args["deployment_id"],
+                mode=args["mode"]
             )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:

@@ -1,3 +1,4 @@
+from alertlogic.services import ScanScheduler
 import alertlogiccli.command
 
 import requests
@@ -16,11 +17,11 @@ class ListScanQueues(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        scan_scheduler = context.get_services().scan_scheduler
+        scan_scheduler = ScanScheduler(context.get_session())
         try:
-            response = scan_scheduler.listscanassets(
+            response = scan_scheduler.list_scan_assets(
                 account_id=args["account_id"],
-                environment_id=args["deployment_id"]
+                deployment_id=args["deployment_id"]
             )
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -58,11 +59,11 @@ class ScanHost(alertlogiccli.command.Command):
 
     def execute(self, context):
         args = context.get_final_args()
-        scan_scheduler = context.get_services().scan_scheduler
+        scan_scheduler = ScanScheduler(context.get_session())
         try:
-            response = scan_scheduler.scanasset(
+            response = scan_scheduler.scan_host(
                 account_id=args["account_id"],
-                environment_id=args["deployment_id"],
+                deployment_id=args["deployment_id"],
                 asset_key=args["asset_key"]
             )
             response.raise_for_status()
