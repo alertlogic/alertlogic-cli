@@ -16,7 +16,9 @@ setup(
     author='Alert Logic Inc.',
     author_email='support@alertlogic.com',
     description='Command Line Client for Alertlogic Services.',
-    scripts=['alertlogic-cli'],
+    entry_points = {
+        'console_scripts': ['alertlogic-cli=alertlogiccli.alertlogic_console:main']
+    },
     packages=find_packages(exclude=['contrib', 'docs', 'tests*', 'troubleshooting']),
     include_package_data=True,
     zip_safe=False,
