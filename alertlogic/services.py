@@ -195,7 +195,7 @@ class Themis(Service):
         Service.__init__(self, "themis", "v1", session)
 
     def get_role(self, account_id, platform_type, role_type, role_version):
-        return self.get([account_id, platform_type, role_type, role_version])
+        return self.get([account_id, "roles", platform_type, role_type, role_version])
 
     def validate_credentials(self, account_id, platform_type, role_type, version, arn):
         role = {
