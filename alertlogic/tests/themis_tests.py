@@ -10,7 +10,7 @@ def test_get_role():
     session = mock.mock_auth()
     httpretty.register_uri(
         httpretty.GET,
-        "http://test/themis/v1/2/aws/arn/v2",
+        "http://test/themis/v1/2/roles/aws/arn/v2",
         status=200
     )
     themis = alertlogic.services.Themis(session)
