@@ -52,7 +52,7 @@ class Sources(Service):
                     "deployment_mode": mode
                 }
             }
-         }
+        }
         return self.merge_sources(account_id, deployment_id, source)
 
     def set_deployment_scope(self, account_id, source_id, include, exclude):
@@ -152,6 +152,15 @@ class Saturn(Service):
             params = {'vpc_key': vpc_key}
         return self.get([account_id, 'installations'], params)
 
+    def get_vpc_installation(self, account_id, vpc_id):
+            return self.list_installations(account_id, {'vpc_id': vpc_id})
+
+    def list_deployment_installations(self, account_id, deployment_id):
+        return self.list_installations(account_id, {'deployment_id': deployment_id})
+
+    def list_installations(self, account_id, filter=None):
+        return self.get([account_id, 'installations'], query_params=filter)
+
 
 class Skaletor(Service):
 
@@ -225,6 +234,22 @@ class AssetsQuery(Service):
     def get_assets_in_deployment(self, account_id, deployment_id, params=None):
         return self.get([account_id, 'deployments', deployment_id, 'assets'], query_params=params)
 
+class AssetsWrite(Service):
+
+    def __init__(self, session):
+        Service.__init__(self, "assets_write", "v1", session)
+
+    def create_network(self, account_id, deployment_id, name, cidr_ranges, public_cidr_ranges):
+        network = {
+            "operation": "create_network",
+            "scope": "datacenter",
+            "properties": {
+                "cidr_ranges": cidr_ranges,
+                "public_cidr_ranges": public_cidr_ranges,
+                "network_name": name
+            }
+        }
+        return self.put([account_id, 'deployments', deployment_id, 'assets'], json=network)
 
 class Deployments(Service):
 
@@ -245,3 +270,44 @@ class Deployments(Service):
 
     def update_deployment(self, account_id, deployment_id, deployment_json):
         return self.put([account_id, "deployments", deployment_id], json=deployment_json)
+
+
+class Policies(Service):
+    def __init__(self, session):
+        Service.__init__(self, "policies", "v1", session)
+
+    def list_policies(self, account_id):
+        return self.get([account_id, 'policies'])
+
+    def get_policy(self, account_id, policy_id):
+        return self.get([account_id, 'policies', policy_id])
+
+
+class Titan(Service):
+    def __init__(self, session):
+        Service.__init__(self, "titan", "v1", session)
+
+    def get_vpc_installation(self, account_id, vpc_id):
+        return self.list_installations(account_id, {'vpc_id': vpc_id})
+
+    def list_deployment_installations(self, account_id, deployment_id):
+        return self.list_installations(account_id, {'deployment_id': deployment_id})
+
+    def list_installations(self, account_id, filter=None):
+        return self.get([account_id, 'installations'], query_params=filter)
+
+
+class AIMS(Service):
+    def __init__(self, session):
+        Service.__init__(self, "aims", "v1", session)
+
+    def get_account_details(self, account_id):
+        return self.get([account_id, 'account'])
+
+
+class Album(Service):
+    def __init__(self, session):
+        Service.__init__(self, "album", "v1", session)
+
+    def get_image_list(self, product, type='aws'):
+        return self.get(['images'], query_params={'product': product, 'type': type})
