@@ -1,5 +1,6 @@
 import requests
 
+
 class InvalidEndpointCall(Exception):
     pass
 
@@ -7,9 +8,9 @@ class InvalidEndpointCall(Exception):
 class Service:
 
     def __init__(self, name, version='v1', session=None):
-        self.name=name
+        self.name = name
         self.set_session(session)
-        self.version=version
+        self.version = version
 
     def set_session(self, session):
         """ changes current session, this session object is used to authenticate
@@ -38,5 +39,8 @@ class Service:
             raise InvalidEndpointCall(e.message)
 
     def build_url(self, path_parts):
-        path = "/".join([self.name, self.version] + path_parts)
+        if self.version is None:
+            path = "/".join([self.name] + path_parts)
+        else:
+            path = "/".join([self.name, self.version] + path_parts)
         return self._session.region.get_api_endpoint() + '/' + path
